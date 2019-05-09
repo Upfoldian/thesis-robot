@@ -35,7 +35,7 @@ class Robot:
 		if (time != 0):
 			sleep(time)
 			self.stop()
-	def spin(self, time=0):
+	def spinning(self, time=0):
 		self.rightMotor.value = 1
 		self.leftDir.on()
 
@@ -121,3 +121,9 @@ class Robot:
 		mag_x, mag_y, mag_z = mag
 		curHeading = round(degrees(atan2(mag_y, mag_x)), 0) % 360
 		return curHeading
+	def getMag(self):
+		self.updateIMU()
+		return self.mag
+	def getAccel(self):
+		self.updateIMU()
+		return self.accel
