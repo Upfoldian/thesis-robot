@@ -5,33 +5,73 @@ from math import atan2, degrees
 from time import sleep
 
 class Robot:
+	def __init__(self, leftOn=17, leftDir=27, rightOn=23, rightDir=24, modePin=22):
 
-	def __init__(self, leftOn, leftDir, rightOn, rightDir, modePin):
-		self.leftMotor = gpiozero.PWMLED(leftMotorPin, frequency=50)
-		self.leftDir = gpiozero.LED(leftMotorDirPin)
 
-		self.rightMotor = gpiozero.PWMLED(rightMotorPin, frequency=50)
-		self.rightDir = gpiozero.LED(rightMotorDirPin)
+		# Left Motor Pin = 
+		self.leftMotor = gpiozero.PWMLED(leftOn, frequency=50)
+		self.leftDir = gpiozero.LED(leftDir)
 
-		self.mode = gpiozero.LED(22)
+		self.rightMotor = gpiozero.PWMLED(rightOn, frequency=50)
+		self.rightDir = gpiozero.LED(rightDir)
+
+		self.mode = gpiozero.LED(modePin)
 
 		self.IMU = TomLSM303C.LSM303C() #check it with sudo i2cdetect -y 1 (should be 1D, 1E)
 		self.updateIMU()
-		mode.on()
+		self.mode.on()
 
 	def stop(self):
-		rightMotor.value = 0
-		leftMotor.value = 0
+		self.leftDir.off()
+		self.rightDir.off()
 
-	def start(self):
-		rightMotor.value = 1
-		leftMotor.value = 1
+		self.rightMotor.value = 0
+		self.leftMotor.value = 0
+
+	def start(self, time=0):
+		self.rightMotor.value = 1
+		self.leftMotor.value = 1
+
+		if (time != 0):
+			sleep(time)
+			self.stop()
+	def spin(self, time=0):
+		self.rightMotor.value = 1
+		self.leftDir.on()
+
+		if (time != 0):
+			sleep(time)
+			self.stop()
+		
+	def backUp(self, time=0):
+		self.leftDir.on()
+		self.rightDir.on()
+
+		if(time != 0):
+			sleep(time)
+			self.stop()
+
+		self.leftDir.off()
+		self.rightDir.off()
+
+	def startLeft(self, time=0):
+		self.leftMotor.value = 1
+		if (time != 0):
+			sleep(time)
+			self.stop()
+
+	def startRight(self, time=0):
+		self.rightMotor.value = 1
+
+		if (time != 0):
+			sleep(time)
+			self.stop()
 
 
 	def moveForward(self, distance=0.5):
 
-		leftDir.off()
-		rightDir.off()
+		self.leftDir.off()
+		self.rightDir.off()
 
 		currentDistance = 0
 		while(currentDistance < distance):
@@ -40,8 +80,8 @@ class Robot:
 		self.stop()
 
 	def moveBack(self, distance=0.5):
-		leftDir.on()
-		rightDir.on()
+		self.leftDir.on()
+		self.rightDir.on()
 
 		currentDistance = 0
 
@@ -51,23 +91,23 @@ class Robot:
 
 	def turnLeft(self, angle=90.0):
 
-		leftDir.off()
+		self.leftDir.off()
 
 		currentAngle = self.getHeading()
-		targetAngle = (currentAngle - 90) % 360
+		targetAngle = (currentAngle - angle) % 360
 		while (currentAngle > targetAngle):
-			leftMotor.value = 1
+			self.leftMotor.value = 1
 			currentAngle = self.getHeading()
 		self.stop()
 
 
 	def turnRight(self, angle=90.0):
-		leftDir.off()
+		self.leftDir.off()
 
 		currentAngle = self.getHeading()
-		targetAngle = (currentAngle + 90) % 360
+		targetAngle = (currentAngle + angle) % 360
 		while (currentAngle < targetAngle):
-			rightMotor.value = 1
+			self.rightMotor.value = 1
 			currentAngle = self.getHeading()
 		self.stop()
 
