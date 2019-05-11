@@ -112,7 +112,8 @@ class Robot:
 		self.stop()
 
 	def updateIMU(self):
-		mag_x, mag_y, mag_z = self.getMag()
+		accel, mag = self.IMU.read()
+		mag_x, mag_y, mag_z = mag
 
 		mag_x -= mag_x_offset
 		mag_y -= mag_y_offset
@@ -122,9 +123,7 @@ class Robot:
 		self.mag = (mag_x, mag_y, mag_z)
 
 	def getHeading(self):
-
-		mag = self.getMag()
-		mag_x, mag_y, mag_z = mag
+		mag_x, mag_y, mag_z = self.getMag()
 
 		curHeading = round(degrees(atan2(mag_y, mag_x)), 0) % 360
 		return curHeading
