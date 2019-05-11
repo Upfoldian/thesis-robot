@@ -98,7 +98,7 @@ class Robot:
 		while (currentAngle > targetAngle):
 			self.leftMotor.value = 1
 			currentAngle = self.getHeading()
-		self.stop()
+		self.stop() 
 
 
 	def turnRight(self, angle=90.0):
@@ -117,10 +117,21 @@ class Robot:
 		self.mag = mag
 
 	def getHeading(self):
-		accel, mag = self.IMU.read()
-		mag_x, mag_y, mag_z = mag
-		curHeading = round(degrees(atan2(mag_y, mag_x)), 0) % 360
+		avg_x, avg_y, avg_z = 0,0,0
+		samples = 10.0
+		for reading in range(samples-1):
+			accel, mag = self.IMU.read()
+			mag_x, mag_y, mag_z = mag
+			avg_x += mag_x
+			avg_y += mag_y 
+			avg_z += mag_z
+		avg_x /= samples
+		avg_y /= samples
+		avg_z /= samples
+
+		curHeading = round(degrees(atan2(avg_y, avg_x)), 0) % 360
 		return curHeading
+		
 	def getMag(self):
 		self.updateIMU()
 		return self.mag
