@@ -1,7 +1,7 @@
 import TomLSM303C
 import gpiozero
 from math import atan2, degrees
-
+from mag_offsets import mag_x_offset, mag_y_offset, mag_z_offset
 from time import sleep
 
 class Robot:
@@ -113,8 +113,14 @@ class Robot:
 
 	def updateIMU(self):
 		accel, mag = self.IMU.read()
+		mag_x, mag_y, mag_z = mag
+
+		mag_x -= mag_x_offset
+		mag_y -= mag_y_offset
+		mag_z -= mag_z_offset
+
 		self.accel = accel
-		self.mag = mag
+		self.mag = (mag_x, mag_y, mag_z)
 
 	def getHeading(self):
 		avg_x, avg_y, avg_z = 0,0,0
