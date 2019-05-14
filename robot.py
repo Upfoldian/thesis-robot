@@ -8,7 +8,7 @@ class Robot:
 	def __init__(self, leftOn=17, leftDir=27, rightOn=23, rightDir=24, modePin=22):
 
 
-		# Left Motor Pin = 
+		# 
 		self.leftMotor = gpiozero.PWMLED(leftOn, frequency=50)
 		self.leftDir = gpiozero.LED(leftDir)
 
@@ -20,6 +20,19 @@ class Robot:
 		self.IMU = TomLSM303C.LSM303C() #check it with sudo i2cdetect -y 1 (should be 1D, 1E)
 		self.updateIMU()
 		self.mode.on()
+
+		self.comms = comms.Comms()
+		self.name = self.comms.getHostname()
+
+
+	def hasMessage(self):
+		return self.comms.hasMessage()
+
+	def readMessage(self):
+		msg = self.comms.getMessage
+		args = msg.split(" ")
+		message = {"from": args[0], "command": args[1], "args": args[2:-1]}
+		return message
 
 	def stop(self):
 		self.leftDir.off()
@@ -35,6 +48,7 @@ class Robot:
 		if (time != 0):
 			sleep(time)
 			self.stop()
+
 	def spinning(self, time=0):
 		self.rightMotor.value = 1
 		self.leftDir.on()
@@ -131,6 +145,7 @@ class Robot:
 	def getMag(self):
 		self.updateIMU()
 		return self.mag
+
 	def getAccel(self):
 		self.updateIMU()
 		return self.accel
