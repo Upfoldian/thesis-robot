@@ -25,8 +25,8 @@ class Robot:
 		self.comms = comms.Comms()
 		self.name = self.comms.getHostname()
 
-		self.prevMag = self.getMag()
-		self.prevAccel = self.getAccel()
+		self.prevMag = self.mag
+		self.prevAccel = self.accel
 
 
 	def hasMessage(self):
