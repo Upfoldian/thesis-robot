@@ -12,7 +12,7 @@ while(count < 50):
 
 	x,y,z = robot.getAccel()
 	x2,y2,z2 = robot.getAccel()
-	while((x == x2) and (y == y2) and (z = z2)):
+	while((x == x2) and (y == y2) and (z == z2)):
 		pollCount += 1
 
 	t1 = time.perf_counter()
