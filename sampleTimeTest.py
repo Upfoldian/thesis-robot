@@ -1,9 +1,11 @@
 import time
 import robot
 
+# Some sanity testing for the LSM303C sampling rate
+
+
+
 robot = robot.Robot()
-
-
 
 count = 0
 pollCount = 0
