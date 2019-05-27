@@ -9,7 +9,7 @@ count = 0
 pollCount = 0
 timeSum = 0.0
 print("Starting Accel...")
-while(count < 50):
+while(count < 500):
 	t0 = time.perf_counter()
 
 	x,y,z = robot.getAccel()
@@ -35,7 +35,7 @@ count = 0
 pollCount = 0
 timeSum = 0.0
 print("Starting Mag...")
-while(count < 50):
+while(count < 500):
 	t0 = time.perf_counter()
 
 	x,y,z = robot.getMag()
