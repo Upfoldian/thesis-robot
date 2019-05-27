@@ -5,8 +5,9 @@ robot = robot.Robot()
 
 
 
-count = 0.0
+count = 0
 pollCount = 0
+timeSum = 0.0
 print("Starting...")
 while(count < 50):
 	t0 = time.perf_counter()
@@ -19,10 +20,11 @@ while(count < 50):
 		x2,y2,z2 = robot.getAccel()
 
 	t1 = time.perf_counter()
-	print("Test %d: %f" (count, (t1 - t0)))
-	count += (t1 - t0)
+	diff = t1 - t0
+	print("Test %d: %f" (count, diff) )
+	timeSum += diff
 
-avg = count / 50.0
+avg = timeSum / 50.0
 pollAvg = pollCount / 50.0
 
 print("Avg Sample Time: %f\nAvg Polls per Sample: %f" % (avg, pollAvg))
