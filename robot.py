@@ -25,6 +25,9 @@ class Robot:
 		self.comms = comms.Comms()
 		self.name = self.comms.getHostname()
 
+		self.prevMag = self.getMag()
+		self.prevAccel = self.getAccel()
+
 
 	def hasMessage(self):
 		return self.comms.hasMessage()
@@ -58,7 +61,7 @@ class Robot:
 			sleep(time)
 			self.stop()
 		
-	def backUp(self, time=0):
+	def reverse(self, time=0):
 		self.leftDir.on()
 		self.rightDir.on()
 
@@ -106,23 +109,23 @@ class Robot:
 
 	def turnLeft(self, angle=90.0):
 
-		self.leftDir.off()
+		self.rightMotor.value = 1
+		self.leftDir.on()
 
 		currentAngle = self.getHeading()
 		targetAngle = (currentAngle - angle) % 360
 		while (currentAngle > targetAngle):
-			self.leftMotor.value = 1
 			currentAngle = self.getHeading()
 		self.stop() 
 
 
 	def turnRight(self, angle=90.0):
-		self.leftDir.off()
+		self.leftMotor.value = 1
+		self.rightDir.on()
 
 		currentAngle = self.getHeading()
 		targetAngle = (currentAngle + angle) % 360
 		while (currentAngle < targetAngle):
-			self.rightMotor.value = 1
 			currentAngle = self.getHeading()
 		self.stop()
 
@@ -144,9 +147,13 @@ class Robot:
 		return curHeading
 		
 	def getMag(self):
-		self.updateIMU()
+		while(self.mag == self.prevMag):
+			self.updateIMU()
+		self.prevMag = self.mag
 		return self.mag
 
 	def getAccel(self):
-		self.updateIMU()
+		while(self.accel == self.prevAccel):
+			self.updateIMU()
+		self.prevMag = self.mag
 		return self.accel
