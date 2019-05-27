@@ -1,6 +1,7 @@
 import TomLSM303C
 import gpiozero
 import comms
+import threading
 from math import atan2, degrees
 from mag_offsets import mag_x_offset, mag_y_offset, mag_z_offset
 from time import sleep
@@ -25,6 +26,9 @@ class Robot:
 		self.comms = comms.Comms()
 		self.name = self.comms.getHostname()
 
+		self.headingList = []
+		self.headingSum = 0.0
+		threading.Thread(target=self.headingThread).start()
 		self.prevMag = self.mag
 		self.prevAccel = self.accel
 
@@ -140,16 +144,18 @@ class Robot:
 		self.accel = accel
 		self.mag = (mag_x, mag_y, mag_z)
 
+	def headingThread(self):
+		index = 0
+		while(True):
+			self.headingSum -= self.headingList[index]
+			self.headingList[index] = self.getHeading()
+			self.headingSum += self.headingList[index]
+			index+=1
+			if (index > 20):
+				index = 0
+
 	def getHeading(self):
-		count = 0
-		heading = 0.0
-		samples = 4
-		while(count < samples):
-			mag_x, mag_y, mag_z = self.getMag()
-			curHeading = round(degrees(atan2(mag_y, mag_x)), 0) % 360
-			heading += curHeading
-			count += 1
-		return int(heading/(samples*1.0))
+		return round(self.headingSum/20.0)
 		
 	def getMag(self):
 		while(self.mag == self.prevMag):
