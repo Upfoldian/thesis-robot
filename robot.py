@@ -1,5 +1,6 @@
 import TomLSM303C
 import gpiozero
+import comms
 from math import atan2, degrees
 from mag_offsets import mag_x_offset, mag_y_offset, mag_z_offset
 from time import sleep
