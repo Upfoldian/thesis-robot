@@ -147,7 +147,7 @@ class Robot:
 			mag_x, mag_y, mag_z = self.getMag()
 			curHeading = round(degrees(atan2(mag_y, mag_x)), 0) % 360
 			heading += curHeading
-		return curHeading/(count*1.0)
+		return heading/(count*1.0)
 		
 	def getMag(self):
 		while(self.mag == self.prevMag):
