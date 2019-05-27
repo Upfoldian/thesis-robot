@@ -56,8 +56,7 @@ class LSM303C(object):
         self._mag = i2c.get_i2c_device(mag_address, **kwargs)
 
         # Enable the accelerometer
-        self._accel.write8(LSM303_REGISTER_ACCEL_CTRL_REG1_A, 0x97)
-        self._accel.write8(LSM303_REGISTER_ACCEL_CTRL_REG1_A, 0x04)
+        self._accel.write8(LSM303_REGISTER_ACCEL_CTRL_REG1_A, 0x27)
         self._accel.write8(LSM303_REGISTER_ACCEL_CTRL_REG4_A, 0x24)
         # Enable the magnetometer
         #self._mag.write8(LSM303_REGISTER_MAG_CTRL_REG1_M, 0x10)
