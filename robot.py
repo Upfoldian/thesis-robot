@@ -151,7 +151,7 @@ class Robot:
 			self.headingList[index] = self.getHeading()
 			self.headingSum += self.headingList[index]
 			index+=1
-			if (index > 20):
+			if (index >= 20):
 				index = 0
 
 	def getHeading(self):
