@@ -25,8 +25,8 @@ while(count < 500):
 	timeSum += diff
 	count += 1
 
-avg = (timeSum / 50.0) * 1000.0
-pollAvg = pollCount / 50.0
+avg = (timeSum / 500.0) * 1000.0
+pollAvg = pollCount / 500.0
 
 print("ACCEL: Avg Sample Time (ms): %f\nAvg Polls per Sample: %f" % (avg, pollAvg))
 
@@ -51,7 +51,7 @@ while(count < 500):
 	timeSum += diff
 	count += 1
 
-avg = (timeSum / 50.0) * 1000.0
-pollAvg = pollCount / 50.0
+avg = (timeSum / 500.0) * 1000.0
+pollAvg = pollCount / 500.0
 
 print("MAG: Avg Sample Time (ms): %f\nAvg Polls per Sample: %f" % (avg, pollAvg))
