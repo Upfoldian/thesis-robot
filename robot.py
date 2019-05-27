@@ -28,7 +28,10 @@ class Robot:
 
 		self.headingList = [0] * 20
 		self.headingSum = 0.0
-		threading.Thread(target=self.headingThread).start()
+		# So Control+C kills them, but in a bad way because im lazy
+		thread = threading.Thread(target=self.headingThread)
+		thread.daemon = True
+		thread.start()
 		self.prevMag = self.mag
 		self.prevAccel = self.accel
 
@@ -148,7 +151,9 @@ class Robot:
 		index = 0
 		while(True):
 			self.headingSum -= self.headingList[index]
-			self.headingList[index] = self.getHeading()
+			mag_x, mag_y, mag_z = self.getMag()
+			curHeading = round(degrees(atan2(mag_y, mag_x)), 0) % 360
+			self.headingList[index] = curHeading
 			self.headingSum += self.headingList[index]
 			index+=1
 			if (index >= 20):
