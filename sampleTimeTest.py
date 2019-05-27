@@ -21,7 +21,7 @@ while(count < 50):
 
 	t1 = time.perf_counter()
 	diff = t1 - t0
-	print("Test %d: %f" (count, diff) )
+	print("Test %d: %f" % (count, diff) )
 	timeSum += diff
 
 avg = timeSum / 50.0
