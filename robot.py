@@ -141,13 +141,15 @@ class Robot:
 		self.mag = (mag_x, mag_y, mag_z)
 
 	def getHeading(self):
-		count = 3
+		count = 0
 		heading = 0.0
-		while(count < 3):
+		samples = 3
+		while(count < samples):
 			mag_x, mag_y, mag_z = self.getMag()
 			curHeading = round(degrees(atan2(mag_y, mag_x)), 0) % 360
 			heading += curHeading
-		return heading/(count*1.0)
+			count += 1
+		return heading/(samples*1.0)
 		
 	def getMag(self):
 		while(self.mag == self.prevMag):
