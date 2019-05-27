@@ -23,6 +23,7 @@ while(count < 50):
 	diff = t1 - t0
 	print("Test %d: %f" % (count, diff) )
 	timeSum += diff
+	count += 1
 
 avg = timeSum / 50.0
 pollAvg = pollCount / 50.0
