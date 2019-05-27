@@ -26,7 +26,7 @@ class Robot:
 		self.comms = comms.Comms()
 		self.name = self.comms.getHostname()
 
-		self.headingList = []
+		self.headingList = [0] * 20
 		self.headingSum = 0.0
 		threading.Thread(target=self.headingThread).start()
 		self.prevMag = self.mag
