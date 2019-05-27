@@ -5,7 +5,7 @@ robot = robot.Robot()
 
 print("mag_x, mag_y, mag_z")
 prevSample = robot.getMag()
-robot.startLeft()
+robot.startRight()
 startTime = time.perf_counter()
 while(time.perf_counter() - startTime < 30):
 	curSample = robot.getMag()
