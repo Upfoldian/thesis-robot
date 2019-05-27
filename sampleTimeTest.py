@@ -21,12 +21,12 @@ while(count < 50):
 
 	t1 = time.perf_counter()
 	diff = t1 - t0
-	print("Test %d: %f" % (count, diff) )
+	#print("Test %d: %f" % (count, diff) )
 	timeSum += diff
 	count += 1
 
-avg = timeSum / 50.0
+avg = (timeSum / 50.0) * 1000.0
 pollAvg = pollCount / 50.0
 
-print("Avg Sample Time: %f\nAvg Polls per Sample: %f" % (avg, pollAvg))
+print("Avg Sample Time (ms): %f\nAvg Polls per Sample: %f" % (avg, pollAvg))
 
