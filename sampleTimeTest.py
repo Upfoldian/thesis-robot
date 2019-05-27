@@ -17,8 +17,9 @@ while(count < 50):
 	while((x == x2) and (y == y2) and (z == z2)):
 		pollCount += 1
 		x2,y2,z2 = robot.getAccel()
-	print("Test %d: %f" (count, (t1 - t0)))
+
 	t1 = time.perf_counter()
+	print("Test %d: %f" (count, (t1 - t0)))
 	count += (t1 - t0)
 
 avg = count / 50.0
