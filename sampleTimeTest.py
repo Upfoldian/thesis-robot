@@ -8,7 +8,7 @@ robot = robot.Robot()
 count = 0
 pollCount = 0
 timeSum = 0.0
-print("Starting...")
+print("Starting Accel...")
 while(count < 50):
 	t0 = time.perf_counter()
 
@@ -28,5 +28,30 @@ while(count < 50):
 avg = (timeSum / 50.0) * 1000.0
 pollAvg = pollCount / 50.0
 
-print("Avg Sample Time (ms): %f\nAvg Polls per Sample: %f" % (avg, pollAvg))
+print("ACCEL: Avg Sample Time (ms): %f\nAvg Polls per Sample: %f" % (avg, pollAvg))
 
+
+count = 0
+pollCount = 0
+timeSum = 0.0
+print("Starting Mag...")
+while(count < 50):
+	t0 = time.perf_counter()
+
+	x,y,z = robot.getMag()
+	x2,y2,z2 = robot.getMag()
+
+	while((x == x2) and (y == y2) and (z == z2)):
+		pollCount += 1
+		x2,y2,z2 = robot.getMag()
+
+	t1 = time.perf_counter()
+	diff = t1 - t0
+	#print("Test %d: %f" % (count, diff) )
+	timeSum += diff
+	count += 1
+
+avg = (timeSum / 50.0) * 1000.0
+pollAvg = pollCount / 50.0
+
+print("MAG: Avg Sample Time (ms): %f\nAvg Polls per Sample: %f" % (avg, pollAvg))
