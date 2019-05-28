@@ -53,12 +53,12 @@ class Robot:
 		self.prevAccel = self.accel
 
 	def cameraThread(self):
-		for frame in self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True, resize=(640,480)):
+		for frame in self.camera.capture_continuous(self.rawCapture, format="bgra", use_video_port=True, resize=(640,480)):
 			self.image = frame.array
 			#TODO: process image
 			self.imageID += 1
-			if (imageID > 100):
-				imageID = 0
+			if (self.imageID > 100):
+				self.imageID = 0
 
 			self.rawCapture.truncate()
 			self.rawCapture.seek(0)
