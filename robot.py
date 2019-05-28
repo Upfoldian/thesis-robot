@@ -170,13 +170,15 @@ class Robot:
 			elif (avgHeading < 5 and (curHeading > 340 and curHeading < 360)):
 				self.headingList[index] = curHeading - 360
 
+			self.headingSum += self.headingList[index]
+
 			if (avgHeading >= 370):
 				self.headingList = [10] * 20
-
+				self.headingSum = 10 * 20.0
 			if (avgHeading <= -10):
 				self.headingList = [350] * 20
+				self.headingSum = 350 * 20.0
 
-			self.headingSum += 360 + self.headingList[index]
 			index+=1
 			if (index >= 20):
 				index = 0
