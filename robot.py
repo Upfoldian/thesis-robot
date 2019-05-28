@@ -2,9 +2,12 @@ import TomLSM303C
 import gpiozero
 import comms
 import threading
+import cv2
 from math import atan2, degrees
 from mag_offsets import mag_x_offset, mag_y_offset, mag_z_offset
 from time import sleep
+from picamera.array import PiRGBArray
+from picamera import PiCamera
 
 class Robot:
 	def __init__(self, leftOn=17, leftDir=27, rightOn=23, rightDir=24, modePin=22):
@@ -29,8 +32,15 @@ class Robot:
 		self.name = self.comms.getHostname()
 
 		#Camera Stuff
-		#TODO
-
+		self.camera = PiCamera()
+		self.camera.resolution = (640, 480)
+		self.camera.framerate = 24
+		self.rawCapture = PiRGBArray(camera, size=(640, 480))
+		self.image = None
+		self.imageID = -1
+		thread = threading.Thread(target=self.cameraThread)
+		thread.daemon = True
+		thread.start()
 		# Heading stuff 
 		self.headingList = [0] * 20
 		self.headingSum = 0.0
@@ -41,6 +51,18 @@ class Robot:
 		# Fresh update variables
 		self.prevMag = self.mag
 		self.prevAccel = self.accel
+
+	def cameraThread(self):
+		for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True, resize=(640,480)):
+			self.image = frame.array
+			#TODO: process image
+			self.imageID += 1
+			if (imageID > 100):
+				imageID = 0
+
+			rawCapture.truncate()
+			rawCapture.seek(0)
+
 
 
 	def hasMessage(self):
@@ -67,9 +89,17 @@ class Robot:
 			sleep(time)
 			self.stop()
 
-	def spinning(self, time=0):
+	def spinLeft(self, time=0):
 		self.rightMotor.value = 1
 		self.leftDir.on()
+
+		if (time != 0):
+			sleep(time)
+			self.stop()
+
+	def spinRight(self, time=0):
+		self.leftMotor.value = 1
+		self.rightDir.on()
 
 		if (time != 0):
 			sleep(time)
@@ -123,23 +153,23 @@ class Robot:
 
 	def turnLeft(self, angle=90.0):
 
-		self.rightMotor.value = 1
-		self.leftDir.on()
+		self.spinLeft()
 
 		currentAngle = self.getHeading()
 		targetAngle = (currentAngle - angle) % 360
-		while (currentAngle > targetAngle):
+		while (currentAngle != targetAngle):
 			currentAngle = self.getHeading()
 		self.stop() 
 
 
 	def turnRight(self, angle=90.0):
-		self.leftMotor.value = 1
-		self.rightDir.on()
+		
+
+		self.spinRight()
 
 		currentAngle = self.getHeading()
 		targetAngle = (currentAngle + angle) % 360
-		while (currentAngle < targetAngle):
+		while (currentAngle != targetAngle):
 			currentAngle = self.getHeading()
 		self.stop()
 
