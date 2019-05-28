@@ -35,7 +35,7 @@ class Robot:
 		self.camera = PiCamera()
 		self.camera.resolution = (640, 480)
 		self.camera.framerate = 24
-		self.rawCapture = PiRGBArray(camera, size=(640, 480))
+		self.rawCapture = PiRGBArray(self.camera, size=(640, 480))
 		self.image = None
 		self.imageID = -1
 		thread = threading.Thread(target=self.cameraThread)
@@ -60,8 +60,8 @@ class Robot:
 			if (imageID > 100):
 				imageID = 0
 
-			rawCapture.truncate()
-			rawCapture.seek(0)
+			self.rawCapture.truncate()
+			self.rawCapture.seek(0)
 
 
 
