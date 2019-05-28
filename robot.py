@@ -160,15 +160,15 @@ class Robot:
 			self.headingSum -= self.headingList[index]
 			mag_x, mag_y, mag_z = self.getMag()
 			curHeading = round(degrees(atan2(mag_y, mag_x)), 0) % 360
-			avgHeading = self.getHeading()
+			avgHeading = round(self.headingSum/20.0)
 
 			# All these if statements handle the crossover point from 359 to 0 degrees
 			# They do a little bit of magic to solve that (picks a point either side of
 			# 0 to do the transision before it becomes a problem)
 
-			if (avgHeading > 355 and curHeading < 20):
+			if (avgHeading > 340 and curHeading < 20):
 				self.headingList[index] = 360 + curHeading
-			elif (avgHeading < 5 and curHeading > 340):
+			elif (avgHeading < 20 and curHeading > 340):
 				self.headingList[index] = curHeading - 360
 			else:
 				self.headingList[index] = curHeading
