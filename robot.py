@@ -165,10 +165,13 @@ class Robot:
 			# All these if statements handle the crossover point from 359 to 0 degrees
 			# They do a little bit of magic to solve that (picks a point either side of
 			# 0 to do the transision before it becomes a problem)
-			if (avgHeading > 355 and (curHeading > 0 and curHeading < 20)):
+
+			if (avgHeading > 355 and curHeading < 20):
 				self.headingList[index] = 360 + curHeading
-			elif (avgHeading < 5 and (curHeading > 340 and curHeading < 360)):
+			elif (avgHeading < 5 and curHeading > 340):
 				self.headingList[index] = curHeading - 360
+			else:
+				self.headingList[index] = curHeading
 
 			self.headingSum += self.headingList[index]
 
