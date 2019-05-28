@@ -10,7 +10,7 @@ class Robot:
 	def __init__(self, leftOn=17, leftDir=27, rightOn=23, rightDir=24, modePin=22):
 
 
-		# 
+		# Motor Stuff
 		self.leftMotor = gpiozero.PWMLED(leftOn, frequency=50)
 		self.leftDir = gpiozero.LED(leftDir)
 
@@ -18,20 +18,27 @@ class Robot:
 		self.rightDir = gpiozero.LED(rightDir)
 
 		self.mode = gpiozero.LED(modePin)
-
-		self.IMU = TomLSM303C.LSM303C() #check it with sudo i2cdetect -y 1 (should be 1D, 1E)
-		self.updateIMU()
 		self.mode.on()
 
+		#IMU Stuff
+		self.IMU = TomLSM303C.LSM303C() #check it with sudo i2cdetect -y 1 (should be 1D, 1E)
+		self.updateIMU()
+
+		# Comms stuff
 		self.comms = comms.Comms()
 		self.name = self.comms.getHostname()
 
+		#Camera Stuff
+		#TODO
+
+		# Heading stuff 
 		self.headingList = [0] * 20
 		self.headingSum = 0.0
 		# So Control+C kills them, but in a bad way because im lazy
 		thread = threading.Thread(target=self.headingThread)
 		thread.daemon = True
 		thread.start()
+		# Fresh update variables
 		self.prevMag = self.mag
 		self.prevAccel = self.accel
 
@@ -153,14 +160,29 @@ class Robot:
 			self.headingSum -= self.headingList[index]
 			mag_x, mag_y, mag_z = self.getMag()
 			curHeading = round(degrees(atan2(mag_y, mag_x)), 0) % 360
-			self.headingList[index] = curHeading
-			self.headingSum += self.headingList[index]
+			avgHeading = self.getHeading()
+
+			# All these if statements handle the crossover point from 359 to 0 degrees
+			# They do a little bit of magic to solve that (picks a point either side of
+			# 0 to do the transision before it becomes a problem)
+			if (avgHeading > 355 and (curHeading > 0 and curHeading < 20)):
+				self.headingList[index] = 360 + curHeading
+			elif (avgHeading < 5 and (curHeading > 340 and curHeading < 360)):
+				self.headingList[index] = curHeading - 360
+
+			if (avgHeading >= 370):
+				self.headingList = [10] * 20
+
+			if (avgHeading <= -10):
+				self.headingList = [350] * 20
+
+			self.headingSum += 360 + self.headingList[index]
 			index+=1
 			if (index >= 20):
 				index = 0
 
 	def getHeading(self):
-		return round(self.headingSum/20.0)
+		return round(self.headingSum/20.0) % 360
 		
 	def getMag(self):
 		while(self.mag == self.prevMag):

@@ -20,7 +20,9 @@ class Comms:
         self.messages.insert(0, (msg,addr[0]))
   def start(self):
     self.stop = False
-    threading.Thread(target=self.listen).start()
+    t = threading.Thread(target=self.listen)
+    t.daemon = True
+    t.start()
 
   def halt(self):
     self.stop = True
