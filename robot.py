@@ -73,11 +73,14 @@ class Robot:
 
 	def colourMask(self):
 		#red
-		hsv = cv2.cvtColor(self.image, cv2.COLOR_BGR2HSV)
+		image = self.image
+		hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
 		lower = np.array([160,75,75])
 		upper = np.array([255,255,255])
-		frame = cv2.inRange(hsv, lower, upper)
+		mask  = cv2.inRange(hsv, lower, upper)
+		
+		out = cv2.bitwise_and(image,image, mask=mask)
 		return hsv
 
 	def hasMessage(self):
