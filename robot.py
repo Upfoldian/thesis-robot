@@ -51,6 +51,8 @@ class Robot:
 		# Fresh update variables
 		self.prevMag = self.mag
 		self.prevAccel = self.accel
+		# Bearing and feedback
+		self.bearing = None
 
 	def cameraThread(self):
 		for frame in self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True, resize=(640,480)):
@@ -64,6 +66,20 @@ class Robot:
 			self.rawCapture.seek(0)
 
 
+	def saveImage(self, filename='out.png'):
+		imwrite(filename, self.image)
+		imwrite('colourMask.png', self.colourMask())
+
+	def colourMask(self):
+		#red
+		hsv = cv2.cvtColor(self.image, cv2.COLOR_BGR2HSV)
+
+		lower = np.array([160,75,75])
+        upper = np.array([255,255,255])
+
+        frame = cv2.inRange(hsv, lower, upper)
+
+        return hsv
 
 	def hasMessage(self):
 		return self.comms.hasMessage()
@@ -88,6 +104,22 @@ class Robot:
 		if (time != 0):
 			sleep(time)
 			self.stop()
+
+	def getError(self):
+		actual = self.getHeading()
+		target = self.bearing
+		error = target - actual
+
+		if (error >= 180.0):
+			error = -360 + error
+		elif (error <= -180.0):
+			error = error + 360
+		return error
+		
+	def feedbackMove(self, bearing, time=0):
+		bearing = bearing % 360
+
+		
 
 	def spinLeft(self, time=0):
 		self.rightMotor.value = 1
@@ -129,47 +161,25 @@ class Robot:
 			sleep(time)
 			self.stop()
 
-
-	def moveForward(self, distance=0.5):
-
-		self.leftDir.off()
-		self.rightDir.off()
-
-		currentDistance = 0
-		while(currentDistance < distance):
-			self.start()
-
-		self.stop()
-
-	def moveBack(self, distance=0.5):
-		self.leftDir.on()
-		self.rightDir.on()
-
-		currentDistance = 0
-
-		while(currentDistance < distance):
-			self.start()
-		self.stop()
-
 	def turnLeft(self, angle=90.0):
 
 		self.spinLeft()
 
 		currentAngle = self.getHeading()
 		targetAngle = (currentAngle - angle) % 360
-		while (currentAngle != targetAngle):
+		self.spinLeft()
+		while (currentAngle < targetAngle -3 or currentAngle > targetAngle + 3):
 			currentAngle = self.getHeading()
 		self.stop() 
 
 
 	def turnRight(self, angle=90.0):
 		
-
 		self.spinRight()
 
 		currentAngle = self.getHeading()
 		targetAngle = (currentAngle + angle) % 360
-		while (currentAngle != targetAngle):
+		while (currentAngle < targetAngle -3 or currentAngle > targetAngle + 3):
 			currentAngle = self.getHeading()
 		self.stop()
 
@@ -215,6 +225,8 @@ class Robot:
 			index+=1
 			if (index >= 20):
 				index = 0
+
+
 
 	def getHeading(self):
 		return round(self.headingSum/20.0) % 360
