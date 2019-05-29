@@ -67,8 +67,8 @@ class Robot:
 
 
 	def saveImage(self, filename='out.png'):
-		imwrite(filename, self.image)
-		imwrite('colourMask.png', self.colourMask())
+		cv2.imwrite(filename, self.image)
+		cv2.imwrite('colourMask.png', self.colourMask())
 
 	def colourMask(self):
 		#red
