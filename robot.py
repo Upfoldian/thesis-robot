@@ -3,6 +3,7 @@ import gpiozero
 import comms
 import threading
 import cv2
+import numpy as np
 from math import atan2, degrees
 from mag_offsets import mag_x_offset, mag_y_offset, mag_z_offset
 from time import sleep
