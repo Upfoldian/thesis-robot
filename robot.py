@@ -75,11 +75,9 @@ class Robot:
 		hsv = cv2.cvtColor(self.image, cv2.COLOR_BGR2HSV)
 
 		lower = np.array([160,75,75])
-        upper = np.array([255,255,255])
-
-        frame = cv2.inRange(hsv, lower, upper)
-
-        return hsv
+		upper = np.array([255,255,255])
+		frame = cv2.inRange(hsv, lower, upper)
+		return hsv
 
 	def hasMessage(self):
 		return self.comms.hasMessage()
