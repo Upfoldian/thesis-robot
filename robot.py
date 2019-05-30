@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 from math import atan2, degrees
 from mag_offsets import mag_x_offset, mag_y_offset, mag_z_offset
-from colour_mask import tealupper, teallower, blueupper, bluelower, purpleupper1, purplelower1, purpleupper2, purplerlower2
+from colour_mask import tealupper, teallower, blueupper, bluelower, purpleupper1, purplelower1, purpleupper2, purplelower2
 from time import sleep
 from picamera.array import PiRGBArray
 from picamera import PiCamera
@@ -74,7 +74,7 @@ class Robot:
 		cv2.imwrite('./img/teal.png', teal)
 		cv2.imwrite('./img/purple.png', purple)
 		cv2.imwrite('./img/blue.png', blue)
-		cv2.imwrite('./img/all.png', teal)
+		cv2.imwrite('./img/all.png', combined)
 
 	def colourMask(self):
 		#red
@@ -83,7 +83,7 @@ class Robot:
 		#works alright for teal?
 		maskteal  	= cv2.inRange(hsv, teallower, tealupper)
 		maskpurple 	= cv2.inRange(hsv, purplelower1, purpleupper1)
-		maskpurple 	= maskpurple + cv2.inRange(hsv, purplelower2, purplerupper2)
+		maskpurple 	= maskpurple + cv2.inRange(hsv, purplelower2, purpleupper2)
 		maskblue 	= cv2.inRange(hsv, bluelower, blueupper)
 		#maskred = cv2.dilate(frame,dilatekernel,iterations = 1)
 
