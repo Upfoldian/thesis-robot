@@ -69,12 +69,12 @@ class Robot:
 
 
 	def saveImage(self):
-		cv2.imwrite('original.png', self.image)
+		cv2.imwrite('/img/original.png', self.image)
 		teal, purple, blue, combined = self.colourMask()
-		cv2.imwrite('teal.png', teal)
-		cv2.imwrite('purple.png', purple)
-		cv2.imwrite('blue.png', blue)
-		cv2.imwrite('all.png', teal)
+		cv2.imwrite('/img/teal.png', teal)
+		cv2.imwrite('/img/purple.png', purple)
+		cv2.imwrite('/img/blue.png', blue)
+		cv2.imwrite('/img/all.png', teal)
 
 	def colourMask(self):
 		#red
@@ -86,10 +86,10 @@ class Robot:
 		maskblue 	= cv2.inRange(hsv, bluelower, blueupper)
 		#maskred = cv2.dilate(frame,dilatekernel,iterations = 1)
 
-		teal = cv2.bitwise_and(image,image, mask=maskteal)
-		purple = teal = cv2.bitwise_and(image,image, mask=maskpurple)
-		blue = teal = cv2.bitwise_and(image,image, mask=maskblue)
-		combined = teal = cv2.bitwise_and(image,image, mask=maskteal+maskpurple+maskblue)
+		teal 		= cv2.bitwise_and(image,image, mask=maskteal)
+		purple 		= cv2.bitwise_and(image,image, mask=maskpurple)
+		blue 		= cv2.bitwise_and(image,image, mask=maskblue)
+		combined 	= cv2.bitwise_and(image,image, mask=maskteal+maskpurple+maskblue)
 		return teal, purple, blue, combined
 
 	def hasMessage(self):
