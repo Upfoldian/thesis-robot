@@ -6,6 +6,7 @@ import cv2
 import numpy as np
 from math import atan2, degrees
 from mag_offsets import mag_x_offset, mag_y_offset, mag_z_offset
+from colour_mask import tealupper, teallower, blueupper, bluelower, purpleupper, purplelower
 from time import sleep
 from picamera.array import PiRGBArray
 from picamera import PiCamera
@@ -67,21 +68,29 @@ class Robot:
 			self.rawCapture.seek(0)
 
 
-	def saveImage(self, filename='out.png'):
-		cv2.imwrite(filename, self.image)
-		cv2.imwrite('colourMask.png', self.colourMask())
+	def saveImage(self):
+		cv2.imwrite('original.png', self.image)
+		teal, purple, blue, combined = self.colourMask()
+		cv2.imwrite('teal.png', teal)
+		cv2.imwrite('purple.png', purple)
+		cv2.imwrite('blue.png', blue)
+		cv2.imwrite('all.png', teal)
 
 	def colourMask(self):
 		#red
 		image = self.image
 		hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-		lower = np.array([30,150,150])
-		upper = np.array([255,255,180])
-		maskred  = cv2.inRange(hsv, lower, upper)
+		#works alright for teal?
+		maskteal  	= cv2.inRange(hsv, teallower, tealupper)
+		maskpurple 	= cv2.inRange(hsv, purplelower, purpleupper)
+		maskblue 	= cv2.inRange(hsv, bluelower, blueupper)
 		#maskred = cv2.dilate(frame,dilatekernel,iterations = 1)
 
-		out = cv2.bitwise_and(image,image, mask=maskred)
-		return out
+		teal = cv2.bitwise_and(image,image, mask=maskteal)
+		purple = teal = cv2.bitwise_and(image,image, mask=maskpurple)
+		blue = teal = cv2.bitwise_and(image,image, mask=maskblue)
+		combined = teal = cv2.bitwise_and(image,image, mask=maskteal+maskpurple+maskblue)
+		return teal, purple, blue, combined
 
 	def hasMessage(self):
 		return self.comms.hasMessage()
