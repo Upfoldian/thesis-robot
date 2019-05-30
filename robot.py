@@ -69,12 +69,12 @@ class Robot:
 
 
 	def saveImage(self):
-		cv2.imwrite('/img/original.png', self.image)
+		cv2.imwrite('./img/original.png', self.image)
 		teal, purple, blue, combined = self.colourMask()
-		cv2.imwrite('/img/teal.png', teal)
-		cv2.imwrite('/img/purple.png', purple)
-		cv2.imwrite('/img/blue.png', blue)
-		cv2.imwrite('/img/all.png', teal)
+		cv2.imwrite('./img/teal.png', teal)
+		cv2.imwrite('./img/purple.png', purple)
+		cv2.imwrite('./img/blue.png', blue)
+		cv2.imwrite('./img/all.png', teal)
 
 	def colourMask(self):
 		#red
