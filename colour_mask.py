@@ -1,8 +1,8 @@
 import numpy as np
 
 
-teallower		= np.array([45,156,22])
-tealupper		= np.array([68,255,255])
+teallower		= np.array([39,136,22])
+tealupper		= np.array([83,253,77])
 
 yellowlower		= np.array([17,120,67])
 yellowupper		= np.array([25,255,178])
