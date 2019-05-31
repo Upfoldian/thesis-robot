@@ -9,7 +9,7 @@ from math import atan2, degrees
 
 
 class Robot:
-	def __init__(self, leftOn=17, leftDir=27, rightOn=23, rightDir=24, modePin=22):
+	def __init__(self):
 
 		self.motors = motors.Motors()
 		self.IMU = IMU.IMU()

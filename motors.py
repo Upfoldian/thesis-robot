@@ -5,7 +5,7 @@ from time import sleep
 
 class Motors:
 
-	def __init__(self):
+	def __init__(self, leftOn=17, leftDir=27, rightOn=23, rightDir=24, modePin=22):
 		# Motor Stuff
 		self.leftMotor = gpiozero.PWMLED(leftOn, frequency=50)
 		self.leftDir = gpiozero.LED(leftDir)
