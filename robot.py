@@ -91,10 +91,13 @@ class Robot:
 			target = args
 		elif opcode == "START":
 			# Start an experiment, intended to be sent by a non-robot controller (i.e. person at a laptop)
+			pass
 		elif opcode == "STOP":
 			# Stop an experiment, intended to be sent by a non-robot controller (i.e. person at a laptop)
+			pass
 		else:
 			#what the heck is this
+			pass
 
 	def exit(self):
 		""" Stops all the threads running all over the place. """
