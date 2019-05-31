@@ -54,7 +54,7 @@ class Robot:
 
 
 	def targetFound(self, box):
-		
+		pass
 	def parseMessage(self, msg):
 		sender = msg["from"]
 		opcode = msg["opcode"]
