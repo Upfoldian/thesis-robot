@@ -39,6 +39,7 @@ class Robot:
 			magnitude = abs(error)
 			leftVal = speed
 			rightVal = speed
+			self.motors.stop()
 			if(magnitude > 3.5):
 				response = numpy.interp(magnitude, [0, 180], [0,speed])
 				self.motors.stop()
@@ -50,7 +51,6 @@ class Robot:
 					leftVal = 1-response
 					rightVal = response
 					self.motors.leftDir.on()
-
 			self.motors.start(leftVal, rightVal)
 			curTime = time.perf_counter()
 			print("\tcurrent: %f" % self.IMU.getHeading())
