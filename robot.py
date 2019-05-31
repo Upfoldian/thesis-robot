@@ -12,7 +12,7 @@ class Robot:
 		self.IMU = IMU.IMU()
 		self.comms = comms.Comms()
 		self.name = self.comms.getHostname()
-		self.images = images.Images()
+		self.camera = camera.Camera()
 
 	def hasMessage(self):
 		return self.comms.hasMessage()
@@ -30,7 +30,7 @@ class Robot:
 	def exit(self):
 		""" Stops all the threads running all over the place. """
 		self.IMU.haltThread()
-		self.images.haltThread()
+		self.camera.haltThread()
 		self.comms.haltThread()
 
 
