@@ -1,11 +1,8 @@
-
-
 import comms
 import images
 import motors
 import IMU
 import threading
-from math import atan2, degrees
 
 
 class Robot:

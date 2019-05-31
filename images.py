@@ -32,7 +32,7 @@ class Images:
 
 				self.rawCapture.truncate()
 				self.rawCapture.seek(0)
-		except SystemExit:
+		except:
 			print("Camera Thread halted")
 
 	def saveImage(self, boxes=True):

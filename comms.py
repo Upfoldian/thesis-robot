@@ -19,9 +19,9 @@ class Comms:
         msg = data.decode("utf-8")
         if (msg != "stop"):
           self.messages.insert(0, (msg,addr[0]))
-    except SystemExit:
+    except:
         print("Comm thread ended")
-        
+
   def start(self):
     self.stop = False
     t = threading.Thread(target=self.listen)

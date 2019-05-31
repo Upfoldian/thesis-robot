@@ -1,3 +1,6 @@
 *.pyc
 /__pycahce
 mag_offsets.py
+/img
+/tests
+udp_get_test.py

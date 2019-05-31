@@ -74,7 +74,7 @@ class IMU:
 				index+=1
 				if (index >= 20):
 					index = 0
-		except SystemExit:
+		except:
 			print("Heading Thread Closed")
 
 
