@@ -53,7 +53,7 @@ class Robot:
 
 			self.motors.start(leftVal, rightVal)
 			curTime = time.perf_counter()
-		self.motor.stop()
+		self.motors.stop()
 		time.sleep(1)
 		print("Experiment complete, final heading is: %f" % self.IMU.getHeading())
 
