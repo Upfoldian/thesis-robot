@@ -14,7 +14,7 @@ class Camera:
 		self.camera.framerate = 24
 		self.rawCapture = PiRGBArray(self.camera, size=(640, 480))
 		self.image = None
-		self.imageID = -1
+		self.imageID = 0
 		self.thread = threading.Thread(target=self.cameraThread).start()
 		self.halt = False
 		sleep(0.5)
