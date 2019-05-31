@@ -41,12 +41,16 @@ class Robot:
 			rightVal = speed
 			if(magnitude > 3.5):
 				response = numpy.interp(magnitude, [0, 180], [0,speed])
+				self.motors.stop()
 				if error > 0:
 					leftVal = response
-					rightVal = -response
+					rightVal = 1-response
+					self.rightDir.on()
 				else:
-					leftVal = -response
+					leftVal = 1-response
 					rightVal = response
+					self.leftDir.on()
+
 			self.motors.start(leftVal, rightVal)
 			curTime = time.perf_counter()
 		self.motor.stop()
