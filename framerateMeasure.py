@@ -10,6 +10,7 @@ timeSum = 0.0
 
 try:
 	while (count < 60):
+		print("Run %d" % count)
 		tealName = "teal%d" % count
 		yellowName = "yellow%d" % count
 		purpleName = "purple%d" % count
