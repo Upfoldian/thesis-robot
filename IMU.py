@@ -1,5 +1,6 @@
 import TomLSM303C
 import threading
+import time
 from math import atan2, degrees
 from mag_offsets import mag_x_offset, mag_y_offset, mag_z_offset
 
@@ -12,7 +13,7 @@ class IMU:
 		self.headingList = [0] * 20
 		self.headingSum = 0.0
 		# So Control+C kills them, but in a bad way because im lazy
-		threading.Thread(target=self.headingThread).start()
+		self.thread = threading.Thread(target=self.headingThread).start()
 		self.halt = False
 		# Fresh update variables
 		self.prevMag = self.mag
@@ -92,3 +93,6 @@ class IMU:
 		return self.accel
 	def haltThread(self):
 		self.halt = True
+		time.sleep(0.2)
+		self.thread.stop()
+

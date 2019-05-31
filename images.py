@@ -17,7 +17,7 @@ class Images:
 		self.rawCapture = PiRGBArray(self.camera, size=(640, 480))
 		self.image = None
 		self.imageID = -1
-		threading.Thread(target=self.cameraThread).start()
+		self.thread = threading.Thread(target=self.cameraThread).start()
 		self.halt = False
 
 	def cameraThread(self):
@@ -74,7 +74,7 @@ class Images:
 
 	def getBiggestCont(self, contours):
 		maxArea = 0.0
-		maxCont = None
+		maxCont = ()
 		for cont in contours:
 			curArea = cv2.contourArea(cont)
 			if (curArea < 100):
@@ -88,7 +88,7 @@ class Images:
 		greyMask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
 		contours, hiers = cv2.findContours(greyMask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)[-2:]
 		cont = self.getBiggestCont(contours)
-		if (cont != None):
+		if (len(cont) != 0):
 			x, y, w, h = cv2.boundingRect(maxCont)
 			return (x, y, w, h)
 		else:
@@ -96,6 +96,8 @@ class Images:
 
 	def haltThread(self):
 		self.haltThread == True
+		time.sleep(0.2)
+    	self.thread.stop()
 
 
 
