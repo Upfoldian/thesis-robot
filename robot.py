@@ -32,7 +32,7 @@ class Robot:
 		self.IMU.haltThread()
 		self.camera.haltThread()
 		self.comms.haltThread()
-		time.sleep(1)
+		time.sleep(2)
 
 
 	

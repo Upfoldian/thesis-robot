@@ -3,48 +3,48 @@ import threading
 
 class Comms:
 
-  def __init__(self, ip="0.0.0.0", port=5000):
-    self.ip = ip
-    self.port = port
-    self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP) # Enables Multicast
-    self.sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 32)
-    self.sock.bind((ip, port))
-    self.halt = False
-    self.messages = []
-    self.thread = threading.Thread(target=self.listen)
-    
-  def listen(self):
-    while(self.halt== False):
-      data, addr = self.sock.recvfrom(1024)
-      msg = data.decode("utf-8")
-      self.messages.insert(0, (msg,addr[0]))
+	def __init__(self, ip="0.0.0.0", port=5000):
+		self.ip = ip
+		self.port = port
+		self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP) # Enables Multicast
+		self.sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 32)
+		self.sock.bind((ip, port))
+		self.halt = False
+		self.messages = []
+		self.thread = threading.Thread(target=self.listen)
+		
+	def listen(self):
+		while(self.halt== False):
+			data, addr = self.sock.recvfrom(1024)
+			msg = data.decode("utf-8")
+			self.messages.insert(0, (msg,addr[0]))
 
-  def haltThread(self):
-    self.halt = True
+	def send(self, target_ip, port, msg):
+		# Should multicast this to all devices listening to the multicast group (i.e. all of them)
+		# message format will be something like the following:
+		#   <hostname> <megType> <data associated with msg type>
+		# some example msgTypes could be:
+		#     HELLO?                                      - asks the network who can hear me
+		#     FOUND <thing> <heading> <cur_x> <cur_y> <est. distance>   - reports a target sighting
+		#     LISTENUP <target> <command> <duration>    - tells another robot to do a thing (i.e. stop) with arguments that depend on the thing to do
+		#        
+		msg = self.getHostname() + " " + msg      
+		self.sock.sendto(bytes(msg, "utf-8"), (target_ip, port))
 
-  def send(self, target_ip, port, msg):
-    # Should multicast this to all devices listening to the multicast group (i.e. all of them)
-    # message format will be something like the following:
-    #   <hostname> <megType> <data associated with msg type>
-    # some example msgTypes could be:
-    #     HELLO?                                      - asks the network who can hear me
-    #     FOUND <thing> <heading> <cur_x> <cur_y> <est. distance>   - reports a target sighting
-    #     LISTENUP <target> <command> <duration>    - tells another robot to do a thing (i.e. stop) with arguments that depend on the thing to do
-    #        
-    msg = self.getHostname() + " " + msg      
-    self.sock.sendto(bytes(msg, "utf-8"), (target_ip, port))
+	def hasMessage(self):
+		if(len(self.messages) != 0):
+			return True
+		else:
+			return False
 
-  def hasMessage(self):
-    if(len(self.messages) != 0):
-      return True
-    else:
-      return False
+	def getMessage(self):
+		if (self.hasMessage):
+			return self.messages.pop()
+		else:
+			return "You have 0 voice messages."
 
-  def getMessage(self):
-    if (self.hasMessage):
-      return self.messages.pop()
-    else:
-      return "You have 0 voice messages."
+	def getHostname(self):
+		return socket.gethostname()
 
-  def getHostname(self):
-    return socket.gethostname()
+	def haltThread(self):
+		self.halt = True

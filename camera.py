@@ -92,4 +92,4 @@ class Camera:
 			return None
 
 	def haltThread(self):
-		self.haltThread == True
+		self.halt = True
