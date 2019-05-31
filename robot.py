@@ -4,7 +4,7 @@ import motors
 import IMU
 import threading
 import time
-from numpy import interp
+import numpy
 
 class Robot:
 	def __init__(self):
@@ -105,7 +105,7 @@ class Robot:
 		self.IMU.haltThread()
 		self.camera.haltThread()
 		self.comms.haltThread()
-		time.sleep(2)
+		time.sleep(0.5)
 
 
 	
