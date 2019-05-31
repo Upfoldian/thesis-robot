@@ -22,7 +22,7 @@ class Images:
 
 	def cameraThread(self):
 		for frame in self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True, resize=(640,480)):
-			if (haltThread == True):
+			if (self.haltThread == True):
 				break
 			self.image = frame.array
 			#TODO: process image
