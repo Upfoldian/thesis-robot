@@ -27,14 +27,14 @@ class Robot:
 		return message
 		
 
-	def feedbackMoveExperiment(self, bearing, time=1, speed=1):
+	def feedbackMoveExperiment(self, bearing, duration=1, speed=1):
 		bearing = bearing % 360
 		startTime = time.perf_counter()
 		curTime = time.perf_counter()
 
 		print("Starting feedback experiment, current bearing is: %f" % self.IMU.getHeading())
 
-		while(curTime - startTime < time):
+		while(curTime - startTime < duration):
 			error = self.IMU.getError(bearing)
 			magnitude = abs(error)
 			leftVal = speed
