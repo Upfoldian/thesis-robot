@@ -13,11 +13,15 @@ class Comms:
     self.messages = []
     
   def listen(self):
-    while(self.stop == False):
-      data, addr = self.sock.recvfrom(1024)
-      msg = data.decode("utf-8")
-      if (msg != "stop"):
-        self.messages.insert(0, (msg,addr[0]))
+    try:
+      while(self.stop == False):
+        data, addr = self.sock.recvfrom(1024)
+        msg = data.decode("utf-8")
+        if (msg != "stop"):
+          self.messages.insert(0, (msg,addr[0]))
+    except SystemExit:
+        print("Comm thread ended")
+        
   def start(self):
     self.stop = False
     t = threading.Thread(target=self.listen)
