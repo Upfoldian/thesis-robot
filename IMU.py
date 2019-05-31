@@ -9,15 +9,13 @@ class IMU:
 		self.IMU = TomLSM303C.LSM303C() #check it with sudo i2cdetect -y 1 (should be 1D, 1E)
 		self.updateIMU()
 
-		self.headingList = [0] * 20
+		self.headingList = [0] *
+		 20
 		self.headingSum = 0.0
-		# So Control+C kills them, but in a bad way because im lazy
-		self.halt = False
-		self.thread = threading.Thread(target=self.headingThread).start()
-		self.halt = False
-		# Fresh update variables
 		self.prevMag = self.mag
 		self.prevAccel = self.accel
+		self.halt = False
+		self.thread = threading.Thread(target=self.headingThread).start()
 
 
 	def getError(self, bearing):
