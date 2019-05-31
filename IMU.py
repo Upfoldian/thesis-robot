@@ -9,8 +9,7 @@ class IMU:
 		self.IMU = TomLSM303C.LSM303C() #check it with sudo i2cdetect -y 1 (should be 1D, 1E)
 		self.updateIMU()
 
-		self.headingList = [0] *
-		 20
+		self.headingList = [0] * 20
 		self.headingSum = 0.0
 		self.prevMag = self.mag
 		self.prevAccel = self.accel
