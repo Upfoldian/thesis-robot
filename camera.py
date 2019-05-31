@@ -7,9 +7,8 @@ from picamera import PiCamera
 
 
 
-class Images:
+class Camera:
 	def __init__(self):
-
 		#Camera Stuff
 		self.camera = PiCamera()
 		self.camera.resolution = (640, 480)

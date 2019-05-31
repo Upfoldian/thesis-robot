@@ -1,5 +1,5 @@
 import comms
-import images
+import camera
 import motors
 import IMU
 import threading
