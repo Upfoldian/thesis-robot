@@ -23,11 +23,11 @@ try:
 		# count += 1
 		t0 = time.perf_counter()
 		curID = camera.imageID
-		while(curID == camera.imageID):
+		while(curID == cam.imageID):
 			pass
 		t1 = time.perf_counter()
 		timeSum += t1 - t0
-
+		count+=1
 	timeAvg = (timeSum / 60.0) * 1000.0
 
 	print("Average FPS: %f" % timeAvg)
