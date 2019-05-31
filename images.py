@@ -72,7 +72,7 @@ class Images:
 		combined 	= cv2.bitwise_and(image,image, mask=maskteal+maskpurple+maskblue)
 		return teal, purple, blue, combined
 
-	def getBiggestCont(self, contors):
+	def getBiggestCont(self, contours):
 		maxArea = 0.0
 		maxCont = None
 		for cont in contours:

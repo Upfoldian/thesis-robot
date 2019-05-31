@@ -16,8 +16,7 @@ class Comms:
     while(self.halt== False):
       data, addr = self.sock.recvfrom(1024)
       msg = data.decode("utf-8")
-      if (msg != "stop"):
-        self.messages.insert(0, (msg,addr[0]))
+      self.messages.insert(0, (msg,addr[0]))
 
 
   def start(self):
@@ -28,7 +27,6 @@ class Comms:
 
   def haltThread(self):
     self.halt = True
-    self.sock.sendto(bytes("stop", "utf-8"), ("127.0.0.1", 5000))
 
   def send(self, target_ip, port, msg):
     # Should multicast this to all devices listening to the multicast group (i.e. all of them)
