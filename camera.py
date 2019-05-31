@@ -1,7 +1,7 @@
 import threading
 import cv2
 import numpy as np
-from colour_mask import tealupper, teallower, blueupper, bluelower, purpleupper1, purplelower1, purpleupper2, purplelower2
+from colour_mask import tealupper, teallower, yellowupper, yellowlower, purpleupper1, purplelower1, purpleupper2, purplelower2
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 
@@ -32,11 +32,11 @@ class Camera:
 
 	def saveImage(self, boxes=True):
 		cv2.imwrite('./img/original.png', self.image)
-		teal, purple, blue, combined = self.colourMask()
+		teal, purple, yellow, combined = self.colourMask()
 
 		# Draw Bounding boxes if flag is true
 		if (boxes == True):
-			masks = [teal, purple, blue]
+			masks = [teal, purple, yellow]
 			boxes = [self.getBoxDims(mask) for mask in masks]
 
 			for i in range(len(masks)):
@@ -48,7 +48,7 @@ class Camera:
 		# Write images to file
 		cv2.imwrite('./img/teal.png', teal)
 		cv2.imwrite('./img/purple.png', purple)
-		cv2.imwrite('./img/blue.png', blue)
+		cv2.imwrite('./img/yellow.png', yellow)
 		cv2.imwrite('./img/all.png', combined)
 
 	def colourMask(self):
@@ -60,14 +60,14 @@ class Camera:
 		maskteal  	= cv2.inRange(hsv, teallower, tealupper)
 		maskpurple 	= cv2.inRange(hsv, purplelower1, purpleupper1)
 		maskpurple 	= maskpurple + cv2.inRange(hsv, purplelower2, purpleupper2)
-		maskblue 	= cv2.inRange(hsv, bluelower, blueupper)
+		maskyellow 	= cv2.inRange(hsv, yellowlower, yellowupper)
 		#maskred = cv2.dilate(frame,dilatekernel,iterations = 1)
 
 		teal 		= cv2.bitwise_and(image,image, mask=maskteal)
 		purple 		= cv2.bitwise_and(image,image, mask=maskpurple)
-		blue 		= cv2.bitwise_and(image,image, mask=maskblue)
-		combined 	= cv2.bitwise_and(image,image, mask=maskteal+maskpurple+maskblue)
-		return teal, purple, blue, combined
+		yellow 		= cv2.bitwise_and(image,image, mask=maskyellow)
+		combined 	= cv2.bitwise_and(image,image, mask=maskteal+maskpurple+maskyellow)
+		return teal, purple, yellow, combined
 
 	def getBiggestCont(self, contours):
 		maxArea = 0.0
