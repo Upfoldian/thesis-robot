@@ -42,7 +42,7 @@ class Robot:
 			if(magnitude > 3.5):
 				response = numpy.interp(magnitude, [0, 180], [0,speed])
 				self.motors.stop()
-				if error > 0:
+				if error < 0:
 					leftVal = response
 					rightVal = 1-response
 					self.motors.rightDir.on()
