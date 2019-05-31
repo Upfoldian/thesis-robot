@@ -2,7 +2,7 @@ import camera
 import time
 
 cam = camera.Camera()
-
+time.sleep(0.5)
 
 count = 0
 timeSum = 0.0
@@ -21,3 +21,4 @@ while (count < 60):
 timeAvg = (timeSum / 60.0) * 1000.0
 
 print("Average FPS: %f" % timeAvg)
+cam.haltThread()

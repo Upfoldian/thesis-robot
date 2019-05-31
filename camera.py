@@ -1,6 +1,7 @@
 import threading
 import cv2
 import numpy as np
+from time import sleep
 from colour_mask import tealupper, teallower, yellowupper, yellowlower, purpleupper1, purplelower1, purpleupper2, purplelower2
 from picamera.array import PiRGBArray
 from picamera import PiCamera
@@ -16,7 +17,7 @@ class Camera:
 		self.imageID = -1
 		self.thread = threading.Thread(target=self.cameraThread).start()
 		self.halt = False
-
+		sleep(0.5)
 	def cameraThread(self):
 		for frame in self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True, resize=(640,480)):
 			if (self.halt == True):
