@@ -47,7 +47,7 @@ class Robot:
 				else:
 					leftVal = -response
 					rightVal = response
-			self.motor.start(leftVal, rightVal)
+			self.motors.start(leftVal, rightVal)
 			curTime = time.perf_counter()
 		self.motor.stop()
 		time.sleep(1)
