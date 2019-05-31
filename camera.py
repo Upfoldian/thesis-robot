@@ -5,8 +5,6 @@ from colour_mask import tealupper, teallower, blueupper, bluelower, purpleupper1
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 
-
-
 class Camera:
 	def __init__(self):
 		#Camera Stuff
@@ -96,10 +94,4 @@ class Camera:
 	def haltThread(self):
 		self.haltThread == True
 		time.sleep(0.2)
-    	self.thread.stop()
-
-
-
-
-
-
+		self.thread.stop()
