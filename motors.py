@@ -24,9 +24,9 @@ class Motors:
 		self.rightMotor.value = 0
 		self.leftMotor.value = 0
 
-	def start(self, time=0):
-		self.rightMotor.value = 1
-		self.leftMotor.value = 1
+	def start(self, leftVal=1, rightVal=1, time=0):
+		self.rightMotor.value = leftVal
+		self.leftMotor.value = rightVal
 
 		if (time != 0):
 			sleep(time)

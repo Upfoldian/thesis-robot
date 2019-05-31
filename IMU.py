@@ -17,15 +17,14 @@ class IMU:
 		# Fresh update variables
 		self.prevMag = self.mag
 		self.prevAccel = self.accel
-		# Bearing and feedback
-		self.bearing = None
 
 
-	def getError(self):
+	def getError(self, bearing):
 		actual = self.getHeading()
-		target = self.bearing
+		target = bearing
 		error = target - actual
-
+		#Positive error implies clockwise movement
+		# Negative counterclockwise
 		if (error >= 180.0):
 			error = -360 + error
 		elif (error <= -180.0):

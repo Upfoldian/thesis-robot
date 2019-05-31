@@ -44,8 +44,8 @@ class Camera:
 				if (boxes[i] == None):
 					continue
 				(x, y, w, h) = boxes[i]
-				cv2.rectangle(masks[i], (x, y), (x+w, y+h), (0, 255, 255), 2)
-				cv2.rectangle(combined, (x, y), (x+w, y+h), (0, 255, 255), 2)
+				cv2.rectangle(masks[i], (x, y), (x+w, y+h), (255, 255, 0), 2)
+				cv2.rectangle(combined, (x, y), (x+w, y+h), (255, 255, 0), 2)
 		# Write images to file
 		cv2.imwrite('./img/%s.png' % (teal), teal)
 		cv2.imwrite('./img/%s.png' % (purple), purple)
