@@ -21,8 +21,6 @@ class Comms:
 
   def haltThread(self):
     self.halt = True
-    time.sleep(0.2)
-    self.thread.stop()
 
   def send(self, target_ip, port, msg):
     # Should multicast this to all devices listening to the multicast group (i.e. all of them)

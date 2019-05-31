@@ -86,12 +86,10 @@ class Camera:
 		contours, hiers = cv2.findContours(greyMask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)[-2:]
 		cont = self.getBiggestCont(contours)
 		if (len(cont) != 0):
-			x, y, w, h = cv2.boundingRect(maxCont)
+			x, y, w, h = cv2.boundingRect(cont)
 			return (x, y, w, h)
 		else:
 			return None
 
 	def haltThread(self):
 		self.haltThread == True
-		time.sleep(0.2)
-		self.thread.stop()

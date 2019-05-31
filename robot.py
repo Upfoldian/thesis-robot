@@ -3,7 +3,7 @@ import camera
 import motors
 import IMU
 import threading
-
+import time
 
 class Robot:
 	def __init__(self):
@@ -32,6 +32,7 @@ class Robot:
 		self.IMU.haltThread()
 		self.camera.haltThread()
 		self.comms.haltThread()
+		time.sleep(1)
 
 
 	

@@ -1,6 +1,5 @@
 import TomLSM303C
 import threading
-import time
 from math import atan2, degrees
 from mag_offsets import mag_x_offset, mag_y_offset, mag_z_offset
 
@@ -93,6 +92,4 @@ class IMU:
 		return self.accel
 	def haltThread(self):
 		self.halt = True
-		time.sleep(0.2)
-		self.thread.stop()
 
