@@ -18,11 +18,11 @@ class Images:
 		self.image = None
 		self.imageID = -1
 		threading.Thread(target=self.cameraThread).start()
-		self.haltThread = False
+		self.halt = False
 
 	def cameraThread(self):
 		for frame in self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True, resize=(640,480)):
-			if (self.haltThread == True):
+			if (self.halt == True):
 				break
 			self.image = frame.array
 			#TODO: process image
@@ -85,8 +85,8 @@ class Images:
 		return maxCont
 
 	def getBoxDims(self, mask):
-		greyMask = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-		contours, hiers = cv2.findContours(greyPurple,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)[-2:]
+		greyMask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
+		contours, hiers = cv2.findContours(greyMask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)[-2:]
 		cont = self.getBiggestCont(contours)
 		if (cont != None):
 			x, y, w, h = cv2.boundingRect(maxCont)

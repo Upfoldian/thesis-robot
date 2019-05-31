@@ -27,7 +27,7 @@ class Robot:
 	def feedbackMove(self, bearing, time=0):
 		bearing = bearing % 360
 
-	def exit():
+	def exit(self):
 		""" Stops all the threads running all over the place. """
 		self.comms.haltThread()
 		self.IMU.haltThread()

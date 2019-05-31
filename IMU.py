@@ -13,7 +13,7 @@ class IMU:
 		self.headingSum = 0.0
 		# So Control+C kills them, but in a bad way because im lazy
 		threading.Thread(target=self.headingThread).start()
-		self.haltThread = False
+		self.halt = False
 		# Fresh update variables
 		self.prevMag = self.mag
 		self.prevAccel = self.accel
@@ -44,7 +44,7 @@ class IMU:
 
 	def headingThread(self):
 		index = 0
-		while(self.haltThread == False):
+		while(self.halt == False):
 			self.headingSum -= self.headingList[index]
 			mag_x, mag_y, mag_z = self.getMag()
 			curHeading = round(degrees(atan2(mag_y, mag_x)), 0) % 360
@@ -91,4 +91,4 @@ class IMU:
 		self.prevMag = self.mag
 		return self.accel
 	def haltThread(self):
-		self.haltThread = True
+		self.halt = True

@@ -9,11 +9,11 @@ class Comms:
     self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP) # Enables Multicast
     self.sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 32)
     self.sock.bind((ip, port))
-    self.haltThread = False
+    self.halt = False
     self.messages = []
     
   def listen(self):
-    while(self.haltThread== False):
+    while(self.halt== False):
       data, addr = self.sock.recvfrom(1024)
       msg = data.decode("utf-8")
       if (msg != "stop"):
@@ -27,7 +27,7 @@ class Comms:
     t.start()
 
   def haltThread(self):
-    self.haltThread = True
+    self.halt = True
     self.sock.sendto(bytes("stop", "utf-8"), ("127.0.0.1", 5000))
 
   def send(self, target_ip, port, msg):
