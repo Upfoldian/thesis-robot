@@ -12,6 +12,7 @@ class IMU:
 		self.headingList = [0] * 20
 		self.headingSum = 0.0
 		# So Control+C kills them, but in a bad way because im lazy
+		self.halt = False
 		self.thread = threading.Thread(target=self.headingThread).start()
 		self.halt = False
 		# Fresh update variables
