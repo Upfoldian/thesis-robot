@@ -17,23 +17,21 @@ class Images:
 		self.rawCapture = PiRGBArray(self.camera, size=(640, 480))
 		self.image = None
 		self.imageID = -1
-		thread = threading.Thread(target=self.cameraThread)
-		thread.daemon = True
-		thread.start()
+		threading.Thread(target=self.cameraThread).start()
+		self.haltThread = False
 
 	def cameraThread(self):
-		try:
-			for frame in self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True, resize=(640,480)):
-				self.image = frame.array
-				#TODO: process image
-				self.imageID += 1
-				if (self.imageID > 100):
-					self.imageID = 0
+		for frame in self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True, resize=(640,480)):
+			if (haltThread == True):
+				break
+			self.image = frame.array
+			#TODO: process image
+			self.imageID += 1
+			if (self.imageID > 100):
+				self.imageID = 0
 
-				self.rawCapture.truncate()
-				self.rawCapture.seek(0)
-		except:
-			print("Camera Thread halted")
+			self.rawCapture.truncate()
+			self.rawCapture.seek(0)
 
 	def saveImage(self, boxes=True):
 		cv2.imwrite('./img/original.png', self.image)
@@ -59,7 +57,7 @@ class Images:
 	def colourMask(self):
 		#red
 		image = self.image
-		image = cv.medianBlur(image,9)	
+		image = cv2.medianBlur(image,9)	
 		hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 		#works alright for teal?
 		maskteal  	= cv2.inRange(hsv, teallower, tealupper)
@@ -95,6 +93,9 @@ class Images:
 			return (x, y, w, h)
 		else:
 			return None
+
+	def haltThread(self):
+		self.haltThread == True
 
 
 
