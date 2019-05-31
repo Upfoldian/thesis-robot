@@ -8,8 +8,6 @@ from picamera import PiCamera
 
 
 class Images:
-
-
 	def __init__(self):
 
 		#Camera Stuff
@@ -75,7 +73,7 @@ class Images:
 		blue 		= cv2.bitwise_and(image,image, mask=maskblue)
 		combined 	= cv2.bitwise_and(image,image, mask=maskteal+maskpurple+maskblue)
 		return teal, purple, blue, combined
-		
+
 	def getBiggestCont(self, contors):
 		maxArea = 0.0
 		maxCont = None
