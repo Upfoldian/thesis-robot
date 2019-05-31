@@ -30,7 +30,7 @@ class Camera:
 			self.rawCapture.truncate()
 			self.rawCapture.seek(0)
 
-	def saveImage(self, boxes=True):
+	def saveImage(self, boxes=True, teal="teal", yellow="yellow", purple="purple", combined="all"):
 		cv2.imwrite('./img/original.png', self.image)
 		teal, purple, yellow, combined = self.colourMask()
 
@@ -46,10 +46,10 @@ class Camera:
 				cv2.rectangle(masks[i], (x, y), (x+w, y+h), (0, 255, 255), 2)
 				cv2.rectangle(combined, (x, y), (x+w, y+h), (0, 255, 255), 2)
 		# Write images to file
-		cv2.imwrite('./img/teal.png', teal)
-		cv2.imwrite('./img/purple.png', purple)
-		cv2.imwrite('./img/yellow.png', yellow)
-		cv2.imwrite('./img/all.png', combined)
+		cv2.imwrite('./img/%s.png' % (teal), teal)
+		cv2.imwrite('./img/%s.png' % (purple), purple)
+		cv2.imwrite('./img/%s.png' % (yellow), yellow)
+		cv2.imwrite('./img/%s.png' % (combined), combined)
 
 	def colourMask(self):
 		#red
