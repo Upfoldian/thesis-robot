@@ -1,7 +1,7 @@
 import numpy as np
 
 
-teallower		= np.array([39,136,22])
+teallower		= np.array([39,136,15])
 tealupper		= np.array([83,253,77])
 
 yellowlower		= np.array([21,207,81])
