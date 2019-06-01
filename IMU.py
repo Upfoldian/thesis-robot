@@ -59,9 +59,9 @@ class IMU:
 			# They do a little bit of magic to solve that (picks a point either side of
 			# 0 to do the transision before it becomes a problem)
 
-			if (self.avgHeading > 340 and curHeading < 120):
+			if (self.avgHeading > 300 and curHeading < 120):
 				self.headingList[index] = 360 + curHeading
-			elif (self.avgHeading < 20 and curHeading > 250):
+			elif (self.avgHeading < 60 and curHeading > 250):
 				self.headingList[index] = curHeading - 360
 			else:
 				self.headingList[index] = curHeading
