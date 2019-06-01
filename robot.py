@@ -135,6 +135,8 @@ class Robot:
 		f = open("mag_offsets.py", "w")
 		f.write("mag_x_offset = %f\nmag_y_offset = %f\nmag_z_offset = %f\n" % (xOffset, yOffset, zOffset))
 		f.close()
+		
+		self.motors.stop()
 
 	def exit(self):
 		""" Stops all the threads running all over the place. """
