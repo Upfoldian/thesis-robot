@@ -137,6 +137,9 @@ class Robot:
 		f.close()
 
 		self.motors.stop()
+		self.IMU.xOff = xOffset
+		self.IMU.yOff = yOffset
+		self.IMU.zOff = zOffset
 
 	def exit(self):
 		""" Stops all the threads running all over the place. """
