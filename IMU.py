@@ -26,7 +26,7 @@ class IMU:
 
 
 	def getError(self, bearing):
-		actual = self.getHeading()
+		actual = self.avgHeading
 		target = bearing
 		error = target - actual
 		#Positive error implies clockwise movement
