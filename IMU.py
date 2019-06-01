@@ -75,7 +75,7 @@ class IMU:
 				self.headingSum = 350.0 * self.headingSamples
 
 			index+=1
-			if (index >= self.headingSamples):
+			if (index > self.headingSamples):
 				index = 0
 
 
