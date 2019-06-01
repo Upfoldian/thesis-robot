@@ -38,7 +38,7 @@ class Robot:
 		while(curTime - startTime < duration):
 			error = self.IMU.getError(bearing)
 			magnitude = abs(error)
-
+			leftVal, rightVal = speed, speed
 			if(magnitude > 3.5):
 				response = numpy.interp(magnitude, [0, 180], [0,speed])
 				if error > 0:
@@ -52,7 +52,7 @@ class Robot:
 				#leftVal = speed
 				#rightVal = speed
 
-			self.motors.rightMotor.value = leftVal
+			self.motors.leftMotor.value = leftVal
 			#self.motors.rightMotor.value = rightVal
 
 			curTime = time.perf_counter()
