@@ -66,6 +66,32 @@ class Robot:
 		time.sleep(1)
 		print("Experiment complete, final heading is: %f" % self.IMU.getHeading())
 
+	def stopAndAlign(self, bearing, duration=3, speed=1):
+		bearing = bearing % 360
+		t0 = time.time()
+		t1 = time.time()
+
+		while(t1 - t0 < duration):
+			error = self.IMU.getError(bearing)
+			magnitude = abs(error)
+			leftVal, rightVal = 0,0
+
+			if (magnitude > 4):
+				if (magnitude < 10):
+					response = numpy.interp(magnitude, [0, 180], [0.4,speed]) # static term
+				else:
+					response = 0.41
+				self.motors.stop()
+				if error > 0:
+					# clockwise
+					self.motors.spinRight(response)
+					#leftVal, rightVal = 1-response, response
+				else:
+					# counterclockwise
+					self.motors.spinLeft(response)
+					#leftVal, rightVal = response, 1-response
+			t1 = time.time()
+		self.motors.stop()
 
 	def targetFound(self, box):
 		pass

@@ -32,7 +32,7 @@ class Camera:
 			self.rawCapture.seek(0)
 
 	def saveImage(self, boxes=True, teal="teal", yellow="yellow", purple="purple", combined="all"):
-		cv2.imwrite('./img/original.png', self.image)
+		cv2.imwrite("./img/original.png", self.image)
 		teal, purple, yellow, combined = self.colourMask()
 
 		# Draw Bounding boxes if flag is true
@@ -47,10 +47,10 @@ class Camera:
 				cv2.rectangle(masks[i], (x, y), (x+w, y+h), (255, 255, 0), 2)
 				cv2.rectangle(combined, (x, y), (x+w, y+h), (255, 255, 0), 2)
 		# Write images to file
-		cv2.imwrite('./img/%s.png' % (teal), teal)
-		cv2.imwrite('./img/%s.png' % (purple), purple)
-		cv2.imwrite('./img/%s.png' % (yellow), yellow)
-		cv2.imwrite('./img/%s.png' % (combined), combined)
+		cv2.imwrite("./img/%s.png" % (teal), teal)
+		cv2.imwrite("./img/%s.png" % (purple), purple)
+		cv2.imwrite("./img/%s.png" % (yellow), yellow)
+		cv2.imwrite("./img/%s.png" % (combined), combined)
 
 	def colourMask(self):
 		#red
