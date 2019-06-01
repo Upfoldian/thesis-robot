@@ -16,6 +16,9 @@ class IMU:
 		self.halt = False
 		self.thread = threading.Thread(target=self.headingThread).start()
 
+		self.xOff = mag_x_offset
+		self.yOff = mag_y_offset
+		self.zOff = mag_z_offset
 
 	def getError(self, bearing):
 		actual = self.getHeading()
@@ -32,9 +35,9 @@ class IMU:
 		accel, mag = self.IMU.read()
 		mag_x, mag_y, mag_z = mag
 
-		mag_x -= mag_x_offset
-		mag_y -= mag_y_offset
-		mag_z -= mag_z_offset
+		mag_x -= self.xOff
+		mag_y -= self.yOff
+		mag_z -= self.zOff
 
 		self.accel = accel
 		self.mag = (mag_x, mag_y, mag_z)
@@ -70,7 +73,6 @@ class IMU:
 			index+=1
 			if (index >= 20):
 				index = 0
-
 
 
 	def getHeading(self):

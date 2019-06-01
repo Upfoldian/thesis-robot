@@ -104,6 +104,37 @@ class Robot:
 		else:
 			#what the heck is this
 			pass
+	def calibrateCompass(self, calibrationTime=10):
+		""" 
+		Function that calibrates the internal compass on the IMU. It spins the robot for a specified
+		amount of time (10s default) and collects readings on all axes. It then calculates the range seen
+		across the spin and calculates the midpoint value to add/subtract to the values to get a balanced
+		range of readings across a full rotation. It then writes the values to mag_offsets.py
+		"""
+		xReadings = []
+		yReadings = []
+		zReadings = []
+
+		t0 = time.time()
+		t1 = time.time()
+		self.motors.spinLeft()
+		while((t1 - t0) < 10):
+			x,y,z = self.IMU.getMag()
+			xReadings.append(x)
+			yReadings.append(y)
+			zReadings.append(z)
+			t1 = time.time()
+
+		xMax, yMax, zMax = max(xReadings), max(yReadings), max(zReadings)
+		xMin, yMin, zMin = min(xReadings), min(yReadings), min(zReadings)
+
+		xOffset = (round((xMax - xMin)/2.0) + xMin) + self.IMU.xOff
+		yOffset = (round((yMax - yMin)/2.0) + yMin) + self.IMU.yOff
+		zOffset = (round((zMax - zMin)/2.0) + zMin) + self.IMU.zOff
+
+		f = open("mag_offsets.py", "w")
+		f.write("mag_x_offset = %f\nmag_y_offset = %f\nmag_z_offset = %f\n" % (xOffset, yOffset, zOffset))
+		f.close()
 
 	def exit(self):
 		""" Stops all the threads running all over the place. """
