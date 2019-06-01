@@ -44,10 +44,12 @@ class Robot:
 
 				if error > 0:
 					# clockwise
+					self.motors.stop()
 					self.motors.spinRight(response)
 					leftVal, rightVal = 1-response, response
 				else:
 					# counterclockwise
+					self.motors.stop()
 					self.motors.spinLeft(response)
 					leftVal, rightVal = response, 1-response
 			else: 
