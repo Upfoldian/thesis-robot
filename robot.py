@@ -39,7 +39,7 @@ class Robot:
 			error = self.IMU.getError(bearing)
 			magnitude = abs(error)
 			leftVal, rightVal = 0,0
-			if(magnitude > 5):
+			if(magnitude > 10):
 				response = numpy.interp(magnitude, [0, 180], [0.4,speed]) # static term
 
 				if error > 0:
@@ -51,8 +51,8 @@ class Robot:
 					self.motors.spinLeft(response)
 					leftVal, rightVal = response, 1-response
 			else: 
+				time.sleep(0.3)
 				self.motors.stop()
-				time.sleep(0.5)
 				#leftVal = speed
 				#rightVal = speed
 
