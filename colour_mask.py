@@ -4,8 +4,8 @@ import numpy as np
 teallower		= np.array([39,136,22])
 tealupper		= np.array([83,253,77])
 
-yellowlower		= np.array([17,120,67])
-yellowupper		= np.array([25,255,178])
+yellowlower		= np.array([21,207,81])
+yellowupper		= np.array([30,255,178])
 
 purplelower1	= np.array([170,0,40])
 purpleupper1	= np.array([200,255,100])
