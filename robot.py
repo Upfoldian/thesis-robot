@@ -28,6 +28,7 @@ class Robot:
 		
 
 	def feedbackMoveExperiment(self, bearing, duration=1, speed=1):
+		# Setup and error checks
 		bearing = bearing % 360
 		startTime = time.perf_counter()
 		curTime = time.perf_counter()
@@ -37,23 +38,24 @@ class Robot:
 		while(curTime - startTime < duration):
 			error = self.IMU.getError(bearing)
 			magnitude = abs(error)
-			leftVal = speed
-			rightVal = speed
-			self.motors.stop()
+
 			if(magnitude > 3.5):
 				response = numpy.interp(magnitude, [0, 180], [0,speed])
-				self.motors.stop()
-				if error < 0:
+				if error > 0:
+					# clockwise
 					leftVal = response
-					rightVal = 1-response
-					self.motors.rightDir.on()
 				else:
-					leftVal = 1-response
-					rightVal = response
-					self.motors.leftDir.on()
-			self.motors.start(leftVal, rightVal)
+					# counterclockwise
+			else: 
+				#leftVal = speed
+				#rightVal = speed
+
+			self.motors.rightMotor.value = leftVal
+			#self.motors.rightMotor.value = rightVal
+
 			curTime = time.perf_counter()
-			print("\tcurrent: %f" % self.IMU.getHeading())
+			print("\terr: %f\tL: %f\tR: %f" % (error, leftVal, rightVal))
+		# Clean up
 		self.motors.stop()
 		time.sleep(1)
 		print("Experiment complete, final heading is: %f" % self.IMU.getHeading())
