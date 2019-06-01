@@ -51,7 +51,7 @@ class Robot:
 					self.motors.spinLeft(response)
 					leftVal, rightVal = response, 1-response
 			else: 
-				pass
+				self.motors.stop()
 				#leftVal = speed
 				#rightVal = speed
 
