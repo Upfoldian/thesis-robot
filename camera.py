@@ -15,6 +15,7 @@ class Camera:
 		self.rawCapture = PiRGBArray(self.camera, size=(640, 480))
 		self.image = None
 		self.imageID = 0
+		self.targets = []
 		self.halt = False
 		self.thread = threading.Thread(target=self.cameraThread).start()
 		sleep(0.5)
@@ -23,6 +24,7 @@ class Camera:
 			if (self.halt == True):
 				break
 			self.image = frame.array
+			self.processImage()
 			#TODO: process image
 			self.imageID += 1
 			if (self.imageID > 100):
@@ -31,7 +33,20 @@ class Camera:
 			self.rawCapture.truncate()
 			self.rawCapture.seek(0)
 
-	def saveImage(self, boxes=True, teal="teal", yellow="yellow", purple="purple", combined="all"):
+	def processImage(self):
+
+		teal, purple, yellow, combined = self.colourMask()
+		masks = [('teal', teal), ('purple', purple), ('yellow', yellow)]
+		boxes = [self.getBoxDims(mask[1]) for mask in masks]
+		targets = []
+		for i in range(len(masks)):
+			if (boxes[i] == None):
+				continue
+			boxInfo = {'targetName': masks[i][0], 'dims': boxes[i]}
+			targets.append(boxInfo)
+		self.targets = targets
+
+	def saveImage(self, boxes=True, tealName="teal", yellowName="yellow", purpleName="purple", combinedName="all"):
 		cv2.imwrite("./img/original.png", self.image)
 		teal, purple, yellow, combined = self.colourMask()
 
@@ -47,10 +62,11 @@ class Camera:
 				cv2.rectangle(masks[i], (x, y), (x+w, y+h), (255, 255, 0), 2)
 				cv2.rectangle(combined, (x, y), (x+w, y+h), (255, 255, 0), 2)
 		# Write images to file
-		cv2.imwrite("./img/%s.png" % (teal), teal)
-		cv2.imwrite("./img/%s.png" % (purple), purple)
-		cv2.imwrite("./img/%s.png" % (yellow), yellow)
-		cv2.imwrite("./img/%s.png" % (combined), combined)
+
+		cv2.imwrite("./img/%s.png" % (tealName), teal)
+		cv2.imwrite("./img/%s.png" % (purpleName), purple)
+		cv2.imwrite("./img/%s.png" % (yellowName), yellow)
+		cv2.imwrite("./img/%s.png" % (combinedName), combined)
 
 	def colourMask(self):
 		#red
@@ -75,7 +91,7 @@ class Camera:
 		maxCont = ()
 		for cont in contours:
 			curArea = cv2.contourArea(cont)
-			if (curArea < 100):
+			if (curArea < 300):
 				continue
 			if (curArea > maxArea):
 				maxArea = curArea
@@ -91,6 +107,8 @@ class Camera:
 			return (x, y, w, h)
 		else:
 			return None
+	def hasTargets(self):
+		return len(self.targets) > 0
 
 	def haltThread(self):
 		self.halt = True
