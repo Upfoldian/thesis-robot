@@ -39,7 +39,7 @@ class Robot:
 			error = self.IMU.getError(bearing)
 			magnitude = abs(error)
 			leftVal, rightVal = 0,0
-			if(magnitude > 4):
+			if(magnitude > 5):
 				response = numpy.interp(magnitude, [0, 180], [0.4,speed]) # static term
 
 				if error > 0:

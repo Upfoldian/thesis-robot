@@ -8,7 +8,7 @@ class IMU:
 	def __init__(self):
 		self.IMU = TomLSM303C.LSM303C() #check it with sudo i2cdetect -y 1 (should be 1D, 1E)
 
-		self.headingSamples = 10
+		self.headingSamples = 5
 		self.headingList = [0] * self.headingSamples
 		self.headingSum = 0.0
 
