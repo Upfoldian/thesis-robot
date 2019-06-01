@@ -7,20 +7,21 @@ class IMU:
 
 	def __init__(self):
 		self.IMU = TomLSM303C.LSM303C() #check it with sudo i2cdetect -y 1 (should be 1D, 1E)
-		self.updateIMU()
 
 		self.headingList = [0] * 20
 		self.headingSum = 0.0
-		self.prevMag = self.mag
-		self.prevAccel = self.accel
 
 		self.xOff = mag_x_offset
 		self.yOff = mag_y_offset
 		self.zOff = mag_z_offset
+		
+		self.updateIMU()
+		self.prevMag = self.mag
+		self.prevAccel = self.accel
 
 		self.halt = False
 		self.thread = threading.Thread(target=self.headingThread).start()
-		
+
 
 	def getError(self, bearing):
 		actual = self.getHeading()
