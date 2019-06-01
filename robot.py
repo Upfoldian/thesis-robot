@@ -40,21 +40,22 @@ class Robot:
 			magnitude = abs(error)
 			leftVal, rightVal = 0,0
 			if(magnitude > 5):
-				response = numpy.interp(magnitude, [0, 180], [0.33,speed]) # static term
+				response = numpy.interp(magnitude, [0, 180], [0.4,speed]) # static term
 
 				if error > 0:
 					# clockwise
 					self.motors.spinLeft(response)
+					leftVal, rightVal = response, 1-response
 				else:
 					# counterclockwise
 					self.motors.spinRight(response)
+					leftVal, rightVal = 1-response, response
 			else: 
 				pass
 				#leftVal = speed
 				#rightVal = speed
 
-			self.motors.leftMotor.value = leftVal
-			self.motors.rightMotor.value = rightVal
+			self.motors.start(leftVal, rightVal)
 
 			curTime = time.perf_counter()
 			print("\terr: %f\tL: %f\tR: %f" % (error, leftVal, rightVal))
