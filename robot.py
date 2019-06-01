@@ -46,6 +46,7 @@ class Robot:
 					leftVal = response
 				else:
 					# counterclockwise
+					pass
 			else: 
 				pass
 				#leftVal = speed
