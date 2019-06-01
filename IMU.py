@@ -69,10 +69,10 @@ class IMU:
 
 			if (avgHeading >= 370):
 				self.headingList = [10] * self.headingSamples
-				self.headingSum = 10 * self.headingSamples
+				self.headingSum = 10.0 * self.headingSamples
 			if (avgHeading <= -10):
 				self.headingList = [350] * self.headingSamples
-				self.headingSum = 350 * self.headingSamples
+				self.headingSum = 350.0 * self.headingSamples
 
 			index+=1
 			if (index >= self.headingSamples):
