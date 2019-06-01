@@ -11,6 +11,7 @@ class IMU:
 		self.headingSamples = 5
 		self.headingList = [0] * self.headingSamples
 		self.headingSum = 0.0
+		self.avgHeading = 0.0
 
 		self.xOff = mag_x_offset
 		self.yOff = mag_y_offset
@@ -49,38 +50,38 @@ class IMU:
 	def headingThread(self):
 		index = 0
 		while(self.halt == False):
+			self.avgHeading = round(self.headingSum/self.headingSamples)
 			self.headingSum -= self.headingList[index]
 			mag_x, mag_y, mag_z = self.getMag()
 			curHeading = round(degrees(atan2(mag_y, mag_x)), 0) % 360
-			avgHeading = round(self.headingSum/self.headingSamples)
 
 			# All these if statements handle the crossover point from 359 to 0 degrees
 			# They do a little bit of magic to solve that (picks a point either side of
 			# 0 to do the transision before it becomes a problem)
 
-			if (avgHeading > 340 and curHeading < 20):
+			if (self.avgHeading > 340 and curHeading < 20):
 				self.headingList[index] = 360 + curHeading
-			elif (avgHeading < 20 and curHeading > 340):
+			elif (self.avgHeading < 20 and curHeading > 340):
 				self.headingList[index] = curHeading - 360
 			else:
 				self.headingList[index] = curHeading
 
 			self.headingSum += self.headingList[index]
 
-			if (avgHeading >= 370):
+			if (self.avgHeading >= 370):
 				self.headingList = [10] * self.headingSamples
 				self.headingSum = 10.0 * self.headingSamples
-			if (avgHeading <= -10):
+			if (self.avgHeading <= -10):
 				self.headingList = [350] * self.headingSamples
 				self.headingSum = 350.0 * self.headingSamples
 
 			index+=1
-			if (index > self.headingSamples):
+			if (index >= self.headingSamples):
 				index = 0
 
 
 	def getHeading(self):
-		return round(self.headingSum/self.headingSamples) % 360
+		return self.avgHeading % 360
 		
 	def getMag(self):
 		while(self.mag == self.prevMag):
