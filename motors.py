@@ -32,16 +32,18 @@ class Motors:
 			sleep(time)
 			self.stop()
 
-	def spinLeft(self, time=0):
-		self.rightMotor.value = 1
+	def spinLeft(self, power=1, time=0):
+		self.rightMotor.value = power
+		self.leftMotor.value = 1-power
 		self.leftDir.on()
 
 		if (time != 0):
 			sleep(time)
 			self.stop()
 
-	def spinRight(self, time=0):
-		self.leftMotor.value = 1
+	def spinRight(self, power=1,time=0):
+		self.leftMotor.value = power
+		self.rightMotor.value = 1-power
 		self.rightDir.on()
 
 		if (time != 0):
