@@ -52,6 +52,7 @@ class Robot:
 					leftVal, rightVal = response, 1-response
 			else: 
 				self.motors.stop()
+				time.sleep(0.5)
 				#leftVal = speed
 				#rightVal = speed
 
