@@ -24,6 +24,56 @@ class Robot:
 		message = {"from": args[0], "opcode": args[1], "args": args[2:-1]}
 		return message
 		
+	def targetSearchExperiment(self, speed=1):
+		""" 
+		Robot spins on the spot looking for targets. Once a target is found, the robot stops and obtains
+		a bearing and distance estimate of the target. It then broadcasts that infomation to nearby robots.
+		Once reporting is complete, it continues spinning to search for new targets. The experiment halts
+		once a full rotation has been completed.
+		"""
+		#Reset targets seen
+		self.knownTargets = {}
+
+		startHeading = self.IMU.getHeading()
+		finishHeading = (startHeading - 10) % 360 # 10 degrees from start is close enough
+		currentHeading = startHeading
+		# loop until within 5 degrees of finish point
+		while(abs(currentHeading - finishHeading) > 5):
+
+			targets = self.camera.targets
+			for target in targets:
+				# boxInfo = {'targetName': masks[i][0], 'dims': boxes[i]}
+				targetName = target['targetName']
+				x,y,w,h = target['dims']
+
+				if (targetName not in knownTargets):
+					# lock onto it
+					self.lockTarget(target)
+					# report it
+					print("target name: %s\theading: %d" % (targetName, self.IMU.getHeading()))
+					# add to known targets
+					self.knownTargets.add(targetName)
+					# move on
+			currentHeading = self.IMU.getHeading()
+
+
+
+
+
+
+	def lockTarget(self, targetName):
+		target = next((item for item in dicts if item["name"] == targetName), None)
+		horizontalMidpoint = self.camera.cols/2
+		x,y,w,h = target['dims']
+		while(target != None || abs(horizontalMidpoint - x) > 5):
+			if (x > horizontalMidpoint):
+				self.motors.spinLeft(0.4)
+			else:
+				self.motors.spinRight(0.4)
+
+		self.motors.stop()
+		time.sleep(0.5)
+
 
 	def feedbackMoveExperiment(self, bearing, duration=1, speed=1):
 		# Setup and error checks

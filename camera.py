@@ -12,7 +12,9 @@ class Camera:
 		self.camera = PiCamera()
 		self.camera.resolution = (640, 480)
 		self.camera.framerate = 24
-		self.rawCapture = PiRGBArray(self.camera, size=(640, 480))
+		self.rows = 240
+		self.cols = 180
+		self.rawCapture = PiRGBArray(self.camera, size=(self.rows, self.rows))
 		self.image = None
 		self.imageID = 0
 		self.targets = []
@@ -20,7 +22,7 @@ class Camera:
 		self.thread = threading.Thread(target=self.cameraThread).start()
 		sleep(0.5)
 	def cameraThread(self):
-		for frame in self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True, resize=(640,480)):
+		for frame in self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True, resize=(self.rows,self.cols)):
 			if (self.halt == True):
 				break
 			self.image = frame.array
