@@ -47,6 +47,7 @@ class Robot:
 				x,y,w,h = target['dims']
 
 				if (targetName not in knownTargets):
+					self.motors.stop()
 					# lock onto it
 					self.lockTarget(target)
 					# report it
@@ -54,6 +55,7 @@ class Robot:
 					# add to known targets
 					self.knownTargets.add(targetName)
 					# move on
+			self.motors.spinLeft(0.5)
 			currentHeading = self.IMU.getHeading()
 
 
@@ -75,7 +77,6 @@ class Robot:
 			x,y,w,h = target['dims']
 
 		self.motors.stop()
-
 
 
 	def feedbackMoveExperiment(self, bearing, duration=1, speed=1):
