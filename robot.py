@@ -46,7 +46,7 @@ class Robot:
 				targetName = target['targetName']
 				x,y,w,h = target['dims']
 
-				if (targetName not in knownTargets):
+				if (targetName not in self.knownTargets):
 					self.motors.stop()
 					# lock onto it
 					self.lockTarget(target)
