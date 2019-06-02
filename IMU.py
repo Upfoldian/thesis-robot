@@ -37,7 +37,9 @@ class IMU:
 			error = error + 360
 		return error
 	def updateIMU(self):
-		accel, mag = self.IMU.read()
+		self.IMU.read()
+		accel = self.IMU.curAccel
+		mag = self.IMU.curMag
 		mag_x, mag_y, mag_z = mag
 
 		mag_x -= self.xOff

@@ -50,16 +50,15 @@ class Motors:
 			sleep(time)
 			self.stop()
 		
-	def reverse(self, time=0):
+	def reverse(self, power=1, time=0):
+		self.leftMotor.value = 1-power
+		self.rightMotor.value = 1-power
 		self.leftDir.on()
 		self.rightDir.on()
 
 		if(time != 0):
 			sleep(time)
 			self.stop()
-
-		self.leftDir.off()
-		self.rightDir.off()
 
 	def startLeft(self, time=0):
 		self.leftMotor.value = 1

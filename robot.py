@@ -17,8 +17,6 @@ class Robot:
 
 		self.nearbyRobots = {}
 		self.knownTargets = {}
-	def hasMessage(self):
-		return self.comms.hasMessage()
 
 	def readMessage(self):
 		msg = self.comms.getMessage
@@ -96,6 +94,7 @@ class Robot:
 	def targetFound(self, box):
 		pass
 	def parseMessage(self, msg):
+
 		sender = msg["from"]
 		opcode = msg["opcode"]
 		args = msg["args"]
