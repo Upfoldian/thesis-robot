@@ -26,6 +26,7 @@ class Camera:
 			if (self.halt == True):
 				break
 			self.image = frame.array
+			self.image =self.image[80:256, 0:256]
 			self.processImage()
 			#TODO: process image
 			self.imageID += 1
