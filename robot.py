@@ -15,8 +15,8 @@ class Robot:
 		self.name = self.comms.getHostname()
 		self.camera = camera.Camera()
 
-		self.nearbyRobots = {}
-		self.knownTargets = {}
+		self.nearbyRobots = set()
+		self.knownTargets = set()
 
 	def readMessage(self):
 		msg = self.comms.getMessage
@@ -32,7 +32,7 @@ class Robot:
 		once a full rotation has been completed.
 		"""
 		#Reset targets seen
-		self.knownTargets = {}
+		self.knownTargets = set()
 
 		startHeading = self.IMU.getHeading()
 		finishHeading = (startHeading - 15) % 360 # 15 degrees from start is close enough
