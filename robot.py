@@ -57,7 +57,7 @@ class Robot:
 					# add to known targets
 					self.knownTargets.add(targetName)
 					# move on
-			self.motors.spinLeft(0.5)
+			self.motors.spinRight(0.5)
 			currentHeading = self.IMU.getHeading()
 
 		self.motors.stop()
