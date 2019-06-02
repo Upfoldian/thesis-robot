@@ -65,14 +65,17 @@ class Robot:
 		target = next((item for item in dicts if item["name"] == targetName), None)
 		horizontalMidpoint = self.camera.cols/2
 		x,y,w,h = target['dims']
-		while(target != None || abs(horizontalMidpoint - x) > 5):
+
+		while(target != None or abs(horizontalMidpoint - x) > 5):
 			if (x > horizontalMidpoint):
 				self.motors.spinLeft(0.4)
 			else:
 				self.motors.spinRight(0.4)
+			target = next((item for item in dicts if item["name"] == targetName), None)
+			x,y,w,h = target['dims']
 
 		self.motors.stop()
-		time.sleep(0.5)
+
 
 
 	def feedbackMoveExperiment(self, bearing, duration=1, speed=1):
