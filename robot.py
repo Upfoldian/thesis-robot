@@ -39,9 +39,9 @@ class Robot:
 		currentHeading = startHeading
 		# loop until within 5 degrees of finish point
 		while(abs(currentHeading - finishHeading) > 3):
-
+			dist = (abs(currentHeading - finishHeading))
 			targets = self.camera.targets
-			print("curHeading: %d" % currentHeading)
+			print("curHeading: %d\t distFromFinish: %d" % (currentHeading, dist))
 			for target in targets:
 				# boxInfo = {'targetName': masks[i][0], 'dims': boxes[i]}
 				targetName = target['targetName']
@@ -51,7 +51,7 @@ class Robot:
 					print("Spotted! %s" % targetName)
 					self.motors.stop()
 					# lock onto it
-					success = self.lockTarget(target)
+					success = True#self.lockTarget(target)
 					if (success):
 						# report it
 						print("target name: %s\theading: %d" % (targetName, self.IMU.getHeading()))

@@ -47,7 +47,6 @@ class Camera:
 			boxInfo = {'targetName': masks[i][0], 'dims': boxes[i]}
 			targets.append(boxInfo)
 		self.targets = targets
-
 	def saveImage(self, boxes=True, tealName="teal", yellowName="yellow", purpleName="purple", combinedName="all", originalName = "original"):
 		cv2.imwrite("./img/%s.png" % originalName, self.image)
 		teal, purple, yellow, combined = self.colourMask()
