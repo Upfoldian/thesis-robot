@@ -38,15 +38,17 @@ class Robot:
 		finishHeading = (startHeading - 10) % 360 # 10 degrees from start is close enough
 		currentHeading = startHeading
 		# loop until within 5 degrees of finish point
-		while(abs(currentHeading - finishHeading) > 5):
+		while(abs(currentHeading - finishHeading) > 3):
 
 			targets = self.camera.targets
+			print("curHeading: %d" % currentHeading)
 			for target in targets:
 				# boxInfo = {'targetName': masks[i][0], 'dims': boxes[i]}
 				targetName = target['targetName']
 				x,y,w,h = target['dims']
 
 				if (targetName not in self.knownTargets):
+					print("Spotted! %s" % targetName)
 					self.motors.stop()
 					# lock onto it
 					self.lockTarget(target)
@@ -58,6 +60,7 @@ class Robot:
 			self.motors.spinLeft(0.5)
 			currentHeading = self.IMU.getHeading()
 
+		self.motors.stop()
 
 
 
@@ -67,8 +70,9 @@ class Robot:
 		target = next((target for target in self.camera.targets if target["targetName"] == targetName), None)
 		horizontalMidpoint = self.camera.cols/2
 		x,y,w,h = target['dims']
-
+		print("Locking target!")
 		while(target != None or abs(horizontalMidpoint - x) > 5):
+			print("curX: %d" % x)
 			if (x > horizontalMidpoint):
 				self.motors.spinLeft(0.4)
 			else:
