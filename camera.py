@@ -12,7 +12,7 @@ class Camera:
 		self.camera = PiCamera()
 		self.camera.resolution = (640, 480)
 		self.camera.framerate = 24
-		self.rawCapture = PiRGBArray(self.camera, size=(240, 180))
+		self.rawCapture = PiRGBArray(self.camera, size=(640, 480))
 		self.image = None
 		self.imageID = 0
 		self.targets = []
@@ -20,7 +20,7 @@ class Camera:
 		self.thread = threading.Thread(target=self.cameraThread).start()
 		sleep(0.5)
 	def cameraThread(self):
-		for frame in self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True, resize=(240,180)):
+		for frame in self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True, resize=(640,480)):
 			if (self.halt == True):
 				break
 			self.image = frame.array
@@ -70,7 +70,7 @@ class Camera:
 
 	def colourMask(self):
 		#red
-		image = self.image
+		im ge = self.image
 		image = cv2.medianBlur(image,5)	
 		hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 		#works alright for teal?
