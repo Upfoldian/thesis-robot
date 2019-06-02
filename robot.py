@@ -64,7 +64,7 @@ class Robot:
 
 
 	def lockTarget(self, targetName):
-		target = next((item for item in dicts if item["name"] == targetName), None)
+		target = next((target for target in self.camera.targets if target["targetName"] == targetName), None)
 		horizontalMidpoint = self.camera.cols/2
 		x,y,w,h = target['dims']
 
@@ -73,7 +73,7 @@ class Robot:
 				self.motors.spinLeft(0.4)
 			else:
 				self.motors.spinRight(0.4)
-			target = next((item for item in dicts if item["name"] == targetName), None)
+			target = next((target for target in self.camera.targets if target["targetName"] == targetName), None)
 			x,y,w,h = target['dims']
 
 		self.motors.stop()
