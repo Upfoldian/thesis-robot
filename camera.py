@@ -14,7 +14,7 @@ class Camera:
 		self.camera.framerate = 24
 		self.rows = 240
 		self.cols = 180
-		self.rawCapture = PiRGBArray(self.camera, size=(self.rows, self.rows))
+		self.rawCapture = PiRGBArray(self.camera, size=(self.rows, self.cols))
 		self.image = None
 		self.imageID = 0
 		self.targets = []
