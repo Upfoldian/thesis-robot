@@ -49,6 +49,7 @@ class Robot:
 
 				if (targetName not in self.knownTargets):
 					print("Spotted! %s" % targetName)
+					time.sleep(2)
 					self.motors.stop()
 					# lock onto it
 					success = True#self.lockTarget(target)
