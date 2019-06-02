@@ -70,7 +70,7 @@ class Camera:
 
 	def colourMask(self):
 		#red
-		im ge = self.image
+		image = self.image
 		image = cv2.medianBlur(image,5)	
 		hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 		#works alright for teal?
