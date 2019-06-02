@@ -4,7 +4,7 @@ import motors
 import IMU
 import threading
 import time
-import numpy
+from numpy import interp
 
 class Robot:
 	def __init__(self):
