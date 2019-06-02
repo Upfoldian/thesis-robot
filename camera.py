@@ -1,5 +1,5 @@
 import threading
-from cv2 import imwrite, rectangle, medianBlur, inRange, cvtColor, bitwise_and, findContours, contourArea, boundingRect
+import cv2
 from time import sleep
 from colour_mask import tealupper, teallower, yellowupper, yellowlower, purpleupper1, purplelower1, purpleupper2, purplelower2
 from picamera.array import PiRGBArray

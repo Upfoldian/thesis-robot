@@ -4,7 +4,7 @@ import motors
 import IMU
 import threading
 import time
-from numpy import interp
+import numpy
 
 class Robot:
 	def __init__(self):
@@ -35,7 +35,7 @@ class Robot:
 		self.knownTargets = {}
 
 		startHeading = self.IMU.getHeading()
-		finishHeading = (startHeading - 10) % 360 # 10 degrees from start is close enough
+		finishHeading = (startHeading - 15) % 360 # 15 degrees from start is close enough
 		currentHeading = startHeading
 		# loop until within 5 degrees of finish point
 		while(abs(currentHeading - finishHeading) > 3):
