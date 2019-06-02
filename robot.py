@@ -51,12 +51,15 @@ class Robot:
 					print("Spotted! %s" % targetName)
 					self.motors.stop()
 					# lock onto it
-					self.lockTarget(target)
-					# report it
-					print("target name: %s\theading: %d" % (targetName, self.IMU.getHeading()))
-					# add to known targets
-					self.knownTargets.add(targetName)
-					# move on
+					success = self.lockTarget(target)
+					if (success):
+						# report it
+						print("target name: %s\theading: %d" % (targetName, self.IMU.getHeading()))
+						# add to known targets
+						self.knownTargets.add(targetName)
+						# move on
+					else:
+						pass
 			self.motors.spinRight(0.5)
 			currentHeading = self.IMU.getHeading()
 
@@ -78,9 +81,12 @@ class Robot:
 			else:
 				self.motors.spinRight(0.4)
 			target = next((target for target in self.camera.targets if target["targetName"] == targetName), None)
-			x,y,w,h = target['dims']
+			if (target == None):
+				print("wack")
+				return False
 
 		self.motors.stop()
+		return True
 
 
 	def feedbackMoveExperiment(self, bearing, duration=1, speed=1):
