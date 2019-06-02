@@ -71,7 +71,7 @@ class Camera:
 	def colourMask(self):
 		#red
 		image = self.image
-		image = cv2.medianBlur(image,9)	
+		image = cv2.medianBlur(image,5)	
 		hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 		#works alright for teal?
 		maskteal  	= cv2.inRange(hsv, teallower, tealupper)
@@ -91,7 +91,7 @@ class Camera:
 		maxCont = ()
 		for cont in contours:
 			curArea = cv2.contourArea(cont)
-			if (curArea < 300):
+			if (curArea < 100):
 				continue
 			if (curArea > maxArea):
 				maxArea = curArea

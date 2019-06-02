@@ -62,6 +62,8 @@ class LSM303C(object):
         #self._mag.write8(LSM303_REGISTER_MAG_CTRL_REG1_M, 0x10)
         self._mag.write8(LSM303_REGISTER_MAG_CTRL_REG2_M, 0x60)
         self._mag.write8(LSM303_REGISTER_MAG_CTRL_REG3_M, 0x00)
+        self.curAccel = (0,0,0)
+        self.curMag = (0,0,0)
 
     def read(self):
         """Read the accelerometer and magnetometer value.  A tuple of tuples will
@@ -80,4 +82,5 @@ class LSM303C(object):
         mz = self._mag.readS16(0x2C) *  0.58
 
         mag = (mx, my , mz)
-        return (accel, mag)
+        self.curAccel = accel
+        self.curMag = mag
