@@ -24,7 +24,7 @@ class Robot:
 		message = {"from": args[0], "opcode": args[1], "args": args[2:-1]}
 		return message
 		
-	def targetSearchExperiment(self, speed=1):
+	def targetSearchExperiment(self, timestep = 0.4, speed = 0.5):
 		""" 
 		Robot spins on the spot looking for targets. Once a target is found, the robot stops and obtains
 		a bearing and distance estimate of the target. It then broadcasts that infomation to nearby robots.
@@ -36,32 +36,23 @@ class Robot:
 
 		# loop until within 5 degrees of finish point
 		count = 0
-		while(count < 5):
-			targets = self.camera.targets
-			heading = self.IMU.getHeading()
-			for target in targets:
-				targetName = target['targetName']
-				x,y,w,h = target['dims']
-				midpoint = x + w/2
-				print("Target: %s, Midpoint: %d, Heading: %d" % (targetName, midpoint, heading))
-				self.camera.saveImage(originalName=("originalRight%d"%count),combinedName=("allRight%d"%count))
+		for i in range(1)
+			while(count < 5):
+				targets = self.camera.targets
+				heading = self.IMU.getHeading()
+				for target in targets:
+					targetName = target['targetName']
+					x,y,w,h = target['dims']
+					midpoint = x + w/2
+					print("Target: %s, Midpoint: %d, Heading: %d" % (targetName, midpoint, heading))
+					self.camera.saveImage(originalName=("originalRight%d"%count),combinedName=("allRight%d"%count))
 
-			self.motors.spinRight(0.5, 0.4)
-			count+=1
-		count = 0
-		while(count < 5):
-
-			targets = self.camera.targets
-			heading = self.IMU.getHeading()
-			for target in targets:
-				targetName = target['targetName']
-				x,y,w,h = target['dims']
-				midpoint = x + w/2
-				print("Target: %s, Midpoint: %d, Heading: %d" % (targetName, midpoint, heading))
-				self.camera.saveImage(originalName=("originalLeft%d"%count),combinedName=("allLeft%d"%count))
-			self.motors.spinLeft(0.5, 0.2)
-			time.sleep(0.5)
-			count+=1
+				if (i == 0):
+					self.motors.spinRight(speed, timestep)
+				elif (i == 1):
+					self.motors.spinLeft(speed, timestep)
+				time.sleep(1)
+				count+=1
 
 		self.motors.stop()
 

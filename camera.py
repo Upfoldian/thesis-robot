@@ -1,7 +1,7 @@
 import threading
 import cv2
 from time import sleep
-from colour_mask import tealupper, teallower, yellowupper, yellowlower, purpleupper1, purplelower1, purpleupper2, purplelower2
+from colour_mask import tealupper, teallower, blueupper, bluelower, purpleupper1, purplelower1, purpleupper2, purplelower2
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 
@@ -37,8 +37,8 @@ class Camera:
 
 	def processImage(self):
 
-		teal, purple, yellow, combined = self.colourMask()
-		masks = [('teal', teal), ('purple', purple), ('yellow', yellow)]
+		teal, purple, blue, combined = self.colourMask()
+		masks = [('teal', teal), ('purple', purple), ('blue', blue)]
 		boxes = [self.getBoxDims(mask[1]) for mask in masks]
 		targets = []
 		for i in range(len(masks)):
@@ -47,12 +47,12 @@ class Camera:
 			boxInfo = {'targetName': masks[i][0], 'dims': boxes[i]}
 			targets.append(boxInfo)
 		self.targets = targets
-	def saveImage(self, boxes=True, tealName="teal", yellowName="yellow", purpleName="purple", combinedName="all", originalName = "original"):
+	def saveImage(self, boxes=True, tealName="teal", blueName="blue", purpleName="purple", combinedName="all", originalName = "original"):
 		original = self.image
-		teal, purple, yellow, combined = self.colourMask()
+		teal, purple, blue, combined = self.colourMask()
 		# Draw Bounding boxes if flag is true
 		if (boxes == True):
-			masks = [teal, purple, yellow]
+			masks = [teal, purple, blue]
 			boxes = [self.getBoxDims(mask) for mask in masks]
 
 			for i in range(len(masks)):
@@ -66,7 +66,7 @@ class Camera:
 
 		cv2.imwrite("./img/%s.png" % (tealName), teal)
 		cv2.imwrite("./img/%s.png" % (purpleName), purple)
-		cv2.imwrite("./img/%s.png" % (yellowName), yellow)
+		cv2.imwrite("./img/%s.png" % (blueName), blue)
 		cv2.imwrite("./img/%s.png" % (combinedName), combined)
 		cv2.imwrite("./img/%s.png" % (originalName), original)
 
@@ -79,14 +79,14 @@ class Camera:
 		maskteal  	= cv2.inRange(hsv, teallower, tealupper)
 		maskpurple 	= cv2.inRange(hsv, purplelower1, purpleupper1)
 		maskpurple 	= maskpurple + cv2.inRange(hsv, purplelower2, purpleupper2)
-		maskyellow 	= cv2.inRange(hsv, yellowlower, yellowupper)
+		maskblue 	= cv2.inRange(hsv, bluelower, blueupper)
 		#maskred = cv2.dilate(frame,dilatekernel,iterations = 1)
 
 		teal 		= cv2.bitwise_and(image,image, mask=maskteal)
 		purple 		= cv2.bitwise_and(image,image, mask=maskpurple)
-		yellow 		= cv2.bitwise_and(image,image, mask=maskyellow)
-		combined 	= cv2.bitwise_and(image,image, mask=maskteal+maskpurple+maskyellow)
-		return teal, purple, yellow, combined
+		blue 		= cv2.bitwise_and(image,image, mask=maskblue)
+		combined 	= cv2.bitwise_and(image,image, mask=maskteal+maskpurple+maskblue)
+		return teal, purple, blue, combined
 
 	def getBiggestCont(self, contours):
 		maxArea = 0.0
