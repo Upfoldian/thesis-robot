@@ -34,51 +34,30 @@ class Robot:
 		#Reset targets seen
 		self.knownTargets = set()
 
-		startHeading = self.IMU.getHeading()
-		finishHeading = (startHeading - 15) % 360 # 15 degrees from start is close enough
-		currentHeading = startHeading
-
-		couldSee = {'yellow': False, 'purple': False, 'teal': False}
-		canSee = {'yellow': False, 'purple': False, 'teal': False}
 		# loop until within 5 degrees of finish point
-		while(abs(currentHeading - finishHeading) > 3):
-			dist = currentHeading - finishHeading
+		count = 0
+		while(count < 5):
 			targets = self.camera.targets
-			horizontalMidpoint = self.camera.cols/2
 
-			canSee = {'yellow': False, 'purple': False, 'teal': False}
-
-			print("curHeading: %d\t distFromFinish: %d" % (currentHeading, dist))
 			for target in targets:
 				targetName = target['targetName']
 				x,y,w,h = target['dims']
+				midpoint = x + w/2
+				print("Target: %s, Midpoint: %d" % (targetName, midpoint))
 
-				if (couldSee[targetName] == True):
-					canSee[targetName] = True
+			self.motors.spinRight(0.5, 0.4)
+		count = 0
+		while(count < 5):
 
-				if (abs((x + w/2) - horizontalMidpoint) < 40 and couldSee[targetName] == False):
+			targets = self.camera.targets
 
-					# tell me
-					self.motors.stop()
-					canSee[targetName] = True
-					print("Spotted! %s\t x: %d y: %d w: %d h:%d" % (targetName,x,y,w,h))
-					time.sleep(2)
-					self.camera.saveImage(combinedName= ("mask" + targetName), originalName = targetName)
-					
-					# lock onto it
-					success = True #self.lockTarget(target)
-					if (success):
-						# report it
-						print("target name: %s\theading: %d" % (targetName, self.IMU.getHeading()))
-						# add to known targets
-						self.knownTargets.add(targetName)
-						# move on
-					else:
-						pass
+			for target in targets:
+				targetName = target['targetName']
+				x,y,w,h = target['dims']
+				midpoint = x + w/2
+				print("Target: %s, Midpoint: %d" % (targetName, midpoint))
 
-			couldSee = canSee
-			self.motors.spinRight(0.5)
-			currentHeading = self.IMU.getHeading()
+			self.motors.spinLeft(0.5, 0.2)
 
 		self.motors.stop()
 
@@ -218,7 +197,7 @@ class Robot:
 		else:
 			#what the heck is this
 			pass
-	def calibrateCompass(self, calibrationTime=10):
+	def calibrateCompass(self, calibrationTime=10, power=1):
 		""" 
 		Function that calibrates the internal compass on the IMU. It spins the robot for a specified
 		amount of time (10s default) and collects readings on all axes. It then calculates the range seen
@@ -231,7 +210,7 @@ class Robot:
 
 		t0 = time.time()
 		t1 = time.time()
-		self.motors.spinLeft()
+		self.motors.spinLeft(power)
 		while((t1 - t0) < calibrationTime):
 			x,y,z = self.IMU.getMag()
 			xReadings.append(x)
