@@ -38,6 +38,8 @@ class Robot:
 		finishHeading = (startHeading - 15) % 360 # 15 degrees from start is close enough
 		currentHeading = startHeading
 
+		couldSee = {'yellow': False, 'purple': False, 'teal': False}
+		canSee = {'yellow': False, 'purple': False, 'teal': False}
 		# loop until within 5 degrees of finish point
 		while(abs(currentHeading - finishHeading) > 3):
 			dist = currentHeading - finishHeading
@@ -47,13 +49,16 @@ class Robot:
 			for target in targets:
 				targetName = target['targetName']
 				x,y,w,h = target['dims']
-				if (abs((x + w/2) - horizontalMidpoint) < 20):
+
+				if (abs((x + w/2) - horizontalMidpoint) < 10 and couldSee[targetName] == False):
+
+					
+
 					self.motors.stop()
+					canSee[targetName] == True
 					print("Spotted! %s\t x: %d y: %d w: %d h:%d" % (targetName,x,y,w,h))
-					self.motors.stop()
+					time.sleep(0.5)
 					self.camera.saveImage(combinedName= ("mask" + targetName), originalName = targetName)
-					self.motors.spinRight(0.5)
-					time.sleep(0.2)
 					
 					# lock onto it
 					success = True #self.lockTarget(target)
@@ -65,6 +70,9 @@ class Robot:
 						# move on
 					else:
 						pass
+
+			couldSee = canSee
+			canSee = {'yellow': False, 'purple': False, 'teal': False}
 			self.motors.spinRight(0.5)
 			currentHeading = self.IMU.getHeading()
 
