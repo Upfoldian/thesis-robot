@@ -38,12 +38,12 @@ class Robot:
 		count = 0
 		while(count < 5):
 			targets = self.camera.targets
-
+			heading = self.IMU.getHeading()
 			for target in targets:
 				targetName = target['targetName']
 				x,y,w,h = target['dims']
 				midpoint = x + w/2
-				print("Target: %s, Midpoint: %d" % (targetName, midpoint))
+				print("Target: %s, Midpoint: %d, Heading: %d" % (targetName, midpoint, heading))
 
 			self.motors.spinRight(0.5, 0.4)
 			count+=1
@@ -51,14 +51,15 @@ class Robot:
 		while(count < 5):
 
 			targets = self.camera.targets
-
+			heading = self.IMU.getHeading()
 			for target in targets:
 				targetName = target['targetName']
 				x,y,w,h = target['dims']
 				midpoint = x + w/2
-				print("Target: %s, Midpoint: %d" % (targetName, midpoint))
+				print("Target: %s, Midpoint: %d, Heading: %d" % (targetName, midpoint, heading))
 
 			self.motors.spinLeft(0.5, 0.2)
+			time.sleep(0.5)
 			count+=1
 
 		self.motors.stop()
