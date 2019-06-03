@@ -46,7 +46,7 @@ class Robot:
 
 					headingEst = self.targetBearingEstimate(target['dims'], heading)
 					distanceEst = self.targetDistanceEstimate(target['dims'])
-					print("%d\tTarget: %s\tEst Heading: %d\tDistance Est: %d" % (targetName, headingEst, distanceEst))
+					print("Target: %s\tEst Heading: %d\tDistance Est: %d" % (targetName, headingEst, distanceEst))
 				if (i == 0):
 					self.camera.saveImage(originalName=("originalRight%d"%count),combinedName=("allRight%d"%count))
 					self.motors.spinRight(speed, timestep)
