@@ -44,20 +44,25 @@ class Robot:
 		while(abs(currentHeading - finishHeading) > 3):
 			dist = currentHeading - finishHeading
 			targets = self.camera.targets
-			print("curHeading: %d\t distFromFinish: %d" % (currentHeading, dist))
 			horizontalMidpoint = self.camera.cols/2
+
+			canSee = {'yellow': False, 'purple': False, 'teal': False}
+
+			print("curHeading: %d\t distFromFinish: %d" % (currentHeading, dist))
 			for target in targets:
 				targetName = target['targetName']
 				x,y,w,h = target['dims']
 
-				if (abs((x + w/2) - horizontalMidpoint) < 10 and couldSee[targetName] == False):
-
+				if (couldSee[targetName] == True:)
+					canSee[TargetName] = True:
 					
+				if (abs((x + w/2) - horizontalMidpoint) < 40 and couldSee[targetName] == False):
 
+					# tell me
 					self.motors.stop()
 					canSee[targetName] == True
 					print("Spotted! %s\t x: %d y: %d w: %d h:%d" % (targetName,x,y,w,h))
-					time.sleep(0.5)
+					time.sleep(2)
 					self.camera.saveImage(combinedName= ("mask" + targetName), originalName = targetName)
 					
 					# lock onto it
@@ -72,7 +77,6 @@ class Robot:
 						pass
 
 			couldSee = canSee
-			canSee = {'yellow': False, 'purple': False, 'teal': False}
 			self.motors.spinRight(0.5)
 			currentHeading = self.IMU.getHeading()
 
