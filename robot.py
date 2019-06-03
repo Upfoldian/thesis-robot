@@ -66,6 +66,7 @@ class Robot:
 						# move on
 					else:
 						pass
+			count +=1
 			self.motors.spinRight(0.5)
 			currentHeading = self.IMU.getHeading()
 
