@@ -44,8 +44,8 @@ class Robot:
 					targetName = target['targetName']
 					x,y,w,h = target['dims']
 
-					headingEst = targetBearingEstimate(target['dims'], heading)
-					distanceEst = targetDistanceEstimate(target['dims'])
+					headingEst = self.targetBearingEstimate(target['dims'], heading)
+					distanceEst = self.targetDistanceEstimate(target['dims'])
 					print("%d\tTarget: %s\tEst Heading: %d\tDistance Est: %d" % (targetName, headingEst, distanceEst))
 				if (i == 0):
 					self.camera.saveImage(originalName=("originalRight%d"%count),combinedName=("allRight%d"%count))
