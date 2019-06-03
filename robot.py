@@ -60,7 +60,7 @@ class Robot:
 
 					# tell me
 					self.motors.stop()
-					canSee[targetName] == True
+					canSee[targetName] = True
 					print("Spotted! %s\t x: %d y: %d w: %d h:%d" % (targetName,x,y,w,h))
 					time.sleep(2)
 					self.camera.saveImage(combinedName= ("mask" + targetName), originalName = targetName)
