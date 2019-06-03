@@ -53,9 +53,9 @@ class Robot:
 				targetName = target['targetName']
 				x,y,w,h = target['dims']
 
-				if (couldSee[targetName] == True:)
-					canSee[TargetName] = True:
-					
+				if (couldSee[targetName] == True):
+					canSee[TargetName] = True
+
 				if (abs((x + w/2) - horizontalMidpoint) < 40 and couldSee[targetName] == False):
 
 					# tell me
