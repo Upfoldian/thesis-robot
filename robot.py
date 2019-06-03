@@ -52,9 +52,10 @@ class Robot:
 					self.motors.stop()
 					time.sleep(2)
 
-					self.camera.saveImage(True, originalName = targetName, combinedName= ("mask" + targetName))
+					self.camera.saveImage(originalName = targetName, combinedName= ("mask" + targetName))
+					self.camera.saveImage(True, "a", "b", "c", "d", "e")
 					# lock onto it
-					success = True#self.lockTarget(target)
+					success = True #self.lockTarget(target)
 					if (success):
 						# report it
 						print("target name: %s\theading: %d" % (targetName, self.IMU.getHeading()))
