@@ -19,7 +19,7 @@ class Camera:
 		self.targets = []
 		self.halt = False
 		self.thread = threading.Thread(target=self.cameraThread).start()
-		sleep(0.5)
+		sleep(1)
 	def cameraThread(self):
 		for frame in self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True, resize=(self.rows,self.cols)):
 			if (self.halt == True):
