@@ -80,7 +80,7 @@ class Robot:
 		of the target, the formula to find distance is 76.1*area**-0.695
 		"""
 		x,y,w,h = dims
-		return 76.1 * (w*h)**-0.695
+		return round((76.1 * (w*h)**-0.695)*100.0)
 
 	def lockTarget(self, targetName):
 		target = next((target for target in self.camera.targets if target["targetName"] == targetName), None)
