@@ -62,6 +62,7 @@ class Camera:
 				(x, y, w, h) = boxes[i]
 				cv2.rectangle(masks[i], (x, y), (x+w, y+h), (255, 255, 0), 2)
 				cv2.rectangle(combined, (x, y), (x+w, y+h), (255, 255, 0), 2)
+				cv2.rectangle(original, (x, y), (x+w, y+h), (255, 255, 0), 2)
 		# Write images to file
 
 		cv2.imwrite("./img/%s.png" % (tealName), teal)
