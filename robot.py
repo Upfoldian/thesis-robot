@@ -59,9 +59,24 @@ class Robot:
 		self.motors.stop()
 
 
+	def targetBearingEstimate(self, dims, heading):
+		"""
+		Gets an estimated heading from the location of the midpoint of the target in screen. From
+		testing, 1 pixel sidewards is approximately 0.21 degrees from current heading. This value
+		has been linearised as it's actually close to 0.22 near the center and 0.19 towards the
+		edges. However, this results in approximately 2-3 degrees of error worse case, which is 
+		about the noise level present in the compass anyway.
+		"""
+		x,y,w,h = target['dims']
+		midpoint = x + w/2
+		distFromCenter = midpoint - self.camera.rows
+		headingEst = heading - round(distFromCenter * 0.21)
+		return headingEst
 
-
-
+	def targetDistanceEstimate(self, dims):
+		"""
+		
+		"""
 	def lockTarget(self, targetName):
 		target = next((target for target in self.camera.targets if target["targetName"] == targetName), None)
 		horizontalMidpoint = self.camera.cols/2
