@@ -49,8 +49,7 @@ class Robot:
 				x,y,w,h = target['dims']
 				if (abs(x - horizontalMidpoint) > 30):
 					self.motors.stop()
-					print("Spotted! %s" % targetName)
-
+					print("Spotted! %s\t x: %d y: %d w: %d h:%d" % (targetName,x,y,w,h))
 					self.camera.saveImage(combinedName= ("mask" + targetName), originalName = targetName)
 					time.sleep(2)
 					
