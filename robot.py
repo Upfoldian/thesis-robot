@@ -37,6 +37,8 @@ class Robot:
 		startHeading = self.IMU.getHeading()
 		finishHeading = (startHeading - 15) % 360 # 15 degrees from start is close enough
 		currentHeading = startHeading
+
+		count = 1
 		# loop until within 5 degrees of finish point
 		while(abs(currentHeading - finishHeading) > 3):
 			dist = currentHeading - finishHeading
@@ -52,8 +54,8 @@ class Robot:
 					self.motors.stop()
 					time.sleep(2)
 
-					self.camera.saveImage(originalName = targetName, combinedName= ("mask" + targetName))
-					self.camera.saveImage(True, "a", "b", "c", "d", "e")
+					#self.camera.saveImage(combinedName= ("mask" + targetName), originalName = targetName)
+					self.camera.saveImage(True, "t" + str(count), "p" + str(count), "y" + str(count), "c" + str(count), "o" + str(count))
 					# lock onto it
 					success = True #self.lockTarget(target)
 					if (success):
