@@ -11,7 +11,6 @@ class Camera:
 		self.camera = PiCamera()
 		self.camera.resolution = (640, 480)
 		self.camera.framerate = 24
-		seel.camera.exposure_mode = 'sports'
 		self.rows = 256
 		self.cols = 192
 		self.rawCapture = PiRGBArray(self.camera, size=(self.rows, self.cols))
