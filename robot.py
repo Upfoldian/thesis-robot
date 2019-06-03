@@ -39,7 +39,7 @@ class Robot:
 		currentHeading = startHeading
 		# loop until within 5 degrees of finish point
 		while(abs(currentHeading - finishHeading) > 3):
-			dist = (abs(currentHeading - finishHeading))
+			dist = currentHeading - finishHeading
 			targets = self.camera.targets
 			print("curHeading: %d\t distFromFinish: %d" % (currentHeading, dist))
 			for target in targets:
@@ -51,6 +51,8 @@ class Robot:
 					print("Spotted! %s" % targetName)
 					self.motors.stop()
 					time.sleep(2)
+
+					self.camera.saveImage(True, originalName = targetName, combinedName= ("mask" + targetName))
 					# lock onto it
 					success = True#self.lockTarget(target)
 					if (success):
