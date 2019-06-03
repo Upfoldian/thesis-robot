@@ -44,6 +44,7 @@ class Robot:
 			dist = currentHeading - finishHeading
 			targets = self.camera.targets
 			print("curHeading: %d\t distFromFinish: %d" % (currentHeading, dist))
+			self.camera.saveImage(True, "t" + str(count), "p" + str(count), "y" + str(count), "c" + str(count), "o" + str(count))
 			for target in targets:
 				# boxInfo = {'targetName': masks[i][0], 'dims': boxes[i]}
 				targetName = target['targetName']
@@ -55,7 +56,7 @@ class Robot:
 					time.sleep(2)
 
 					#self.camera.saveImage(combinedName= ("mask" + targetName), originalName = targetName)
-					self.camera.saveImage(True, "t" + str(count), "p" + str(count), "y" + str(count), "c" + str(count), "o" + str(count))
+					
 					# lock onto it
 					success = True #self.lockTarget(target)
 					if (success):
