@@ -24,7 +24,7 @@ class Robot:
 		message = {"from": args[0], "opcode": args[1], "args": args[2:-1]}
 		return message
 		
-	def targetSearchExperiment(self, timestep = 0.4, speed = 0.5):
+	def searchExperiment(self, timestep = 0.4, speed = 0.5):
 		""" 
 		Robot spins on the spot looking for targets. Once a target is found, the robot stops and obtains
 		a bearing and distance estimate of the target. It then broadcasts that infomation to nearby robots.
@@ -37,7 +37,7 @@ class Robot:
 		# loop until within 5 degrees of finish point
 		for i in range(2):
 			count = 0
-			while(count < 6):
+			while(count < 3):
 				targets = self.camera.targets
 				heading = self.IMU.getHeading()
 				for target in targets:
