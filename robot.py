@@ -38,24 +38,21 @@ class Robot:
 		finishHeading = (startHeading - 15) % 360 # 15 degrees from start is close enough
 		currentHeading = startHeading
 
-		count = 1
 		# loop until within 5 degrees of finish point
 		while(abs(currentHeading - finishHeading) > 3):
 			dist = currentHeading - finishHeading
 			targets = self.camera.targets
 			print("curHeading: %d\t distFromFinish: %d" % (currentHeading, dist))
-			self.camera.saveImage(True, "t" + str(count), "p" + str(count), "y" + str(count), "c" + str(count), "o" + str(count))
+			horizontalMidpoint = self.camera.cols/2
 			for target in targets:
-				# boxInfo = {'targetName': masks[i][0], 'dims': boxes[i]}
 				targetName = target['targetName']
 				x,y,w,h = target['dims']
-
-				if (targetName not in self.knownTargets):
-					print("Spotted! %s" % targetName)
+				if (abs(x - horizontalMidpoint) > 30):
 					self.motors.stop()
-					time.sleep(2)
+					print("Spotted! %s" % targetName)
 
-					#self.camera.saveImage(combinedName= ("mask" + targetName), originalName = targetName)
+					self.camera.saveImage(combinedName= ("mask" + targetName), originalName = targetName)
+					time.sleep(2)
 					
 					# lock onto it
 					success = True #self.lockTarget(target)
@@ -67,7 +64,6 @@ class Robot:
 						# move on
 					else:
 						pass
-			count +=1
 			self.motors.spinRight(0.5)
 			currentHeading = self.IMU.getHeading()
 
