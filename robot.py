@@ -67,7 +67,7 @@ class Robot:
 		edges. However, this results in approximately 2-3 degrees of error worse case, which is 
 		about the noise level present in the compass anyway.
 		"""
-		x,y,w,h = target['dims']
+		x,y,w,h = dims
 		midpoint = x + w/2
 		distFromCenter = midpoint - self.camera.rows
 		headingEst = heading - round(distFromCenter * 0.21)
