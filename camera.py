@@ -48,9 +48,8 @@ class Camera:
 			targets.append(boxInfo)
 		self.targets = targets
 	def saveImage(self, boxes=True, tealName="teal", yellowName="yellow", purpleName="purple", combinedName="all", originalName = "original"):
-		cv2.imwrite("./img/%s.png" % originalName, self.image)
+		original = self.image
 		teal, purple, yellow, combined = self.colourMask()
-
 		# Draw Bounding boxes if flag is true
 		if (boxes == True):
 			masks = [teal, purple, yellow]
@@ -69,6 +68,7 @@ class Camera:
 		cv2.imwrite("./img/%s.png" % (purpleName), purple)
 		cv2.imwrite("./img/%s.png" % (yellowName), yellow)
 		cv2.imwrite("./img/%s.png" % (combinedName), combined)
+		cv2.imwrite("./img/%s.png" % (originalName), original)
 
 	def colourMask(self):
 		#red
