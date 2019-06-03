@@ -46,6 +46,7 @@ class Robot:
 				print("Target: %s, Midpoint: %d" % (targetName, midpoint))
 
 			self.motors.spinRight(0.5, 0.4)
+			count+=1
 		count = 0
 		while(count < 5):
 
@@ -58,6 +59,7 @@ class Robot:
 				print("Target: %s, Midpoint: %d" % (targetName, midpoint))
 
 			self.motors.spinLeft(0.5, 0.2)
+			count+=1
 
 		self.motors.stop()
 
