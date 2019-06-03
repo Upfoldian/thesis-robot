@@ -35,9 +35,9 @@ class Robot:
 		self.knownTargets = set()
 
 		# loop until within 5 degrees of finish point
-		count = 0
 		for i in range(2):
-			while(count < 5):
+			count = 0
+			while(count < 6):
 				targets = self.camera.targets
 				heading = self.IMU.getHeading()
 				for target in targets:
