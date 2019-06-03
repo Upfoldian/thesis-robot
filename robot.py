@@ -43,10 +43,10 @@ class Robot:
 				for target in targets:
 					targetName = target['targetName']
 					x,y,w,h = target['dims']
-					midpoint = x + w/2
-					distFromCenter = midpoint - self.camera.rows
-					headingEst = heading - round(distFromCenter * 0.21)
-					print("Count: %d\tTarget: %s\tEst Heading: %d\tHeading: %d" % (count,targetName, midpoint, heading))
+
+					headingEst = targetBearingEstimate(target['dims'], heading)
+					distanceEst = targetDistanceEstimate(target['dims'])
+					print("%d\tTarget: %s\tEst Heading: %d\tDistance Est: %d" % (targetName, headingEst, distanceEst))
 				if (i == 0):
 					self.camera.saveImage(originalName=("originalRight%d"%count),combinedName=("allRight%d"%count))
 					self.motors.spinRight(speed, timestep)
@@ -75,8 +75,13 @@ class Robot:
 
 	def targetDistanceEstimate(self, dims):
 		"""
-		
+		Gets an estimated distance from from of robot. Strictly speaking, this needs to be combined
+		with a bearing to get a true distance, but this is good enough. Matching measured area data
+		of the target, the formula to find distance is 76.1*area**-0.695
 		"""
+		x,y,w,h = dims
+		return 76.1 * (w*h)**-0.695
+
 	def lockTarget(self, targetName):
 		target = next((target for target in self.camera.targets if target["targetName"] == targetName), None)
 		horizontalMidpoint = self.camera.cols/2
