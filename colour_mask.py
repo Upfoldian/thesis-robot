@@ -11,4 +11,4 @@ purplelower1	= np.array([170,205,54])
 purpleupper1	= np.array([255,255,99])
 
 purplelower2	= np.array([0,225,60])
-purpleupper2	= np.array([10,255,117])
+purpleupper2	= np.array([5,255,117])
