@@ -44,9 +44,8 @@ class Robot:
 					targetName = target['targetName']
 					x,y,w,h = target['dims']
 					midpoint = x + w/2
-					print("Target: %s, Midpoint: %d, Heading: %d" % (targetName, midpoint, heading))
-					self.camera.saveImage(originalName=("originalRight%d"%count),combinedName=("allRight%d"%count))
-
+					print("Count: %d\tTarget: %s\tMidpoint: %d\tHeading: %d" % (count,targetName, midpoint, heading))
+				self.camera.saveImage(originalName=("originalRight%d"%count),combinedName=("allRight%d"%count))
 				if (i == 0):
 					self.motors.spinRight(speed, timestep)
 				elif (i == 1):
