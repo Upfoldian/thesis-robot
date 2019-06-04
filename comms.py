@@ -11,13 +11,13 @@ class Comms:
 		self.sock.bind((ip, port))
 		self.halt = False
 		self.messages = []
-		self.thread = threading.Thread(target=self.listen)
+		self.thread = threading.Thread(target=self.listen).start()
 		
 	def listen(self):
-		while(self.halt== False):
+		while(self.halt == False):
 			data, addr = self.sock.recvfrom(1024)
 			msg = data.decode("utf-8")
-			self.messages.insert(0, (msg,addr[0]))
+			self.messages.push(msg,addr[0])
 
 	def send(self, msg, target_ip="255.255.255.255", port=5000):
 		# Should multicast this to all devices listening to the multicast group (i.e. all of them)
