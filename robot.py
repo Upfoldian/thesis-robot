@@ -222,6 +222,9 @@ class Robot:
 					self.motors.start(time=1)
 				if (command == "SPIN"):
 					self.motors.spin(time=2.2)
+				else:
+					print("what do I do???")
+				
 		elif opcode == "IAMHERE":
 			# Let another robot know where you are
 			curX, curY = args
