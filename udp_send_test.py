@@ -1,14 +1,15 @@
+import TomLSM303C
+import gpiozero
+import robot
 import socket
 
 
-deets = ('0.0.0.0', 5000)
-MESSAGE = "HI!"
+multicast_group = ("192.168.1.143", 5000)
+MESSAGE = "hello"
 
 
-print("IP: %s\tPort: %s\tMsg: %s" % (deets[0], deets[1], MESSAGE))
+print("IP: %s\tPort: %s\tMsg: %s" % (multicast_group[0], multicast_group[1], MESSAGE))
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # TCP
-sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-sock.bind((deets[0], deets[1]))
-sock.sendto(bytes(MESSAGE, "utf-8"), deets)
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP) # TCP
+sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 32)
+sock.sendto(bytes(MESSAGE, "utf-8"), multicast_group)
