@@ -7,8 +7,8 @@ class Comms:
 		self.ip = ip
 		self.port = port
 		self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Enables Multicast
-		sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-		sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+		self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+		self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 		self.sock.bind((ip, port))
 		self.halt = False
 		self.messages = []
