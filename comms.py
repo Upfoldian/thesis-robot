@@ -7,7 +7,7 @@ class Comms:
 		self.ip = ip
 		self.port = port
 		self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP) # broadcast
-		self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 5)
+		self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 		self.sock.bind((ip, port))
 		self.halt = False
 		self.messages = []
@@ -17,7 +17,10 @@ class Comms:
 		while(self.halt == False):
 			data, addr = self.sock.recvfrom(1024)
 			msg = data.decode("utf-8")
-			self.messages.append((msg,addr[0]))
+			args = msg.split(" ")
+			message = {"sender": args[0], "opcode": args[1], "args": args[2:], "addr": addr}
+			if (message['sender'] != socket.gethostname()):
+				self.messages.append(message)
 
 	def send(self, msg, target_ip="255.255.255.255", port=5000):
 		# Should multicast this to all devices listening to the multicast group (i.e. all of them)

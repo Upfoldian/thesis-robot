@@ -19,9 +19,7 @@ class Robot:
 		self.knownTargets = set()
 
 	def readMessage(self):
-		msg, addr = self.comms.getMessage()
-		args = msg.split(" ")
-		message = {"sender": args[0], "opcode": args[1], "args": args[2:], "addr": addr}
+		message = self.comms.getMessage()
 		return message
 	
 	def commsExperiment(self):
@@ -205,7 +203,7 @@ class Robot:
 			# If you hear a robot saying hello?, you send back hi! to let them know you can hear them
 			reply = "HI! %s" % self.name
 			self.nearbyRobots.add(sender)
-			self.comms.send(sender, reply)
+			self.comms.send(reply)
 		elif opcode == "HI!":
 			# If you hear a robot saying Hi!, back to something
 			# If they replied to you, they can hear you
