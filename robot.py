@@ -201,7 +201,7 @@ class Robot:
 		opcode = msg["opcode"]
 		args = msg["args"]
 
-		if opcode == "HELLO?":
+		if opcode == "HELLO?" and sender != self.name:
 			# If you hear a robot saying hello?, you send back hi! to let them know you can hear them
 			reply = "HI! %s" % self.name
 			self.nearbyRobots.add(sender)

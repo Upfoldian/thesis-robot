@@ -38,7 +38,7 @@ class Comms:
 			return False
 
 	def getMessage(self):
-		if (self.hasMessage):
+		if (self.hasMessage()):
 			return self.messages.pop()
 		else:
 			return "You have 0 voice messages."
