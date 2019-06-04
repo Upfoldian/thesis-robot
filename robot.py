@@ -21,7 +21,7 @@ class Robot:
 	def readMessage(self):
 		msg, addr = self.comms.getMessage()
 		args = msg.split(" ")
-		message = {"sender": args[0], "opcode": args[1], "args": args[2:-1]}
+		message = {"sender": args[0], "opcode": args[1], "args": args[2:], "addr": addr}
 		return message
 	
 	def commsExperiment(self):
@@ -33,6 +33,7 @@ class Robot:
 			time.sleep(2)
 			if (self.comms.hasMessage()):
 				msg = self.readMessage()
+				print(msg)
 				if (msg['opcode'] == "HI!" and msg['args'][0] == self.name):
 					friendName = msg['sender']
 					break
@@ -194,9 +195,6 @@ class Robot:
 					#leftVal, rightVal = response, 1-response
 			t1 = time.time()
 		self.motors.stop()
-
-	def targetFound(self, box):
-		pass
 	def parseMessage(self, msg):
 
 		sender = msg["sender"]
