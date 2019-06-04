@@ -17,7 +17,7 @@ class Comms:
 		while(self.halt == False):
 			data, addr = self.sock.recvfrom(1024)
 			msg = data.decode("utf-8")
-			self.messages.append(msg,addr[0])
+			self.messages.append((msg,addr[0]))
 
 	def send(self, msg, target_ip="255.255.255.255", port=5000):
 		# Should multicast this to all devices listening to the multicast group (i.e. all of them)

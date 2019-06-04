@@ -19,7 +19,7 @@ class Robot:
 		self.knownTargets = set()
 
 	def readMessage(self):
-		msg = self.comms.getMessage()
+		msg, addr = self.comms.getMessage()
 		args = msg.split(" ")
 		message = {"from": args[0], "opcode": args[1], "args": args[2:-1]}
 		return message
