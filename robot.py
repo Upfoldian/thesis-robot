@@ -70,7 +70,7 @@ class Robot:
 		x,y,w,h = dims
 		midpoint = x + w/2
 		distFromCenter = midpoint - self.camera.rows
-		headingEst = heading - round(distFromCenter * 0.21)
+		headingEst = heading + round(distFromCenter * 0.21)
 		return headingEst
 
 	def targetDistanceEstimate(self, dims):
