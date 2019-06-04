@@ -220,7 +220,7 @@ class Robot:
 			if (self.name == targetRobot):
 				if (command == "MOVE"):
 					self.motors.start(time=1)
-				if (command == "SPIN"):
+				elif (command == "SPIN"):
 					self.motors.spinLeft(time=2.2)
 				else:
 					print("what do I do???")
