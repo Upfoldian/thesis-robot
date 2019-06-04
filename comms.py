@@ -19,7 +19,7 @@ class Comms:
 			msg = data.decode("utf-8")
 			self.messages.insert(0, (msg,addr[0]))
 
-	def send(self, target_ip, port, msg):
+	def send(self, msg, target_ip="0.0.0.0", port=5000):
 		# Should multicast this to all devices listening to the multicast group (i.e. all of them)
 		# message format will be something like the following:
 		#   <hostname> <megType> <data associated with msg type>

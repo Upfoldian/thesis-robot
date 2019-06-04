@@ -19,11 +19,37 @@ class Robot:
 		self.knownTargets = set()
 
 	def readMessage(self):
-		msg = self.comms.getMessage
+		msg = self.comms.getMessage()
 		args = msg.split(" ")
 		message = {"from": args[0], "opcode": args[1], "args": args[2:-1]}
 		return message
-		
+	
+	def commsExperiment(self):
+		#don't start until the other robot says hi
+		friendName = ""
+		while(True):
+			self.comms.send("HELLO?")
+			time.sleep(2)
+			if (self.comms.hasMessage()):
+				msg = self.readMessage()
+				if (msg['opcode'] == "HI!"):
+					friendName = msg['sender']
+					break
+
+		print ("I made a friend! %s is my new best friend." % friendName)
+
+		while(True):
+
+			if (self.comms.hasMessage()):
+				msg = self.readMessage()
+				if (msg['sender'] == friendName):
+					print("%s told me to do this %s %s" % (friendName, msg['opcode'], str(msg['args'])) )
+					self.parseMessage(msg)
+
+
+
+
+
 	def searchExperiment(self, timestep = 0.4, speed = 0.5):
 		""" 
 		Robot spins on the spot looking for targets. Once a target is found, the robot stops and obtains
@@ -196,6 +222,11 @@ class Robot:
 		elif opcode == "LISTEN":
 			# Boss another robot around
 			targetRobot, command = args
+			if (self.name == targetRobot):
+				if (command == "MOVE"):
+					self.motors.start(time=1)
+				if (command == "SPIN"):
+					self.motors.spin(time=2.2)
 		elif opcode == "IAMHERE":
 			# Let another robot know where you are
 			curX, curY = args
