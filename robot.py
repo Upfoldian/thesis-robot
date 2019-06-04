@@ -33,7 +33,7 @@ class Robot:
 			time.sleep(2)
 			if (self.comms.hasMessage()):
 				msg = self.readMessage()
-				if (msg['opcode'] == "HI!"):
+				if (msg['opcode'] == "HI!" and msg['args'][0] == self.name):
 					friendName = msg['sender']
 					break
 
@@ -206,12 +206,10 @@ class Robot:
 		if opcode == "HELLO?":
 			# If you hear a robot saying hello?, you send back hi! to let them know you can hear them
 			reply = "HI! %s" % self.name
-			senderName = args[0]
-			self.nearbyRobots.add(senderName)
+			self.nearbyRobots.add(sender)
 			self.comms.send(sender, reply)
 		elif opcode == "HI!":
 			# If you hear a robot saying Hi!, back to something
-			senderName = args[0]
 			# If they replied to you, they can hear you
 			# if not, don't add them
 			if (senderName == self.name):
