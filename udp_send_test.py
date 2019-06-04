@@ -5,8 +5,8 @@ server.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 5)
 # Set a timeout so the socket does not block
 # indefinitely when trying to receive data.
 server.settimeout(0.2)
-message = b"your very important message"
+message = b"pls"
 while True:
-    server.sendto(message, ('<broadcast>', 5000))
+    server.sendto(message, ('255.255.255.255', 5000))
     print("message sent!")
     time.sleep(1)
