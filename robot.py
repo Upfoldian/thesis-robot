@@ -199,7 +199,7 @@ class Robot:
 		pass
 	def parseMessage(self, msg):
 
-		sender = msg["from"]
+		sender = msg["sender"]
 		opcode = msg["opcode"]
 		args = msg["args"]
 
