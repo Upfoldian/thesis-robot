@@ -28,6 +28,7 @@ class Robot:
 		#don't start until the other robot says hi
 		friendName = ""
 		while(True):
+			print("sending HELLO?")
 			self.comms.send("HELLO?")
 			time.sleep(2)
 			if (self.comms.hasMessage()):
