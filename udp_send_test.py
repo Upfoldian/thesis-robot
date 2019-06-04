@@ -1,11 +1,8 @@
-import TomLSM303C
-import gpiozero
-import robot
 import socket
 
 
-multicast_group = ("192.168.1.143", 5000)
-MESSAGE = "hello"
+multicast_group = ("224.1.1.1", 5000)
+MESSAGE = "YO!"
 
 
 print("IP: %s\tPort: %s\tMsg: %s" % (multicast_group[0], multicast_group[1], MESSAGE))
