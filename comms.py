@@ -3,11 +3,12 @@ import threading
 
 class Comms:
 
-	def __init__(self, ip="0.0.0.0", port=5000):
+	def __init__(self, ip="255.255.255.255", port=5000):
 		self.ip = ip
 		self.port = port
-		self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP) # Enables Multicast
-		self.sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 32)
+		self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Enables Multicast
+		sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+		sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 		self.sock.bind((ip, port))
 		self.halt = False
 		self.messages = []
@@ -19,7 +20,7 @@ class Comms:
 			msg = data.decode("utf-8")
 			self.messages.insert(0, (msg,addr[0]))
 
-	def send(self, msg, target_ip="0.0.0.0", port=5000):
+	def send(self, msg, target_ip="255.255.255.255", port=5000):
 		# Should multicast this to all devices listening to the multicast group (i.e. all of them)
 		# message format will be something like the following:
 		#   <hostname> <megType> <data associated with msg type>
