@@ -59,7 +59,7 @@ class Robot:
 		Successful Experiment: The robots each claim a target based on the shortest distance.
 		"""
 
-		self.nearbyRobots = {}
+		self.nearbyRobots = set()
 		self.comms.send("HELLO?")
 		names = ["teal", "purple", "blue"]
 		while(len(self.nearbyRobots) < 2):
