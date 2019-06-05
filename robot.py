@@ -67,7 +67,7 @@ class Robot:
 
 		for name in names:
 			distSum = 0
-			bearium = 0
+			bearSum = 0
 			for reading in readings[name]:
 				bearSum += reading[0]
 				distSum += reading[1]
@@ -76,7 +76,7 @@ class Robot:
 			avgs[name] = (avgBear, avgDist)
 		print(avgs)
 
-		
+
 
 
 
