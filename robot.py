@@ -63,17 +63,18 @@ class Robot:
 		self.knownTargets = {}
 		names = ["teal", "purple", "blue"]
 		readings = self.sweep()
-		avgs = {"teal": (0,0), "purple": (0,0), "blue": (0,0)}
+		avgs = {"teal": (-1,-1), "purple": (-1,-1), "blue": (-1,-1)}
 
 		for name in names:
-			distSum = 0
-			bearSum = 0
-			for reading in readings[name]:
-				bearSum += reading[0]
-				distSum += reading[1]
-			avgDist = distSum / len(readings[name])
-			avgBear = bearSum / len(readings[name])
-			avgs[name] = (avgBear, avgDist)
+			if (len(readings[name]) != 0):
+				distSum = 0
+				bearSum = 0
+				for reading in readings[name]:
+					bearSum += reading[0]
+					distSum += reading[1]
+				avgDist = distSum / len(readings[name])
+				avgBear = bearSum / len(readings[name])
+				avgs[name] = (avgBear, avgDist)
 		print(avgs)
 
 
@@ -93,10 +94,12 @@ class Robot:
 
 		readings = {'teal': [], 'purple': [], 'blue': []}
 
-
+		count = 0
 		while(abs(self.IMU.getError(rightLimit)) > 10):
 			# Sweep right first
 			time.sleep(0.3)
+			self.camera.saveImage(originalName=("original%d"%count),combinedName=("all%d"%count))
+			count+=1
 			targets = self.camera.targets
 			heading = self.IMU.getHeading()
 			for target in targets:
@@ -111,6 +114,8 @@ class Robot:
 		while(abs(self.IMU.getError(leftLimit)) > 10):
 			# Sweep left second
 			time.sleep(0.3)
+			elf.camera.saveImage(originalName=("original%d"%count),combinedName=("all%d"%count))
+			count+=1
 			targets = self.camera.targets
 			heading = self.IMU.getHeading()
 			for target in targets:
@@ -126,10 +131,10 @@ class Robot:
 			# Get back to start
 			if (self.IMU.getError(originalHeading) > 0):
 				self.motors.spinRight(speed,timestep/2)
-				time.sleep(0.1)
+				time.sleep(0.05)
 			else:
 				self.motors.spinLeft(speed,timestep/2)
-				time.sleep(0.1)
+				time.sleep(0.05 )
 
 		return readings
 
