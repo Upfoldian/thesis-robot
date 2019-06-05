@@ -88,6 +88,7 @@ class Robot:
 				avgs[name] = (avgBear, avgDist)
 
 		best = sorted(avgs, key= lambda x: avgs[x][1])
+		self.comms.messages = []
 		minTarget = best.pop(0)
 		minDist = avgs[minTarget][1]
 		#print(readings)
@@ -100,8 +101,8 @@ class Robot:
 			while (self.comms.hasMessage()):
 				discord=False
 				msg = self.readMessage()
-				print(msg)
 				if (msg['opcode'] == "CLAIM"):
+					print(msg)
 					claimedColour = msg["args"][0]
 					dist = float(msg["args"][1])
 
