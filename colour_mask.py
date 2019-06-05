@@ -4,7 +4,7 @@ import numpy as np
 teallower		= np.array([70,170,40])
 tealupper		= np.array([80,255,70])
 
-bluelower		= np.array([80,170,20])
+bluelower		= np.array([70,170,20])
 blueupper		= np.array([105,255,35])
 
 purplelower1	= np.array([160,205,54])
