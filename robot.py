@@ -60,9 +60,9 @@ class Robot:
 		"""
 
 		self.nearbyRobots = set()
-		self.comms.send("HELLO?")
 		names = ["teal", "purple", "blue"]
 		while(len(self.nearbyRobots) < 2):
+			self.comms.send("HELLO?")
 			time.sleep(3)
 			while (self.comms.hasMessage()):
 				# should be full of HI!s
