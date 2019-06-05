@@ -334,15 +334,15 @@ class Robot:
 
 		if opcode == "HELLO?":
 			# If you hear a robot saying hello?, you send back hi! to let them know you can hear them
-			reply = "HI! %s" % self.name
+			reply = "HI! %s" % self.comms.getHostname()
 			self.nearbyRobots.add(sender)
 			self.comms.send(reply)
 		elif opcode == "HI!":
 			# If you hear a robot saying Hi!, back to something
 			# If they replied to you, they can hear you
 			# if not, don't add them
-			if (senderName == self.name):
-				self.nearbyRobots.add(senderName)
+			if (sender == self.comms.getHostname()):
+				self.nearbyRobots.add(sender)
 		elif opcode == "FOUND":
 			# Report to the network that you've found a target and the position you found it
 			target, heading, estDist, curX, curY = args
