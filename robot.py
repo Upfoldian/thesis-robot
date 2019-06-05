@@ -284,7 +284,7 @@ class Robot:
 		elif opcode == "FINISH":
 			targetRobot, command = args
 			if (self.name == targetRobot):
-
+				pass
 		elif opcode == "IAMHERE":
 			# Let another robot know where you are
 			curX, curY = args
