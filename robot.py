@@ -75,6 +75,7 @@ class Robot:
 				avgDist = distSum / len(readings[name])
 				avgBear = bearSum / len(readings[name])
 				avgs[name] = (avgBear, avgDist)
+		print(readings)
 		print(avgs)
 
 
