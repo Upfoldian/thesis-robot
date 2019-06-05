@@ -72,7 +72,7 @@ class Robot:
 
 		while(abs(self.IMU.getError(rightLimit)) > 10):
 			# Sweep right first
-			time.sleep(0.2)
+			time.sleep(0.3)
 			targets = self.camera.targets
 			heading = self.IMU.getHeading()
 			for target in targets:
@@ -86,7 +86,7 @@ class Robot:
 
 		while(abs(self.IMU.getError(leftLimit)) > 10):
 			# Sweep left second
-			time.sleep(0.2)
+			time.sleep(0.3)
 			targets = self.camera.targets
 			heading = self.IMU.getHeading()
 			for target in targets:
@@ -101,10 +101,10 @@ class Robot:
 		while(abs(self.IMU.getError(originalHeading)) > 5):
 			# Get back to start
 			if (self.IMU.getError(originalHeading) > 0):
-				self.motors.spinRight(timestep/2, speed)
+				self.motors.spinRight(speed,timestep/2)
 				time.sleep(0.1)
 			else:
-				self.motors.spinLeft(timestep/2, speed)
+				self.motors.spinLeft(speed,timestep/2)
 				time.sleep(0.1)
 
 	def searchExperiment(self, timestep = 0.4, speed = 0.5):
