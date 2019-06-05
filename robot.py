@@ -83,6 +83,7 @@ class Robot:
 		self.sync()
 		for targetName in avgs.keys():
 			self.comms.send("TARGET %s %d" % (targetName, avgs[targetName]))
+		time.sleep(3)
 		while (self.comms.hasMessage()):
 			msg = self.readMessage()
 			if (msg['opcode'] == "TARGET"):
@@ -105,7 +106,7 @@ class Robot:
 						continue
 					path = 0
 					colours = [i,j,k]
-					assignemt = []
+					assignment = []
 					for n in range(len(robotNames)):
 						r = robotNames[n]
 						c = colours[n]
@@ -114,7 +115,7 @@ class Robot:
 						assignment.append((r,c,d))
 					if (path < bestPath):
 						bestPath = path
-						bestAssignemt = assignment
+						bestAssignment = assignment
 
 
 
