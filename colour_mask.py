@@ -1,11 +1,11 @@
 import numpy as np
 
 
-teallower		= np.array([70,170,20])
-tealupper		= np.array([89,255,70])
+teallower		= np.array([70,170,40])
+tealupper		= np.array([80,255,70])
 
-bluelower		= np.array([92,170,20])
-blueupper		= np.array([105,255,70])
+bluelower		= np.array([80,170,20])
+blueupper		= np.array([105,255,35])
 
 purplelower1	= np.array([160,205,54])
 purpleupper1	= np.array([255,255,99])
