@@ -115,7 +115,7 @@ class Robot:
 								minTarget = best.pop(0)
 								minDist = avgs[minTarget]
 
-		print("Final Target: %s %d" % (minDist, minTarget))
+		print("Final Target: %s %d" % (minTarget, minDist))
 
 
 
