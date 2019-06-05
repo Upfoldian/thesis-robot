@@ -96,7 +96,7 @@ class Robot:
 				print(msg)
 				claimedColour = msg["args"][0]
 				dist = float(msg["args"][1])
-				if (claimedColour = minTarget)
+				if (claimedColour == minTarget)
 					claims.append((claimedColour,dist))
 					discord = True		
 		while(discord):
