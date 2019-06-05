@@ -74,7 +74,7 @@ class Robot:
 					distSum += reading[1]
 				avgDist = round(distSum / len(readings[name]),1)
 				#avgBear = round(bearSum / len(readings[name]),1)
-				avgs[name] = (avgBear, avgDist)
+				avgs[name] = avgDist
 
 		graph = {self.comms.getHostname(): avgs}
 
