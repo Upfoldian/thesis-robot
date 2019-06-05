@@ -98,7 +98,7 @@ class Robot:
 		count = 0
 		while(abs(self.IMU.getError(rightLimit)) > 10):
 			# Sweep right first
-			time.sleep(0.3)
+			time.sleep(0.4)
 			self.camera.saveImage(originalName=("original%d"%count),combinedName=("all%d"%count))
 			count+=1
 			targets = self.camera.targets
@@ -114,7 +114,7 @@ class Robot:
 
 		while(abs(self.IMU.getError(leftLimit)) > 10):
 			# Sweep left second
-			time.sleep(0.3)
+			time.sleep(0.4)
 			self.camera.saveImage(originalName=("original%d"%count),combinedName=("all%d"%count))
 			count+=1
 			targets = self.camera.targets
@@ -132,10 +132,10 @@ class Robot:
 			# Get back to start
 			if (self.IMU.getError(originalHeading) > 0):
 				self.motors.spinRight(speed,timestep/2)
-				time.sleep(0.05)
+				time.sleep(0.02)
 			else:
 				self.motors.spinLeft(speed,timestep/2)
-				time.sleep(0.05 )
+				time.sleep(0.02)
 
 		return readings
 
