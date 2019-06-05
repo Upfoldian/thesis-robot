@@ -66,7 +66,7 @@ class Robot:
 			time.sleep(3)
 			while (self.comms.hasMessage()):
 				# should be full of HI!s
-				self.parse(self.readMessage())
+				self.parseMessage(self.readMessage())
 			print(self.nearbyRobots)
 		readings = self.sweep()
 		avgs = {"teal": (-1,-1), "purple": (-1,-1), "blue": (-1,-1)}
