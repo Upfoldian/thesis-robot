@@ -93,7 +93,7 @@ class Camera:
 		maxCont = ()
 		for cont in contours:
 			curArea = cv2.contourArea(cont)
-			if (curArea < 500):
+			if (curArea < 400):
 				continue
 			if (curArea > maxArea):
 				maxArea = curArea

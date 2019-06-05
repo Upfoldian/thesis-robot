@@ -54,13 +54,37 @@ class Robot:
 		"""
 		Initial Conditions: 3 robots positions in a triangle formation, with each robot as a vertex.
 		Targets are places at a random interval between the three robots.
+		
 
 		Successful Experiment: The robots each claim a target based on the shortest distance.
 		"""
 
-	def sweep(self, timestep = 0.2, speed = 0.5, arc=180):
+		self.nearbyRobots = {}
+		self.knownTargets = {}
+		names = ["teal", "purple", "green"]
+		readings = self.sweep()
+		avgs = {"teal": (0,0), "purple": (0,0), "green": (0,0)}
+
+		for name in names:
+			distSum = 0
+			bearium = 0
+			for reading in readings[name]:
+				bearSum += reading[0]
+				distSum += reading[1]
+			avgDist = distSum / len(readings[name])
+			avgBear = bearSum / len(readings[name])
+			avgs[name] = (avgBear, avgDist)
+		print(avgs)
+
+		
+
+
+
+
+	def sweep(self, timestep = 0.2, speed = 0.5, arc=120):
 		"""
-		Robots survey an arc in front of them
+		Robots survey an arc in front of them and collect readings on spotted targets.
+		Returns the collection of data found for each target
 
 		"""
 		originalHeading = self.IMU.getHeading()
