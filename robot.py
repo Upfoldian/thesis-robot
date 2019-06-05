@@ -88,7 +88,7 @@ class Robot:
 		self.sync()
 		self.comms.send("CLAIM %s %d" % (minTarget, minDist))
 		time.sleep(1)
-		claims = {}
+		claims = []
 		while (self.comms.hasMessage()):
 			msg = self.readMessage()
 			if (msg['opcode'] == "CLAIM"):
