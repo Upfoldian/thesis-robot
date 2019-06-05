@@ -281,7 +281,7 @@ class Robot:
 					self.motors.spinLeft(time=2.2)
 				else:
 					print("what do I do???")
-		elif opcode == "FINISH"
+		elif opcode == "FINISH":
 			targetRobot, command = args
 			if (self.name == targetRobot):
 
