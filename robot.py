@@ -60,10 +60,17 @@ class Robot:
 		"""
 
 		self.nearbyRobots = {}
-		self.knownTargets = {}
+		self.send("HELLO?")
 		names = ["teal", "purple", "blue"]
+		time.sleep(3)
+		while (self.comms.hasMessage()):
+			# should be full of HI!s
+			self.parse(self.readMessage())
 		readings = self.sweep()
+		print(self.nearbyRobots)
 		avgs = {"teal": (-1,-1), "purple": (-1,-1), "blue": (-1,-1)}
+
+
 
 		for name in names:
 			if (len(readings[name]) != 0):
@@ -72,11 +79,47 @@ class Robot:
 				for reading in readings[name]:
 					bearSum += reading[0]
 					distSum += reading[1]
-				avgDist = distSum / len(readings[name])
-				avgBear = bearSum / len(readings[name])
+				avgDist = round(distSum / len(readings[name]),1)
+				avgBear = round(bearSum / len(readings[name]),1)
 				avgs[name] = (avgBear, avgDist)
-		print(readings)
+
+		best = sorted(avgs, key=avgs.get)
+		minTarget = best.pop(0)
+		minDist = avgs[minTarget]
+		#print(readings)
 		print(avgs)
+
+		self.send("CLAIM %s %d" % (minTarget, minDist))
+		discord = True
+		while(discord):
+			time.sleep(2)
+			discord = False
+			while (self.comms.hasMessage()):
+				msg = self.readMessage()
+				print(msg)
+				if (msg['opcode'] == "CLAIM")
+					claimedColour = msg["args"][0]
+					dist = msg["args"][1]
+
+					if (claimedColour == minTarget):
+						self.send("CLAIM %s %d" % (minTarget, minDist))
+						discord = True
+						if (dist < minDist):
+							if (len(best) == 0):
+								discord = False # can't go anywhere RIP
+							else :
+								minTarget = best.pop(0)
+								minDist = avgs[minTarget]
+
+		print("Final Target: %s %d" % (minDist, minTarget))
+
+
+
+
+
+
+
+
 
 
 
@@ -288,7 +331,7 @@ class Robot:
 		opcode = msg["opcode"]
 		args = msg["args"]
 
-		if opcode == "HELLO?" and sender != self.name:
+		if opcode == "HELLO?":
 			# If you hear a robot saying hello?, you send back hi! to let them know you can hear them
 			reply = "HI! %s" % self.name
 			self.nearbyRobots.add(sender)
@@ -302,7 +345,6 @@ class Robot:
 		elif opcode == "FOUND":
 			# Report to the network that you've found a target and the position you found it
 			target, heading, estDist, curX, curY = args
-
 		elif opcode == "LISTEN":
 			# Boss another robot around
 			targetRobot, command = args
@@ -317,21 +359,12 @@ class Robot:
 			targetRobot, command = args
 			if (self.name == targetRobot):
 				pass
-		elif opcode == "IAMHERE":
-			# Let another robot know where you are
-			curX, curY = args
 		elif opcode == "CLAIM":
 			# Claim exclusive use of a target
 			target, estDist = args
 		elif opcode == "LOCK":
 			# Lock in exclusive use of a target
 			target = args
-		elif opcode == "START":
-			# Start an experiment, intended to be sent by a non-robot controller (i.e. person at a laptop)
-			pass
-		elif opcode == "STOP":
-			# Stop an experiment, intended to be sent by a non-robot controller (i.e. person at a laptop)
-			pass
 		else:
 			#what the heck is this
 			pass

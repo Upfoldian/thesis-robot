@@ -47,6 +47,7 @@ class Camera:
 			boxInfo = {'targetName': masks[i][0], 'dims': boxes[i]}
 			targets.append(boxInfo)
 		self.targets = targets
+		
 	def saveImage(self, boxes=True, tealName="teal", blueName="blue", purpleName="purple", combinedName="all", originalName = "original"):
 		original = self.image
 		teal, purple, blue, combined = self.colourMask()
