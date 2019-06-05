@@ -97,7 +97,7 @@ class Robot:
 			while (self.comms.hasMessage()):
 				msg = self.readMessage()
 				print(msg)
-				if (msg['opcode'] == "CLAIM")
+				if (msg['opcode'] == "CLAIM"):
 					claimedColour = msg["args"][0]
 					dist = msg["args"][1]
 
