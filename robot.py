@@ -89,28 +89,23 @@ class Robot:
 		self.comms.send("CLAIM %s %d" % (minTarget, minDist))
 		time.sleep(1)
 		claims = []
-		discord = False
+		discord = True
 		while (self.comms.hasMessage()):
 			msg = self.readMessage()
 			if (msg['opcode'] == "CLAIM"):
 				print(msg)
 				claimedColour = msg["args"][0]
 				dist = float(msg["args"][1])
-				if (claimedColour == minTarget)
-					claims.append((claimedColour,dist))
-					discord = True		
+				claims.append((claimedColour,dist))
+				if (claimedColour == minTarget):
+					discord = True
+	
 		while(discord):
-			for claim in claims:
-				claimed = claim[0]
-				dist = claim[1]
-				if (dist < minDist):
-					if (len(best) == 0):
-						discord = False # can't go anywhere RIP
-					else:
-						minTarget = best.pop(0)
-						minDist = avgs[minTarget]
-				else:
-					discord = False
+			minTarget = best.pop(0)
+			if (minTarget in claims):
+				minTarget = best.pop(0)
+			else:
+				pass
 		self.sync()
 		print("Final Target: %s %d" % (minTarget, minDist))
 
