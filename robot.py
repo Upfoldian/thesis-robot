@@ -61,16 +61,7 @@ class Robot:
 
 		self.nearbyRobots = set()
 		names = ["teal", "purple", "blue"]
-		self.comms.send("HELLO?")
-		time.sleep(3)
-		while(len(self.nearbyRobots) < 1):
-			self.comms.send("HELLO?")
-			time.sleep(3)
-			while (self.comms.hasMessage()):
-				# should be full of HI!s
-				self.parseMessage(self.readMessage())
-			print(self.nearbyRobots)
-		self.comms.send("HELLO?")
+		self.sync()
 		readings = self.sweep()
 		avgs = {"teal": (999,999), "purple": (999,999), "blue": (999,999)}
 
@@ -88,23 +79,13 @@ class Robot:
 				avgs[name] = (avgBear, avgDist)
 
 		best = sorted(avgs, key= lambda x: avgs[x][1])
-		self.comms.messages = []
+		
 		minTarget = best.pop(0)
 		minDist = avgs[minTarget][1]
 		#print(readings)
 		print(avgs)
-		time.sleep(6)
-		self.nearbyRobots = set()
-		self.comms.send("HELLO?")
-		while(len(self.nearbyRobots) < 1):
-			self.comms.send("HELLO?")
-			time.sleep(3)
-			while (self.comms.hasMessage()):
-				# should be full of HI!s
-				self.parseMessage(self.readMessage())
-			print(self.nearbyRobots)
-		self.comms.messages = []
-		time.sleep(3)
+
+		self.sync()
 		self.comms.send("CLAIM %s %d" % (minTarget, minDist))
 		discord = True
 		while(discord):
@@ -121,24 +102,26 @@ class Robot:
 						if (dist < minDist):
 							if (len(best) == 0):
 								discord = False # can't go anywhere RIP
-							else :
+							else:
 								minTarget = best.pop(0)
 								minDist = avgs[minTarget]
-					time.sleep(0.5)
+					time.sleep(3)
 				discord=False
 
 		print("Final Target: %s %d" % (minTarget, minDist))
 
-
-
-
-
-
-
-
-
-
-
+	def sync(self, robotsNeeded = 2):
+		self.comms.messages = []
+		uniqueSyncs = set()
+		while(True):
+			self.comms.send("SYNC")
+			if (self.comms.hasMessage())
+				msg = self.readMessage()
+				if (msg['opcode'] == "SYNC"):
+					uniqueSyncs.add(msg['sender'])
+			if (len(uniqueSyncs) >=2):
+				self.comms.messages = []
+				break
 
 
 
