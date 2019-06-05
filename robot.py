@@ -61,9 +61,9 @@ class Robot:
 
 		self.nearbyRobots = {}
 		self.knownTargets = {}
-		names = ["teal", "purple", "green"]
+		names = ["teal", "purple", "blue"]
 		readings = self.sweep()
-		avgs = {"teal": (0,0), "purple": (0,0), "green": (0,0)}
+		avgs = {"teal": (0,0), "purple": (0,0), "blue": (0,0)}
 
 		for name in names:
 			distSum = 0
