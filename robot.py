@@ -83,7 +83,7 @@ class Robot:
 		self.sync()
 		for targetName in avgs.keys():
 			self.comms.send("TARGET %s %d" % (targetName, avgs[targetName]))
-		time.sleep(1)
+		time.sleep()
 		while (self.comms.hasMessage()):
 			msg = self.readMessage()
 			if (msg['opcode'] == "TARGET"):
@@ -97,7 +97,7 @@ class Robot:
 		
 		bestPath = 999
 		bestAssignment = []
-		robotNames = graph.keys()
+		robotNames = list(graph.keys())
 		# way better ways to do this, i am just very lazy
 		for i in names:
 			for j in names:
