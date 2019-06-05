@@ -115,7 +115,7 @@ class Robot:
 		uniqueSyncs = set()
 		while(True):
 			self.comms.send("SYNC")
-			if (self.comms.hasMessage())
+			if (self.comms.hasMessage()):
 				msg = self.readMessage()
 				if (msg['opcode'] == "SYNC"):
 					uniqueSyncs.add(msg['sender'])
