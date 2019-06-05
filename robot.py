@@ -93,13 +93,22 @@ class Robot:
 		minDist = avgs[minTarget][1]
 		#print(readings)
 		print(avgs)
-
+		time.sleep(6)
+		self.nearbyRobots = set()
+		self.comms.send("HELLO?")
+		while(len(self.nearbyRobots) < 1):
+			self.comms.send("HELLO?")
+			time.sleep(3)
+			while (self.comms.hasMessage()):
+				# should be full of HI!s
+				self.parseMessage(self.readMessage())
+			print(self.nearbyRobots)
+		self.comms.messages = []
+		time.sleep(3)
 		self.comms.send("CLAIM %s %d" % (minTarget, minDist))
 		discord = True
 		while(discord):
-			time.sleep(2)
 			while (self.comms.hasMessage()):
-				discord=False
 				msg = self.readMessage()
 				if (msg['opcode'] == "CLAIM"):
 					print(msg)
@@ -115,6 +124,8 @@ class Robot:
 							else :
 								minTarget = best.pop(0)
 								minDist = avgs[minTarget]
+					time.sleep(0.5)
+				discord=False
 
 		print("Final Target: %s %d" % (minTarget, minDist))
 
