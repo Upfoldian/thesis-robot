@@ -87,7 +87,7 @@ class Robot:
 				avgBear = round(bearSum / len(readings[name]),1)
 				avgs[name] = (avgBear, avgDist)
 
-		best = sorted(avgs, key=avgs.get[1])
+		best = sorted(avgs, key= lambda x: avgs[x][1])
 		minTarget = best.pop(0)
 		minDist = avgs[minTarget][1]
 		#print(readings)
