@@ -62,7 +62,7 @@ class Robot:
 		self.nearbyRobots = set()
 		names = ["teal", "purple", "blue"]
 		self.comms.send("HELLO?")
-		while(len(self.nearbyRobots) < 2):
+		while(len(self.nearbyRobots) < 1):
 			self.comms.send("HELLO?")
 			time.sleep(3)
 			while (self.comms.hasMessage()):
@@ -91,7 +91,7 @@ class Robot:
 		#print(readings)
 		print(avgs)
 
-		self.send("CLAIM %s %d" % (minTarget, minDist))
+		self.comms.send("CLAIM %s %d" % (minTarget, minDist))
 		discord = True
 		while(discord):
 			time.sleep(2)
