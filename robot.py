@@ -61,6 +61,7 @@ class Robot:
 
 		self.nearbyRobots = set()
 		names = ["teal", "purple", "blue"]
+		self.comms.send("HELLO?")
 		while(len(self.nearbyRobots) < 2):
 			self.comms.send("HELLO?")
 			time.sleep(3)
