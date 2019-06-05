@@ -83,7 +83,6 @@ class Robot:
 		self.sync()
 		for targetName in avgs.keys():
 			self.comms.send("TARGET %s %d" % (targetName, avgs[targetName]))
-		time.sleep()
 		while (self.comms.hasMessage()):
 			msg = self.readMessage()
 			if (msg['opcode'] == "TARGET"):
