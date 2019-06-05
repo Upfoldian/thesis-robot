@@ -56,7 +56,7 @@ class Robot:
 		Targets are places at a random interval between the three robots.
 		
 
-		Successful Experiment: The robots each claim a target based on the shortest distance.
+		Successful Experiment: The robots each claim a target based on the shortest distance which is optimal for each robot.
 		"""
 
 		self.nearbyRobots = set()
