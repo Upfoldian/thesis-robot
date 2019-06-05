@@ -45,10 +45,67 @@ class Robot:
 				if (msg['sender'] == friendName):
 					print("%s told me to do this %s %s" % (friendName, msg['opcode'], str(msg['args'])) )
 					self.parseMessage(msg)
+					self.send("FINISH %s" % targetName)
 
 
 
 
+	def coopExperiment(self, timestep = 0.4, speed = 0.5):
+		"""
+		Initial Conditions: 3 robots positions in a triangle formation, with each robot as a vertex.
+		Targets are places at a random interval between the three robots.
+
+		Successful Experiment: The robots each claim a target based on the shortest distance.
+		"""
+
+	def sweep(self, timestep = 0.2, speed = 0.5, arc=180):
+		"""
+		Robots survey an arc in front of them
+
+		"""
+		originalHeading = self.IMU.getHeading()
+		rightLimit = (originalHeading + arc/2) % 360
+		leftLimit = (originalHeading - arc/2) % 360
+
+		readings = {'teal': [], 'purple': [], 'blue': []}
+
+
+		while(abs(self.IMU.getError(rightLimit)) > 10):
+			# Sweep right first
+			time.sleep(0.2)
+			targets = self.camera.targets
+			heading = self.IMU.getHeading()
+			for target in targets:
+					targetName = target['targetName']
+					x,y,w,h = target['dims']
+					headingEst = self.targetBearingEstimate(target['dims'], heading)
+					distanceEst = self.targetDistanceEstimate(target['dims'])
+
+					readings[targetName].append((headingEst, distanceEst))
+			self.motors.spinRight(speed, timestep)
+
+		while(abs(self.IMU.getError(leftLimit)) > 10):
+			# Sweep left second
+			time.sleep(0.2)
+			targets = self.camera.targets
+			heading = self.IMU.getHeading()
+			for target in targets:
+					targetName = target['targetName']
+					x,y,w,h = target['dims']
+					headingEst = self.targetBearingEstimate(target['dims'], heading)
+					distanceEst = self.targetDistanceEstimate(target['dims'])
+
+					readings[targetName].append((headingEst, distanceEst))
+			self.motors.spinLeft(speed, timestep)
+
+		while(abs(self.IMU.getError(originalHeading)) > 5):
+			# Get back to start
+			if (self.IMU.getError(originalHeading) > 0):
+				self.motors.spinRight(timestep/2, speed)
+				time.sleep(0.1)
+			else:
+				self.motors.spinLeft(timestep/2, speed)
+				time.sleep(0.1)
 
 	def searchExperiment(self, timestep = 0.4, speed = 0.5):
 		""" 
@@ -224,6 +281,9 @@ class Robot:
 					self.motors.spinLeft(time=2.2)
 				else:
 					print("what do I do???")
+		elif opcode == "FINISH"
+			targetRobot, command = args
+			if (self.name == targetRobot):
 
 		elif opcode == "IAMHERE":
 			# Let another robot know where you are
