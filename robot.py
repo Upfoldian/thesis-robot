@@ -96,7 +96,8 @@ class Robot:
 				claimedColour = msg["args"][0]
 				dist = float(msg["args"][1])
 				claims.append((claimedColour,dist))
-		while(True):
+		discord = True
+		while(discord):
 			for claim in claims:
 				claimed = claim[0]
 				dist = claim[1]
@@ -109,7 +110,7 @@ class Robot:
 							minTarget = best.pop(0)
 							minDist = avgs[minTarget]
 					else:
-						break
+						discord = False
 		self.sync()
 		print("Final Target: %s %d" % (minTarget, minDist))
 
