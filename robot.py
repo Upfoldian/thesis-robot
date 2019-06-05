@@ -114,7 +114,7 @@ class Robot:
 		while(abs(self.IMU.getError(leftLimit)) > 10):
 			# Sweep left second
 			time.sleep(0.3)
-			elf.camera.saveImage(originalName=("original%d"%count),combinedName=("all%d"%count))
+			self.camera.saveImage(originalName=("original%d"%count),combinedName=("all%d"%count))
 			count+=1
 			targets = self.camera.targets
 			heading = self.IMU.getHeading()
