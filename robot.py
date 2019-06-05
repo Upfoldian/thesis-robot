@@ -78,16 +78,11 @@ class Robot:
 
 		graph = {self.comms.getHostname(): avgs}
 
-		best = sorted(avgs, key= lambda x: avgs[x][1])
-		
-		minTarget = best.pop(0)
-		minDist = avgs[minTarget][1]
-		#print(readings)
 		print(avgs)
 
 		self.sync()
 		for targetName in avgs.keys():
-			self.comms.send("TARGET %s %d" % (targetName, avgs[targetName][1]))
+			self.comms.send("TARGET %s %d" % (targetName, avgs[targetName]))
 		time.sleep(1)
 		while (self.comms.hasMessage()):
 			msg = self.readMessage()
