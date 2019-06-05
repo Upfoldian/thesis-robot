@@ -97,13 +97,13 @@ class Robot:
 		discord = True
 		while(discord):
 			time.sleep(2)
-			discord = False
 			while (self.comms.hasMessage()):
+				discord=False
 				msg = self.readMessage()
 				print(msg)
 				if (msg['opcode'] == "CLAIM"):
 					claimedColour = msg["args"][0]
-					dist = msg["args"][1]
+					dist = float(msg["args"][1])
 
 					if (claimedColour == minTarget):
 						self.comms.send("CLAIM %s %d" % (minTarget, minDist))
