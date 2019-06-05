@@ -63,9 +63,7 @@ class Robot:
 		names = ["teal", "purple", "blue"]
 		self.sync()
 		readings = self.sweep()
-		avgs = {"teal": (999,999), "purple": (999,999), "blue": (999,999)}
-
-
+		avgs = {"teal": 999, "purple": 999, "blue": 999}
 
 		for name in names:
 			if (len(readings[name]) != 0):
@@ -75,8 +73,10 @@ class Robot:
 					bearSum += reading[0]
 					distSum += reading[1]
 				avgDist = round(distSum / len(readings[name]),1)
-				avgBear = round(bearSum / len(readings[name]),1)
+				#avgBear = round(bearSum / len(readings[name]),1)
 				avgs[name] = (avgBear, avgDist)
+
+		graph = {self.comms.getHostname(): avgs}
 
 		best = sorted(avgs, key= lambda x: avgs[x][1])
 		
@@ -86,28 +86,48 @@ class Robot:
 		print(avgs)
 
 		self.sync()
-		self.comms.send("CLAIM %s %d" % (minTarget, minDist))
+		for targetName in avgs.keys():
+			self.comms.send("TARGET %s %d" % (targetName, avgs[targetName][1]))
 		time.sleep(1)
-		claims = []
-		discord = False
 		while (self.comms.hasMessage()):
 			msg = self.readMessage()
-			if (msg['opcode'] == "CLAIM"):
+			if (msg['opcode'] == "TARGET"):
 				print(msg)
-				claimedColour = msg["args"][0]
+				sender = msg["sender"]
+				col = msg["args"][0]
 				dist = float(msg["args"][1])
-				claims.append((claimedColour,dist))
-				if (claimedColour == minTarget and dist < minDist):
-					discord = True
-	
-		while(discord):
-			minTarget = best.pop(0)
-			if (minTarget in claims):
-				minTarget = best.pop(0)
-			else:
-				pass
+				if sender not in graph:
+					graph[sender] = {"teal": 999, "purple": 999, "blue": 999}
+				graph[sender][col] = dist
+		
+		bestPath = 999
+		bestAssignment = []
+		robotNames = graph.keys()
+		# way better ways to do this, i am just very lazy
+		for i in names:
+			for j in names:
+				for k in names:
+					if (i == j or j == k):
+						continue
+					path = 0
+					colours = [i,j,k]
+					assignemt = []
+					for n in len(robotNames):
+						r = robotNames[n]
+						c = colours[n]
+						d = graph[r][c] 
+						path += d
+						assignment.append((r,c,d))
+					if (path < bestPath):
+						bestPath = path
+						bestAssignemt = assignment
+
+
+
+
+		
 		self.sync()
-		print("Final Target: %s %d" % (minTarget, minDist))
+		print(bestAssignment)
 
 	def sync(self, robotsNeeded = 2):
 		self.comms.messages = []
