@@ -60,12 +60,13 @@ class Robot:
 		"""
 
 		self.nearbyRobots = {}
-		self.send("HELLO?")
+		self.comms.send("HELLO?")
 		names = ["teal", "purple", "blue"]
-		time.sleep(3)
-		while (self.comms.hasMessage()):
-			# should be full of HI!s
-			self.parse(self.readMessage())
+		while(len(self.nearbyRobots) < 2):
+			time.sleep(3)
+			while (self.comms.hasMessage()):
+				# should be full of HI!s
+				self.parse(self.readMessage())
 		readings = self.sweep()
 		print(self.nearbyRobots)
 		avgs = {"teal": (-1,-1), "purple": (-1,-1), "blue": (-1,-1)}
@@ -102,7 +103,7 @@ class Robot:
 					dist = msg["args"][1]
 
 					if (claimedColour == minTarget):
-						self.send("CLAIM %s %d" % (minTarget, minDist))
+						self.comms.send("CLAIM %s %d" % (minTarget, minDist))
 						discord = True
 						if (dist < minDist):
 							if (len(best) == 0):
