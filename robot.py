@@ -70,6 +70,7 @@ class Robot:
 				# should be full of HI!s
 				self.parseMessage(self.readMessage())
 			print(self.nearbyRobots)
+		self.comms.send("HELLO?")
 		readings = self.sweep()
 		avgs = {"teal": (-1,-1), "purple": (-1,-1), "blue": (-1,-1)}
 
