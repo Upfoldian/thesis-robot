@@ -107,6 +107,8 @@ class Robot:
 				self.motors.spinLeft(speed,timestep/2)
 				time.sleep(0.1)
 
+		return readings
+
 	def searchExperiment(self, timestep = 0.4, speed = 0.5):
 		""" 
 		Robot spins on the spot looking for targets. Once a target is found, the robot stops and obtains
