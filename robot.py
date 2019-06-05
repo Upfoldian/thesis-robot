@@ -107,7 +107,7 @@ class Robot:
 					path = 0
 					colours = [i,j,k]
 					assignemt = []
-					for n in len(robotNames):
+					for n in range(len(robotNames)):
 						r = robotNames[n]
 						c = colours[n]
 						d = graph[r][c] 
