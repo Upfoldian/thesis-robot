@@ -283,13 +283,13 @@ class Robot:
 
 		self.motors.stop()
 
-	def feedbackMove(self, speed=1, duration = 1):
+	def feedbackMove(self, maxVal=180,speed=1, duration=1):
 		t0 = time.perf_counter()
 		t1 = time.perf_counter()
 		heading = self.IMU.getHeading()
 		while(t1 - t0 < duration):
 			error = self.IMU.getError(heading)
-			response = numpy.interp(abs(error), [0, 180], [speed,0.4])
+			response = numpy.interp(abs(error), [0, maxVal], [speed,0.4])
 			if (error > 3):
 				self.motors.start(response, speed)
 			elif (error < 3):
