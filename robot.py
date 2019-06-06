@@ -287,7 +287,7 @@ class Robot:
 		t0 = time.perf_counter()
 		t1 = time.perf_counter()
 		heading = self.IMU.getHeading()
-		while(t1 - t0 > duration):
+		while(t1 - t0 < duration):
 			error = self.IMU.getError(heading)
 			response = numpy.interp(abs(error), [0, 180], [speed,0.4])
 			if (error > 3):
