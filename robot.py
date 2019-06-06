@@ -289,6 +289,7 @@ class Robot:
 		heading = self.IMU.getHeading()
 		while(t1 - t0 < duration):
 			error = self.IMU.getError(heading)
+			print(error)
 			response = numpy.interp(abs(error), [0, maxVal], [speed,0.4])
 			if (error > 3):
 				self.motors.start(response, speed)
