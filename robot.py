@@ -297,7 +297,7 @@ class Robot:
 			else:
 				self.motors.start(speed, speed)
 			t1 = time.perf_counter()
-
+		self.motors.stop()
 	def targetBearingEstimate(self, dims, heading):
 		"""
 		Gets an estimated heading from the location of the midpoint of the target in screen. From
