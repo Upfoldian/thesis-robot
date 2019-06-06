@@ -283,7 +283,7 @@ class Robot:
 
 		self.motors.stop()
 
-	def feedbackMove(self, power=1, duration = 1):
+	def feedbackMove(self, speed=1, duration = 1):
 		t0 = time.perf_counter()
 		t1 = time.perf_counter()
 		heading = self.IMU.getHeading()
