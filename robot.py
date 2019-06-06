@@ -82,8 +82,8 @@ class Robot:
 
 		self.sync()
 		for targetName in avgs.keys():
-			self.comms.send("TARGET %s %d" % (targetName, avgs[targetName]))
-		time.sleep(3)
+			self.comms.send("TARGET %s %f" % (targetName, avgs[targetName]))
+			time.sleep(0.5)
 		while (self.comms.hasMessage()):
 			msg = self.readMessage()
 			if (msg['opcode'] == "TARGET"):
@@ -102,7 +102,7 @@ class Robot:
 		for i in names:
 			for j in names:
 				for k in names:
-					if (i == j or j == k):
+					if (i == j or j == k or k == i):
 						continue
 					path = 0
 					colours = [i,j,k]
