@@ -283,6 +283,20 @@ class Robot:
 
 		self.motors.stop()
 
+	def feedbackMove(self, power=1, time = 1):
+		t0 = time.perf_counter()
+		t1 = time.perf_counter()
+		heading = self.IMU.getHeading()
+		while(t1 - t0 > time):
+			error = self.IMU.getError(heading)
+			response = numpy.interp(abs(error), [0, 180], [speed,0.4])
+			if (error > 0):
+				self.motors.start(response, speed)
+			elif (error < 0):
+				self.motors.start(speed, response)
+			else:
+				self.motors.start(speed, speed)
+			t1 = time.perf_counter()
 
 	def targetBearingEstimate(self, dims, heading):
 		"""
