@@ -194,7 +194,7 @@ class Robot:
 				time.sleep(0.02)
 
 		return readings
-		def sweep2(self, timestep = 0.2, speed = 0.5, arc=120):
+		def bearingSweep(self, timestep = 0.2, speed = 0.5, arc=120):
 			"""
 			Robots survey an arc in front of them and collect readings on spotted targets.
 			Returns the collection of data found for each target
