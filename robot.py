@@ -195,49 +195,49 @@ class Robot:
 
 		return readings
 		def sweep2(self, timestep = 0.2, speed = 0.5, arc=120):
-		"""
-		Robots survey an arc in front of them and collect readings on spotted targets.
-		Returns the collection of data found for each target
+			"""
+			Robots survey an arc in front of them and collect readings on spotted targets.
+			Returns the collection of data found for each target
 
-		"""
-		originalHeading = self.IMU.getHeading()
-		rightLimit = (originalHeading + arc/2) % 360
-		leftLimit = (originalHeading - arc/2) % 360
+			"""
+			originalHeading = self.IMU.getHeading()
+			rightLimit = (originalHeading + arc/2) % 360
+			leftLimit = (originalHeading - arc/2) % 360
 
-		readings = {'teal': [], 'purple': [], 'blue': []}
+			readings = {'teal': [], 'purple': [], 'blue': []}
 
-		count = 0
-		while(abs(self.IMU.getError(rightLimit)) > 10):
-			# Sweep right first
-			time.sleep(0.4)
-			self.camera.saveImage(originalName=("original%d"%count),combinedName=("all%d"%count))
-			count+=1
-			targets = self.camera.targets
-			heading = self.IMU.getHeading()
-			for target in targets:
-					targetName = target['targetName']
-					x,y,w,h = target['dims']
-					headingEst = self.targetBearingEstimate(target['dims'], heading)
-					distanceEst = self.targetDistanceEstimate(target['dims'])
+			count = 0
+			while(abs(self.IMU.getError(rightLimit)) > 10):
+				# Sweep right first
+				time.sleep(0.4)
+				self.camera.saveImage(originalName=("original%d"%count),combinedName=("all%d"%count))
+				count+=1
+				targets = self.camera.targets
+				heading = self.IMU.getHeading()
+				for target in targets:
+						targetName = target['targetName']
+						x,y,w,h = target['dims']
+						headingEst = self.targetBearingEstimate(target['dims'], heading)
+						distanceEst = self.targetDistanceEstimate(target['dims'])
 
-					readings[targetName].append((headingEst, heading))
-			self.motors.spinRight(speed, timestep)
+						readings[targetName].append((headingEst, heading))
+				self.motors.spinRight(speed, timestep)
 
-		while(abs(self.IMU.getError(leftLimit)) > 10):
-			# Sweep left second
-			time.sleep(0.4)
-			self.camera.saveImage(originalName=("original%d"%count),combinedName=("all%d"%count))
-			count+=1
-			targets = self.camera.targets
-			heading = self.IMU.getHeading()
-			for target in targets:
-					targetName = target['targetName']
-					x,y,w,h = target['dims']
-					headingEst = self.targetBearingEstimate(target['dims'], heading)
-					distanceEst = self.targetDistanceEstimate(target['dims'])
+			while(abs(self.IMU.getError(leftLimit)) > 10):
+				# Sweep left second
+				time.sleep(0.4)
+				self.camera.saveImage(originalName=("original%d"%count),combinedName=("all%d"%count))
+				count+=1
+				targets = self.camera.targets
+				heading = self.IMU.getHeading()
+				for target in targets:
+						targetName = target['targetName']
+						x,y,w,h = target['dims']
+						headingEst = self.targetBearingEstimate(target['dims'], heading)
+						distanceEst = self.targetDistanceEstimate(target['dims'])
 
-					readings[targetName].append((headingEst, heading))
-			self.motors.spinLeft(speed, timestep)
+						readings[targetName].append((headingEst, heading))
+				self.motors.spinLeft(speed, timestep)
 
 		while(abs(self.IMU.getError(originalHeading)) > 5):
 			# Get back to start
