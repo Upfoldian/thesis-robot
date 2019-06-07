@@ -5,7 +5,9 @@ import IMU
 import threading
 import time
 import numpy
-
+"""
+Main class for the robots. Uses an instance object of various sensor classes to implement higher level system functionality
+"""
 class Robot:
 	def __init__(self):
 
@@ -21,33 +23,6 @@ class Robot:
 	def readMessage(self):
 		message = self.comms.getMessage()
 		return message
-	
-	def commsExperiment(self):
-		#don't start until the other robot says hi
-		friendName = ""
-		while(True):
-			print("sending HELLO?")
-			self.comms.send("HELLO?")
-			time.sleep(2)
-			if (self.comms.hasMessage()):
-				msg = self.readMessage()
-				print(msg)
-				if (msg['opcode'] == "HI!" and msg['args'][0] == self.name):
-					friendName = msg['sender']
-					break
-
-		print ("I made a friend! %s is my new best friend." % friendName)
-
-		while(True):
-
-			if (self.comms.hasMessage()):
-				msg = self.readMessage()
-				if (msg['sender'] == friendName):
-					print("%s told me to do this %s %s" % (friendName, msg['opcode'], str(msg['args'])) )
-					self.parseMessage(msg)
-					self.send("FINISH %s" % targetName)
-
-
 
 
 	def coopExperiment(self, timestep = 0.4, speed = 0.5):
@@ -125,6 +100,9 @@ class Robot:
 		print(bestAssignment)
 
 	def sync(self, robotsNeeded = 2):
+		"""
+		Pauses until a unique amount of set messages are recieved
+		"""
 		self.comms.messages = []
 		uniqueSyncs = set()
 		while(True):
@@ -284,6 +262,9 @@ class Robot:
 		self.motors.stop()
 
 	def feedbackMove(self, maxVal=180,speed=1, duration=1):
+		"""
+		Used to gather data for an experiment. Uses feedback to maintain a given heading
+		"""
 		t0 = time.perf_counter()
 		t1 = time.perf_counter()
 		heading = self.IMU.getHeading()
@@ -340,48 +321,10 @@ class Robot:
 
 		self.motors.stop()
 		return True
-
-
-	def feedbackMoveExperiment(self, bearing, duration=1, speed=1):
-		# Setup and error checks
-		bearing = bearing % 360
-		startTime = time.perf_counter()
-		curTime = time.perf_counter()
-
-		print("Starting feedback experiment, current bearing is: %f" % self.IMU.getHeading())
-
-		while(curTime - startTime < duration):
-			error = self.IMU.getError(bearing)
-			magnitude = abs(error)
-			leftVal, rightVal = 0,0
-			if(magnitude > 5):
-				response = numpy.interp(magnitude, [0, 180], [0.4,speed]) # static term
-
-				if error > 0:
-					# clockwise
-					self.motors.stop()
-					self.motors.spinRight(response)
-					leftVal, rightVal = 1-response, response
-				else:
-					# counterclockwise
-					self.motors.stop()
-					self.motors.spinLeft(response)
-					leftVal, rightVal = response, 1-response
-			else: 
-				self.motors.stop()
-				#leftVal = speed
-				#rightVal = speed
-
-			self.motors.start(leftVal, rightVal)
-
-			curTime = time.perf_counter()
-			print("\terr: %f\tL: %f\tR: %f" % (error, leftVal, rightVal))
-		# Clean up
-		self.motors.stop()
-		time.sleep(1)
-		print("Experiment complete, final heading is: %f" % self.IMU.getHeading())
-
 	def stopAndAlign(self, bearing, duration=3, speed=1):
+		"""
+		Stops the robot and aligns it with given bearing
+		"""
 		bearing = bearing % 360
 		t0 = time.time()
 		t1 = time.time()
@@ -408,7 +351,10 @@ class Robot:
 			t1 = time.time()
 		self.motors.stop()
 	def parseMessage(self, msg):
-
+		"""
+		Originally intended as a very useful helper function that contained all the functionality of various communication messages.
+		Many of the functions remain unimplemented due to time constraints.
+		"""
 		sender = msg["sender"]
 		opcode = msg["opcode"]
 		args = msg["args"]
@@ -488,7 +434,9 @@ class Robot:
 		self.IMU.zOff = zOffset
 
 	def exit(self):
-		""" Stops all the threads running all over the place. """
+		""" 
+		Stops all the threads running all over the place.
+		 """
 		self.IMU.haltThread()
 		self.camera.haltThread()
 		self.comms.haltThread()

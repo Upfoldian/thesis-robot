@@ -4,7 +4,9 @@ from time import sleep
 from colour_mask import tealupper, teallower, blueupper, bluelower, purpleupper1, purplelower1, purpleupper2, purplelower2
 from picamera.array import PiRGBArray
 from picamera import PiCamera
-
+"""
+Main class for all camera functionalty. Uses PiCamera and OpenCV
+"""
 class Camera:
 	def __init__(self):
 		#Camera Stuff
@@ -21,6 +23,10 @@ class Camera:
 		self.thread = threading.Thread(target=self.cameraThread).start()
 		sleep(1)
 	def cameraThread(self):
+		"""
+		Continuously captures and processes an image, and stores the result in self.image. Also updates self.imageID when a new image is
+		read to allow for image detection
+		"""
 		for frame in self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True, resize=(self.cols,self.rows)):
 			if (self.halt == True):
 				break
@@ -36,7 +42,10 @@ class Camera:
 			self.rawCapture.seek(0)
 
 	def processImage(self):
-
+		"""
+		Runs the various image processing options required for the project. This includes colour masking, contour searching
+		and bounding box dimensions.
+		"""
 		teal, purple, blue, combined = self.colourMask()
 		masks = [('teal', teal), ('purple', purple), ('blue', blue)]
 		boxes = [self.getBoxDims(mask[1]) for mask in masks]
@@ -49,6 +58,9 @@ class Camera:
 		self.targets = targets
 		
 	def saveImage(self, boxes=True, tealName="teal", blueName="blue", purpleName="purple", combinedName="all", originalName = "original"):
+		"""
+			Saves the current image in the img/ directory. Saves a version of each colour mask, plus the combined mask, plus the original image
+		"""
 		original = self.image
 		teal, purple, blue, combined = self.colourMask()
 		# Draw Bounding boxes if flag is true
@@ -79,6 +91,9 @@ class Camera:
 		cv2.imwrite("./img/%s.png" % (originalName), original)
 
 	def colourMask(self):
+		"""
+		Applies various colour masks to the current image
+		"""
 		#red
 		image = self.image
 		image = cv2.medianBlur(image,5)	
@@ -97,6 +112,9 @@ class Camera:
 		return teal, purple, blue, combined
 
 	def getBiggestCont(self, contours):
+		"""
+		Finds the contour with the biggest area within a given contor list
+		"""
 		maxArea = 0.0
 		maxCont = ()
 		for cont in contours:

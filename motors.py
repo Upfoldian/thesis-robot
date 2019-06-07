@@ -2,7 +2,10 @@ import gpiozero
 import threading
 from time import sleep
 
-
+"""
+Basic class that implements a lot of the movement options for the robot. Uses the gpiozero PWM library for simplicity.
+Setting a motor value to 1 indicates full power, and 0 no power, with default operation, and when reverse, full power is 0 and no power is 1.
+"""
 
 class Motors:
 
@@ -72,25 +75,3 @@ class Motors:
 		if (time != 0):
 			sleep(time)
 			self.stop()
-
-	def turnLeft(self, angle=90.0):
-
-		self.spinLeft()
-
-		currentAngle = self.getHeading()
-		targetAngle = (currentAngle - angle) % 360
-		self.spinLeft()
-		while (currentAngle < targetAngle -3 or currentAngle > targetAngle + 3):
-			currentAngle = self.getHeading()
-		self.stop() 
-
-
-	def turnRight(self, angle=90.0):
-		
-		self.spinRight()
-
-		currentAngle = self.getHeading()
-		targetAngle = (currentAngle + angle) % 360
-		while (currentAngle < targetAngle -3 or currentAngle > targetAngle + 3):
-			currentAngle = self.getHeading()
-		self.stop()

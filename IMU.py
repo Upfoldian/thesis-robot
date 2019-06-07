@@ -3,6 +3,12 @@ import threading
 from math import atan2, degrees
 from mag_offsets import mag_x_offset, mag_y_offset, mag_z_offset
 
+"""
+Class that implements a lot of helpful functions when dealing with the LSM303C, such as moving average of compass readings.
+
+"""
+
+
 class IMU:
 
 	def __init__(self):
@@ -26,6 +32,11 @@ class IMU:
 
 
 	def getError(self, bearing):
+		"""
+		Gives the error between a given target bearing and the current heading of the robot.
+		Will return negative for counterclockwise rotation, and positive for clockwise. 
+		Values range from -179 to +180
+		"""
 		actual = self.avgHeading
 		target = bearing
 		error = target - actual
@@ -37,6 +48,9 @@ class IMU:
 			error = error + 360
 		return error
 	def updateIMU(self):
+		"""
+		Fetches a new set of readings from the IMU and stores it in self.accel and self.mag
+		"""
 		self.IMU.read()
 		accel = self.IMU.curAccel
 		mag = self.IMU.curMag
@@ -50,6 +64,10 @@ class IMU:
 		self.mag = (mag_x, mag_y, mag_z)
 
 	def headingThread(self):
+		"""
+		Constantly averages compass readings and stores the average within self.avgHeading. There is some
+		additional complexity added due to the discontinuous nature of 360 headings (i.e 359 -> 0). 
+		"""
 		index = 0
 		while(self.halt == False):
 			self.avgHeading = round(self.headingSum/self.headingSamples)
@@ -83,6 +101,9 @@ class IMU:
 
 
 	def getHeading(self):
+		"""
+		Returns the current heading of the robpt (has been averaged by the thread)
+		"""
 		return self.avgHeading % 360
 		
 	def getMag(self):
