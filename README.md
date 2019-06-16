@@ -1,6 +1,25 @@
-TomLSM303.py is an edited version of the LSM303 python code by adafruit (https://github.com/adafruit/Adafruit_Python_LSM303) to work with the LSM303c.
+Code written for my multi-robot thesis project. Robot is the main control class, with an instance variable for each key subsystem (i.e Comms, Motors).
 
-There are a number of differences, but the most significant ones are the differences in i2c addresses and the register addresses within the chip. It's not really important to know what the differences are, but it is imperative that you read the datasheet and fully understand the changes you're making when writing to the module, as writing to the incorrect address can cause damage. Page 30 and onwards is probably the best place to be looking  when trying to figure out addresses and what values affect what. The biggest problem I faced when making this edit was that some of the default values for the magnetometer need to be changed to get constant updates rather than a single reading from when the device is first turned on.
+robot.py
+  - Main control class, has various high level functionality functions, such as thesis experiments
+  
+comms.py
+  - Communication module for robot. Uses socket based UDP broadcasts to transmit messages between robots. Also stores incomming messages in an inbox until read
+  
+IMU.py
+  - Interacts with the on-board LSM303C IMU to obtain accelerometer and compass readings. Main feature is the absolute heading calculation that has a moving average filter
+  
+motors.py
+  - Uses gpiozero to interact with a DRV8835 motor driver to implement differential drive motion.
 
-
-The LSM303C datasheet (https://www.st.com/resource/en/datasheet/dm00089896.pdf) includes all the relevant addresses and unit conversions for the module data.
+camera.py
+  - Uses PiCamera to take a stream of images from a PiCamera v1.3 while also implementing all image processing functionality (i.e. colour masking)
+  
+TOMLSM303C.py
+  - Modified version of an LSM303 python class to interact with an LSM303C. Mainly just updates address locations and picks the correct configurations options for project.
+  
+colourmask.py
+  - Contains colour mask values for each target
+  
+magoffsets.py
+  - Contains robot specific compass offsets for calibration. Needs to be set per robot
